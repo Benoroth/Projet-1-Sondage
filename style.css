@@ -1,0 +1,28 @@
+.bottomright {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+
+.color1 {
+	color : blue;
+}
+
+.color2 {
+	color : orange;
+}
+
+.color3 {
+	color : brown;
+}
+
+.color4 {
+	color : green;
+}
+
+.img { 
+    width: 10%;
+    height: auto;
+    opacity: 0.3;
+}

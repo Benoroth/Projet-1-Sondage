@@ -5,24 +5,18 @@
     font-size: 18px;
 }
 
-.color1 {
-	color : blue;
-}
-
-.color2 {
-	color : orange;
-}
-
-.color3 {
-	color : brown;
-}
-
-.color4 {
-	color : green;
-}
-
 .img { 
     width: 10%;
     height: auto;
     opacity: 0.3;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+.banniere {
+  height:80px;
+  width: 1700;
+  opacity: 0.4;  
 }

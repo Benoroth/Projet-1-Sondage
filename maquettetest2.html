@@ -5,22 +5,47 @@
 	<meta charset="utf-8" />
 	<title> Sond-ageDePierre </title>
 	<link rel="stylesheet" href="style.css" />
+    
+    <style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+</style>
 
 </head>
 
 
 <body>
 	<!--Corps de la page -->
-	<h1> Soyez le bienvenu sur Sond-AgeDePierre <img src="Img/pie_chart.png" alt="Graphiques fromage" /> </h1>
-	
-	<h2 class="color2"> <strong> Sondages récents </strong> </h2>
-<p>
-	<button><a href="maquettetest.html"> Créer un sondage </a></button> 
-	<button><a href="maquettetest2.html">Sondages récents</a></button> 
-	<button><a href="maquettetest3.html">Sondages populaires</a> </button>
-	<button><a href="maquettetest4.html"> Boîte à idées </a></button>
-	
-</p>
+	<h1> Soyez le bienvenu sur Sond-AgeDePierre <img src="Img/pie_chart.png" alt="Graphiques fromage" class="img" /> </h1>
+<ul>
+  <li><a href="maquettetest.html">Créer un sondage</a></li>
+  <li><a class="active" href="maquettetest2.html">Sondage récents</a></li>
+  <li><a href="maquettetest3.html">Sondage populaires</a></li>
+  <li><a href="maquettetest4.html">Boîte à idées</a></li>
+</ul>
+    
 <p>
 
 </p>

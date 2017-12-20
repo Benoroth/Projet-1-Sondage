@@ -121,3 +121,13 @@ p.border{
     height: 500px;
     width: 750px;
 }
+
+#centrer{ 
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 1500px;
+            margin-top: 20px;            
+}

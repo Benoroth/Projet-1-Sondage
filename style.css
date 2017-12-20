@@ -65,6 +65,15 @@ text-align:center;
 right : 0px;
 }
 
+#enhautdroite{
+    display: table-cell;
+    width: 10%;
+    position: fixed;
+    right : 0px;
+    text-align: center;
+    top: 50px;
+}
+
 #conteneur, texte{ 
             display: flex;
             flex-wrap: wrap;
@@ -72,5 +81,10 @@ right : 0px;
             justify-content: center;
             margin: auto;
             width: 1500px;
-            margin-top: 320px;            
+            margin-top: 320px;
+}
+
+.textbox{
+    height: 200px;
+    width: 400px;
 }

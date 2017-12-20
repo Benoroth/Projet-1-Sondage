@@ -67,6 +67,38 @@ right : 3px;
     top: 50px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #enhautdroitemoins{
     display: table-cell;
     width: 10%;
@@ -107,4 +139,10 @@ tr:nth-child(even){background-color : dimgray}
 th {
     background-color: #4CAF50;
     color: white;
+}
+
+p.border{
+    border : 2px solid white;
+    border-radius: 5px;
+    border-width: 200px;
 }

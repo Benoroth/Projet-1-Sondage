@@ -49,20 +49,63 @@ body {
     background-color: darkslategrey;
 }
 
-footer{
-background:url('Img/lascaux.jpg') no-repeat center ;
-height:108px;
-width:822px;
-margin-left: auto;
-margin-right: auto;
-}
 #imgenbas{
 display:table-cell;
 width:10%;
 position: fixed;
-bottom: 0px;
+bottom: 3px;
 text-align:center;
-right : 0px;
+right : 3px;
+}
+
+#enhautdroite{
+    display: table-cell;
+    width: 10%;
+    position: fixed;
+    right : 0px;
+    text-align: center;
+    top: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#enhautdroitemoins{
+    display: table-cell;
+    width: 10%;
+    position: fixed;
+    right : 0px;
+    text-align: center;
+    top: 70px;
 }
 
 #conteneur, texte{ 
@@ -72,6 +115,7 @@ right : 0px;
             justify-content: center;
             margin: auto;
             width: 1500px;
+<<<<<<< HEAD
             margin-top: 320px;            
 }
 
@@ -80,3 +124,36 @@ right : 0px;
 	border: 3px black;
 	border-style: ridge;
 }
+=======
+            margin-top: 320px;
+}
+
+.textbox{
+    height: 200px;
+    width: 400px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border : 1px solid #ddd;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color : dimgray}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+p.border{
+    border : 2px solid white;
+    border-radius: 5px;
+    border-width: 200px;
+}
+>>>>>>> c6dcefd3e2eac795a34da320a9a145898109523f

@@ -67,38 +67,6 @@ right : 3px;
     top: 50px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #enhautdroitemoins{
     display: table-cell;
     width: 10%;
@@ -115,7 +83,6 @@ right : 3px;
             justify-content: center;
             margin: auto;
             width: 1500px;
-<<<<<<< HEAD
             margin-top: 320px;            
 }
 
@@ -123,9 +90,6 @@ right : 3px;
 	align: center;
 	border: 3px black;
 	border-style: ridge;
-}
-=======
-            margin-top: 320px;
 }
 
 .textbox{
@@ -154,6 +118,6 @@ th {
 p.border{
     border : 2px solid white;
     border-radius: 5px;
-    border-width: 200px;
+    height: 500px;
+    width: 750px;
 }
->>>>>>> c6dcefd3e2eac795a34da320a9a145898109523f

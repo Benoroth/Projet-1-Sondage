@@ -117,6 +117,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
@@ -137,6 +138,15 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Sondage\Home.cshtml" />
+    <Content Include="Views\Sondage\SondagesRecents.cshtml" />
+    <Content Include="Views\Sondage\SondagesPopulaires.cshtml" />
+    <Content Include="Views\Sondage\BoiteaIdees.cshtml" />
+    <Content Include="Views\Sondage\Contact.cshtml" />
+    <Content Include="Views\Sondage\SoumettreIdee.cshtml" />
+    <Content Include="Views\Sondage\Resultat.cshtml" />
+    <Content Include="Views\Sondage\Vote.cshtml" />
+    <Content Include="Views\Sondage\SondageCree.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -146,7 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Sondage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

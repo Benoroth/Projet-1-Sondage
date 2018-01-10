@@ -1,0 +1,138 @@
+.bottomright {
+    position: absolute;
+    top: 45px;
+    right: 8px;
+    font-size: 18px;
+}
+
+.img { 
+    width: 10%;
+    height: auto;
+    opacity: 0.3;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+.banniere {
+  height:80px;
+  width: 1700;
+  opacity: 0.4;  
+}
+
+ul {
+    list-style-type: none;
+    margin: -8;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+body {
+    background-color: darkslategrey;
+}
+
+#imgenbas{
+display:table-cell;
+width:10%;
+position: fixed;
+bottom: 3px;
+text-align:center;
+right : 3px;
+}
+
+#enhautdroite{
+    display: table-cell;
+    width: 10%;
+    position: fixed;
+    right : 0px;
+    text-align: center;
+    top: 50px;
+}
+
+#enhautdroitemoins{
+    display: table-cell;
+    width: 10%;
+    position: fixed;
+    right : 0px;
+    text-align: center;
+    top: 70px;
+}
+
+#conteneur, texte{ 
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 50%;
+            margin-top: 17%;            
+}
+
+.textbox{
+    height: 200px;
+    width: 400px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border : 1px solid #ddd;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color : dimgray}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+p.border{
+    border : 2px solid white;
+    border-radius: 5px;
+    height: 500px;
+    width: 750px;
+}
+
+#centrer{ 
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 50%;
+            margin-top: 20px;            
+}
+
+#boiteaidee{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 100%;
+            margin-top: 5%;  
+    
+}

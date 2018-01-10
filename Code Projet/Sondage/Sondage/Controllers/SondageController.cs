@@ -9,7 +9,7 @@ namespace Sondage.Controllers
     public class SondageController : Controller
     {
         // GET: Sondage
-        public ActionResult Index()
+        public ActionResult Home()
         {
             return View();
         }

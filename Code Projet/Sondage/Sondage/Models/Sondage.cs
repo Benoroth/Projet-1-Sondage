@@ -28,6 +28,7 @@ namespace Sondage
         private bool PublicOuPrive { get; set; }
         public int noteSond { get; set; }
         private DateTime dateSond { get; set; }
+        private TimeSpan dureeSond { get; set; }
 
     }
 }

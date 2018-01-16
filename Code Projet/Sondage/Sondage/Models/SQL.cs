@@ -22,13 +22,9 @@ namespace Sondage.Models
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(dateSondage, nomQuestion, choixMultiple, private) VALUES (@date, @question, @choix, @private");
-            InsererSondage.Parameters.AddWithValue("@date", sondageAInserer.dateSond);
-            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer.nomQuest);
-            InsererSondage.Parameters.AddWithValue("@choix", sondageAInserer.choixMultiple);
-            InsererSondage.Parameters.AddWithValue("@private", sondageAInserer.PublicOuPrive);
-           
-
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage( nomQuestion, choixMultiple) VALUES (@question, @choix");            
+            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
+            InsererSondage.Parameters.AddWithValue("@choix", sondageAInserer._choixMultiple);                       
         }
 
         public static void InsererChoixBDD(Choix ChoixAInserer)
@@ -36,9 +32,9 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
             SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix VALUES (@nomChoix, @idSondage,@nbVoteChoix ");
-            InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer.nomChoix);
-            InsererChoix.Parameters.AddWithValue("@idSondage", ChoixAInserer.idSondage);
-            InsererChoix.Parameters.AddWithValue("@nbVoteChoix", ChoixAInserer.nbVoteChoix);
+            InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer._nomChoix);
+            InsererChoix.Parameters.AddWithValue("@idSondage", ChoixAInserer._idSondage);
+            InsererChoix.Parameters.AddWithValue("@nbVoteChoix", ChoixAInserer._nbVoteChoix);
         }
 
         //Récupérer nombre de votants en BDD

@@ -34,9 +34,11 @@ namespace Sondage.Controllers
             return View();
         }
 
-        public ActionResult SondageCree()
+        public ActionResult SondageCree(int id)
         {
-            return View();
+                        
+
+            return View("SondageCree");
         }
 
         public ActionResult SondagesPopulaires()

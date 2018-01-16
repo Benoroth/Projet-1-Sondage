@@ -37,6 +37,7 @@ namespace Sondage.Models
                                                             AND nomQuestion=@question", connexion);
             SqlParameter.Equals("@question", nomQuestionRecup);
 
+
             connexion.Close();
             return nomQuestionRecup;
         }

@@ -13,16 +13,6 @@ namespace Sondage.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-        //Adresse BDD SQL
-        private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Projet; Trusted_Connection=Yes";
-
-        ////Requètes SQL
-
-        //Récupérer nombre de votants en BDD
-
-
-
+        }       
     }
 }

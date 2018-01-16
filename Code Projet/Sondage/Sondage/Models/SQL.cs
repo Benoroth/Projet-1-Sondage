@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
+using Sondage.Models;
 
 namespace Sondage.Models
 {
@@ -13,6 +14,19 @@ namespace Sondage.Models
         //Adresse BDD SQL
         private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Projet; Trusted_Connection=Yes";
 ////Requètes SQL
+
+            //1) Création d'un sondage
+
+                //a) insérer nouveau sondage BDD
+        public static void InsererSondageBDD()
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(dateSondage, nomQuestion, choixMultiple, private) VALUES (@date, @question, @choix, @private");
+            InsererSondage.Parameters.Add
+        }
+
+
 
         //Récupérer nombre de votants en BDD
         private int NombreVotesSondage()

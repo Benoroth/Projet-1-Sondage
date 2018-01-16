@@ -8,17 +8,10 @@ namespace Sondage.Models
 {
     public class Sondage
     {
-        public int idSondage { get; set; }
-        public DateTime dateSond { get; set; }
-        public TimeSpan dureeSond { get; set; }
+        public int idSondage { get; set; }        
         public int nbVote { get; set; }
         public string nomQuest { get; set; }
-        public string lienResult { get; set; }
-        public string lienPartage { get; set; }
-        public string lienSuppr { get; set; }
-        public bool choixMultiple { get; set; }        
-        public bool PublicOuPrive { get; set; }
-        public int noteSond { get; set; }               
+        public bool choixMultiple { get; set; }                                           
     }
 
     public class Choix
@@ -26,5 +19,23 @@ namespace Sondage.Models
         public int idChoix { get; set; }
         public string nomChoix { get; set; }
         public int nbVoteChoix { get; set; }
+        public int idSondage { get; set; }
+    }
+
+    public Sondage(int nbVote, string nomQuestion, bool choixMultiple)
+    {
+        Sondage Sondage = new Sondage();
+
+        Sondage.nbVote = 0;
+        Sondage.nomQuest = nomQuestion;       
+    }
+
+    public Choix(string nomChoix, int nbVoteChoix, int idSondage)
+    {
+        Choix Choix = new Choix();
+
+        Choix.nomChoix = nomChoix;
+        Choix.nbVoteChoix = 0;
+        Choix.nomChoix = nomChoix;
     }
 }

@@ -117,6 +117,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\agedepierre.png" />
+    <Content Include="Content\idee.jpg" />
+    <Content Include="Content\idee3.png" />
+    <Content Include="Content\lascaux.jpg" />
+    <Content Include="Content\pie_chart.png" />
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />

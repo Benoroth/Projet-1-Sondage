@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Sondage
+namespace Sondage.Models
 {
     //sondage public ou privé
     public enum TypeSondage

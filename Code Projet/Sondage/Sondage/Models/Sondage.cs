@@ -9,15 +9,15 @@ namespace Sondage.Models
     public class Sondage
     {
         public int idSondage { get; set; }
-        private DateTime dateSond { get; set; }
-        private TimeSpan dureeSond { get; set; }
-        private int nbVote { get; set; }
-        private string nomQuest { get; set; }
+        public DateTime dateSond { get; set; }
+        public TimeSpan dureeSond { get; set; }
+        public int nbVote { get; set; }
+        public string nomQuest { get; set; }
         public string lienResult { get; set; }
         public string lienPartage { get; set; }
-        private string lienSuppr { get; set; }
+        public string lienSuppr { get; set; }
         public bool choixMultiple { get; set; }        
-        private bool PublicOuPrive { get; set; }
+        public bool PublicOuPrive { get; set; }
         public int noteSond { get; set; }               
     }
 

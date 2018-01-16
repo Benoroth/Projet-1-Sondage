@@ -18,12 +18,17 @@ namespace Sondage.Models
             //1) Création d'un sondage
 
                 //a) insérer nouveau sondage BDD
-        public static void InsererSondageBDD()
+        public static void InsererSondageBDD(Sondage sondageAInserer)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
             SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(dateSondage, nomQuestion, choixMultiple, private) VALUES (@date, @question, @choix, @private");
-            InsererSondage.Parameters.Add
+            InsererSondage.Parameters.AddWithValue("@date", sondageAInserer.dateSond);
+            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer.nomQuest);
+            InsererSondage.Parameters.AddWithValue("@choix", sondageAInserer.choixMultiple);
+            InsererSondage.Parameters.AddWithValue("@private", sondageAInserer.PublicOuPrive);
+            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix")
+
         }
 
 

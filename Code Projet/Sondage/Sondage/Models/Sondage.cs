@@ -11,14 +11,13 @@ namespace Sondage.Models
         public int _idSondage { get; set; }        
         public int _nbVote { get; set; }
         public string _nomQuest { get; set; }
-        public bool _choixMultiple { get; set; }
+        public bool _choixMultiple { get; set; }       
 
-        public Sondage(int idSondage, int nbVote, string nomQuest, bool choixMultiple)
-        {
-            _idSondage = idSondage;
-            _nbVote = nbVote;
+        public Sondage(string nomQuest, bool choixMultiple)
+        {            
+            _nbVote = 0;
             _nomQuest = nomQuest;
-            _choixMultiple = choixMultiple;
+            _choixMultiple = choixMultiple;            
         }
     }
 
@@ -29,9 +28,8 @@ namespace Sondage.Models
         public int _nbVoteChoix { get; set; }
         public int _idSondage { get; set; }
 
-        public Choix(int idChoix, string nomChoix, int nbVoteChoix, int idSondage)
-        {
-            _idChoix = idChoix;
+        public Choix(string nomChoix, int idSondage)
+        {            
             _nomChoix = nomChoix;
             _nbVoteChoix = 0;
             _idSondage = idSondage;

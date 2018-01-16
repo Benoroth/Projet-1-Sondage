@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
@@ -14,51 +15,12 @@ namespace Sondage.Controllers
             return View();
         }
 
-        public ActionResult SondagesRecents()
+        public ActionResult Home(string question, string choix1, string choix2, string choix3, string choix4, bool multiple)
         {
+            Models.Sondage sondageweb = new Models.Sondage(question, multiple);
+            
+
             return View();
-        }
-
-        public ActionResult BoiteaIdees()
-        {
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            return View();
-        }
-
-        public ActionResult Resultat()
-        {
-            return View();
-        }
-
-        public ActionResult SondageCree(int id)
-        {
-                        
-            return View("SondageCree");
-        }
-
-        public ActionResult SondagesPopulaires()
-        {
-            return View();
-        }
-
-        public ActionResult SoumettreIdee()
-        {
-            return View();
-        }
-
-        public ActionResult Vote()
-        {
-            return View();
-        }
-
-        public ActionResult RedirectionSondageCree()
-        {
-
-            return View("SondageCree");
         }
     }
 }

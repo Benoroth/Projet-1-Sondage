@@ -25,34 +25,25 @@
 <h2 align=center> Création du Sondage : </h2>
 <div id="centrer">
 
-    <p align="center" class ="border"> </p>
-        <label1>Votre question</label1> : <input type="text" name="question" />
-        <br />
-                                        <form method="POST" action="" >                            
-                                    <div id="champs" >
-                                Choix : <br>
-                                <input id="texte" type="text" name="titre[]"/><br>
-                                    </div>
-                                <button type="button" onclick="addField()" >+</button><br>                                
-                                <script type="text/javascript" >
-                                        var div = document.getElementById('champs');
-                                        function addInput(nam){
-                                            var input = document.createElement("input");
-                                            input.name = name;
-                                            div.appendChild(input);
-                                        }
-                                        function addField() {
-                                        addInput("titre[]");
-                                        div.appendChild(document.createElement("br"));
-                                        }
-                                </script>
-                                    <br>                                    
-                                </form>
-        <input type="checkbox" name="choix" value="TypeChoix"> Choix multiple
-        <br />
-        <input type="checkbox" name="choix" value="TypeChoix"> Sondage privé
-        <br />    
-        <button><a href="SondageCree.html"> Valider </a> </button>    
+        <div class="border">
+            <div id="centrer">
+            <br />
+            <form method="POST" action="RedirectionSondageCree">
+                <label1>Votre question</label1> : <input type="text" name="question" placeholder="Saisissez votre question" /> <br />
+                Choix : <br>
+                <input id="texte" type="text" name="choix1" placeholder="Choix 1" /> <br />
+                <input id="texte" type="text" name="choix2" placeholder="Choix 2" /> <br />
+                <input id="texte" type="text" name="choix2" placeholder="Choix 3" /> <br />
+                <input id="texte" type="text" name="choix2" placeholder="Choix 4" /> <br />
+                <input type="checkbox" name="choix" value="TypeChoix"> Choix multiple
+                <br />
+                <input type="checkbox" name="choix" value="TypeChoix"> Sondage privé
+                <br />
+                <button href="SondageCree"> Valider </button>
+            </form>
+                </div>
+    </div>
+         
 </div>
 <img src="Img/agedepierre.png" id="imgenbas"/>
 

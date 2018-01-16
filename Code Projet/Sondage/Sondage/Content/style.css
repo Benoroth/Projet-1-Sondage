@@ -109,7 +109,7 @@ th {
     color: white;
 }
 
-p.border{
+.border{
     border : 2px solid white;
     border-radius: 5px;
     height: 500px;

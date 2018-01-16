@@ -44,6 +44,7 @@ Z:\Projet 1\Code Projet\Sondage\Sondage\bin\System.Web.Mvc.xml
 Z:\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.csprojResolveAssemblyReference.cache
 Z:\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.dll
 Z:\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.pdb
+<<<<<<< HEAD
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\bin\ApplicationInsights.config
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\bin\roslyn\csc.exe
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -90,3 +91,51 @@ C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\bin\System.Web.Mvc.
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.csprojResolveAssemblyReference.cache
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.dll
 C:\Users\adai08\Desktop\Projet 1\Code Projet\Sondage\Sondage\obj\Debug\Sondage.pdb
+=======
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\obj\Debug\Sondage.csprojResolveAssemblyReference.cache
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\obj\Debug\Sondage.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\obj\Debug\Sondage.pdb
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\ApplicationInsights.config
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\csc.exe
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.CodeAnalysis.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.CSharp.Core.targets
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\Microsoft.VisualBasic.Core.targets
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\System.Collections.Immutable.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\System.Reflection.Metadata.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\vbc.exe
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\VBCSCompiler.exe
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\roslyn\VBCSCompiler.exe.config
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Sondage.dll.config
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Sondage.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Sondage.pdb
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.Agent.Intercept.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.DependencyCollector.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.PerfCounterCollector.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.ServerTelemetryChannel.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.Web.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.WindowsServer.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.ApplicationInsights.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.Web.Infrastructure.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Helpers.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Mvc.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Razor.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.Deployment.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.Razor.dll
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.DependencyCollector.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.ServerTelemetryChannel.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.Web.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.AI.WindowsServer.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.ApplicationInsights.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Razor.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.Deployment.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Webpages.Razor.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Helpers.xml
+Z:\Projet 1 Sondage\Code Projet\Sondage\Sondage\bin\System.Web.Mvc.xml
+>>>>>>> e7f82ce5c1afd6e2f17702bc605397c9764731e3

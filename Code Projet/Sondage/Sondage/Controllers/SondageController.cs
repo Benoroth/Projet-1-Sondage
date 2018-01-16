@@ -37,7 +37,6 @@ namespace Sondage.Controllers
         public ActionResult SondageCree(int id)
         {
                         
-
             return View("SondageCree");
         }
 
@@ -54,6 +53,12 @@ namespace Sondage.Controllers
         public ActionResult Vote()
         {
             return View();
+        }
+
+        public ActionResult RedirectionSondageCree()
+        {
+
+            return View("SondageCree");
         }
     }
 }

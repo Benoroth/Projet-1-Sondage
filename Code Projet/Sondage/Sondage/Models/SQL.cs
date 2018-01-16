@@ -27,11 +27,19 @@ namespace Sondage.Models
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer.nomQuest);
             InsererSondage.Parameters.AddWithValue("@choix", sondageAInserer.choixMultiple);
             InsererSondage.Parameters.AddWithValue("@private", sondageAInserer.PublicOuPrive);
-            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix")
+           
 
         }
 
-
+        public static void InsererChoixBDD(Choix ChoixAInserer)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix VALUES (@nomChoix, @idSondage,@nbVoteChoix ");
+            InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer.nomChoix);
+            InsererChoix.Parameters.AddWithValue("@idSondage", ChoixAInserer.idSondage);
+            InsererChoix.Parameters.AddWithValue("@nbVoteChoix", ChoixAInserer.nbVoteChoix);
+        }
 
         //Récupérer nombre de votants en BDD
         private int NombreVotesSondage()

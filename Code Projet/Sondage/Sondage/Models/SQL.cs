@@ -64,5 +64,16 @@ namespace Sondage.Models
             connexion.Close();
             return nomQuestionRecup;
         }
+
+        private int GetIdSondage()
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand GetId = new SqlCommand(@"SELECT MAX(idSondage) FROM TSondage", connexion); //obtenir l'id du dernier sondage créé
+            int id = (int)GetId.ExecuteScalar();
+
+            connexion.Close();
+            return id;
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Sondage.Models
             InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
             InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._lienSuppression);
             InsererLiens.Parameters.AddWithValue("@lienresult", sondageAInserer._lienResultat);
-            InsererLiens.Parameters.AddWithValue("@id", sondageAInserer._idSondage);
+            InsererLiens.Parameters.AddWithValue("@id", GetIdSondage());
             InsererLiens.ExecuteNonQuery();
 
             connexion.Close();

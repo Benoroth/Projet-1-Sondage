@@ -11,13 +11,16 @@ namespace Sondage.Models
         public int _idSondage { get; set; }        
         public int _nbVote { get; set; }
         public string _nomQuest { get; set; }
-        public bool _choixMultiple { get; set; }       
+        public bool _choixMultiple { get; set; } 
+        public string _lienPartage { get; set; }
+        public string _lienSuppression { get; set; }
+        public string _lienResultat { get; set; }      
 
         public Sondage(string nomQuest)
         {            
             _nbVote = 0;
             _nomQuest = nomQuest;
-            _choixMultiple = false; ;            
+            _choixMultiple = false;                                
         }
     }
 

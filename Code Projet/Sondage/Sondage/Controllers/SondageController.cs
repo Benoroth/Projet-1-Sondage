@@ -33,11 +33,36 @@ namespace Sondage.Controllers
             Models.SQL.InsererChoixBDD(choixtrois);
             Models.SQL.InsererChoixBDD(choixquatre);
 
+            string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
+            string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
+            string lienResul = "localhost:1093/Sondage/Resultat?id="; //lien vers la page de résultat
+
+            Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
+
+            lienPartage = lienPartage + idDernierSondage; //concaténation lien partage et id du derniere sondage créé
+            lienSuppr = lienSuppr + idDernierSondage; //concaténation lien suppression et id du derniere sondage créé
+            lienResul = lienResul + idDernierSondage; //concaténation lien résultat et id du derniere sondage créé
+
+            sondageweb._lienPartage = lienPartage;
+            sondageweb._lienSuppression = lienSuppr;
+            sondageweb._lienResultat = lienResul;
+
+            Models.SQL.InsertionLiensBDD(sondageweb);
+
             return View("SondageCree");
         }
 
+        public ActionResult SondageCree(int id)
+        {
 
 
+            return View("SondageCree");
+        }
+
+        public ActionResult Vote(int id)
+        {
+            return View("Vote");
+        }
 
 
         public ActionResult Suppression(int id)

@@ -31,6 +31,20 @@ namespace Sondage.Models
             connexion.Close();                  
         }
 
+        public static void InsertionLiensBDD(Sondage sondageAInserer) //insertion des liens de partage, résultat et suppression dans la base de données
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand InsererLiens = new SqlCommand(@"UPDATE TSondage SET lienPartage = @lienpartage, lienResult = @lienresult, lienSuppr = @liensuppr WHERE idSondage = @id", connexion);
+            InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
+            InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._lienSuppression);
+            InsererLiens.Parameters.AddWithValue("@lienresult", sondageAInserer._lienResultat);
+            InsererLiens.Parameters.AddWithValue("@id", sondageAInserer._idSondage);
+            InsererLiens.ExecuteNonQuery();
+
+            connexion.Close();
+        }
+
         public static void InsererChoixBDD(Choix ChoixAInserer)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);

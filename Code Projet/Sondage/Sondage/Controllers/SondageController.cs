@@ -15,25 +15,23 @@ namespace Sondage.Controllers
             return View();
         }
 
-        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, bool multiple)
+        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
         {
-            Models.Sondage sondageweb = new Models.Sondage(question, multiple);
+            Models.Sondage sondageweb = new Models.Sondage(question);
 
-            InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
+            Models.SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
-            int idDernierSondage = GetIdSondage();
+            int idDernierSondage = Models.SQL.GetIdSondage();   
 
-            Models.Choix choixun = new Model.Choix(choix1, idDernierSondage);
-            Models.Choix choixdeux = new Model.Choix(choix2, idDernierSondage);
-            Models.Choix choixtrois = new Model.Choix(choix3, idDernierSondage);
-            Models.Choix choixquatre = new Model.Choix(choix4, idDernierSondage);
+            Models.Choix choixun = new Models.Choix(choix1, idDernierSondage);
+            Models.Choix choixdeux = new Models.Choix(choix2, idDernierSondage);
+            Models.Choix choixtrois = new Models.Choix(choix3, idDernierSondage);
+            Models.Choix choixquatre = new Models.Choix(choix4, idDernierSondage);
 
-            InsererChoixBDD(choixun);  //insertion des choix dans la BDD
-            InsererChoixBDD(choixdeux);
-            InsererChoixBDD(choixtrois);
-            InsererChoixBDD(choixquatre);
-
-
+            Models.SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
+            Models.SQL.InsererChoixBDD(choixdeux);
+            Models.SQL.InsererChoixBDD(choixtrois);
+            Models.SQL.InsererChoixBDD(choixquatre);
 
             return View();
         }

@@ -12,29 +12,34 @@ namespace Sondage.Models
     {
 
         //Adresse BDD SQL
-        private const string SqlConnectionString = @"Server=.\SQLExpress;Initial Catalog=Projet; Trusted_Connection=Yes";
-////Requètes SQL
+        private const string SqlConnectionString = @"Server=.;Initial Catalog=Projet; Trusted_Connection=Yes";
+        ////Requètes SQL
 
-            //1) Création d'un sondage
+        //1) Création d'un sondage
 
-                //a) insérer nouveau sondage BDD
+        //a) insérer nouveau sondage BDD
         public static void InsererSondageBDD(Sondage sondageAInserer)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage( nomQuestion, choixMultiple) VALUES (@question, @choix");            
-            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
-            InsererSondage.Parameters.AddWithValue("@choix", sondageAInserer._choixMultiple);                       
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion) VALUES (@question)", connexion);            
+            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);            
+            InsererSondage.ExecuteNonQuery();
+
+            connexion.Close();                  
         }
 
         public static void InsererChoixBDD(Choix ChoixAInserer)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix VALUES (@nomChoix, @idSondage,@nbVoteChoix ");
+            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix) VALUES (@nomChoix, @idSondage,@nbVoteChoix)", connexion);
             InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer._nomChoix);
             InsererChoix.Parameters.AddWithValue("@idSondage", ChoixAInserer._idSondage);
             InsererChoix.Parameters.AddWithValue("@nbVoteChoix", ChoixAInserer._nbVoteChoix);
+            InsererChoix.ExecuteNonQuery();
+
+            connexion.Close();
         }
 
         //Récupérer nombre de votants en BDD
@@ -65,7 +70,7 @@ namespace Sondage.Models
             return nomQuestionRecup;
         }
 
-        private int GetIdSondage()
+        public static int GetIdSondage()
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();

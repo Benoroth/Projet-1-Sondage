@@ -33,6 +33,17 @@ namespace Sondage.Controllers
             Models.SQL.InsererChoixBDD(choixtrois);
             Models.SQL.InsererChoixBDD(choixquatre);
 
+            return View("SondageCree");
+        }
+
+
+
+
+
+        public ActionResult Suppression(int id)
+        {
+            Models.SQL.SuppressionSondage(id);
+
             return View();
         }
     }

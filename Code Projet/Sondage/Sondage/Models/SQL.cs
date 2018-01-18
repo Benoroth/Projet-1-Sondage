@@ -22,8 +22,10 @@ namespace Sondage.Models
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion) VALUES (@question)", connexion);            
-            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);            
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple) VALUES (@question, @nbVote, @choixMultiple)", connexion);            
+            InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
+            InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
+            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);    
             InsererSondage.ExecuteNonQuery();
 
             connexion.Close();                  
@@ -65,20 +67,37 @@ namespace Sondage.Models
                                                             AND nomQuestion=@question", connexion);
             SqlParameter.Equals("@question", nomQuestionRecup);
 
-
             connexion.Close();
             return nomQuestionRecup;
         }
 
-        public static int GetIdSondage()
+        public static int GetIdSondage() //obtenir l'id du dernier sondage créé
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand GetId = new SqlCommand(@"SELECT MAX(idSondage) FROM TSondage", connexion); //obtenir l'id du dernier sondage créé
+            SqlCommand GetId = new SqlCommand(@"SELECT MAX(idSondage) FROM TSondage", connexion); 
             int id = (int)GetId.ExecuteScalar();
 
             connexion.Close();
             return id;
+        }
+
+        public static void SuppressionSondage(int id) //suppression d'un sondage
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand SupprimerQuestion = new SqlCommand(@"DELETE FROM TSondage WHERE idSondage = @id", connexion); //supprime une question de la BDD
+            SupprimerQuestion.Parameters.AddWithValue("@id", id);
+
+            SupprimerQuestion.ExecuteNonQuery();
+
+            SqlCommand SupprimerChoix = new SqlCommand(@"DELETE FROM TChoix WHERE idSondage = @id", connexion); //supprime les choix liés à la question, de la BDD
+            SupprimerChoix.Parameters.AddWithValue("@id", id);
+
+            SupprimerChoix.ExecuteNonQuery();
+
+            connexion.Close();
         }
     }
 }

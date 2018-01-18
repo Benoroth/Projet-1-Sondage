@@ -113,5 +113,47 @@ namespace Sondage.Models
 
             connexion.Close();
         }
+
+        public static void GetLienPSondage(int id) //obtenir les liens du dernier sondage
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienPartage FROM TSondage WHERE idSondage = @id");
+            GetLiens.Paramaters.AddWithValue("@id", id);
+
+            string lienpartage = (string)GetLien.ExecuteScalar();
+            connexion.Close();
+
+            return lienpartage;
+        }
+
+        public static void GetLienSSondage(int id) //obtenir les liens du dernier sondage
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienSuppr FROM TSondage WHERE idSondage = @id");
+            GetLiens.Paramaters.AddWithValue("@id", id);
+
+            string liensuppr = (string)GetLien.ExecuteScalar();
+            connexion.Close();
+
+            return liensuppr;
+        }
+
+        public static void GetLienRSondage(int id) //obtenir les liens du dernier sondage
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienResult FROM TSondage WHERE idSondage = @id");
+            GetLiens.Paramaters.AddWithValue("@id", id);
+
+            string lienresu = (string)GetLien.ExecuteScalar();
+            connexion.Close();
+
+            return lienresu;
+        }
     }
 }

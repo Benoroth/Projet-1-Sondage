@@ -21,7 +21,7 @@ namespace Sondage.Controllers
 
             Models.SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
-            int idDernierSondage = Models.SQL.GetIdSondage();   
+            int idDernierSondage = Models.SQL.GetIdSondage();
 
             Models.Choix choixun = new Models.Choix(choix1, idDernierSondage);
             Models.Choix choixdeux = new Models.Choix(choix2, idDernierSondage);
@@ -47,14 +47,18 @@ namespace Sondage.Controllers
             sondageweb._lienSuppression = lienSuppr;
             sondageweb._lienResultat = lienResul;
 
-            Models.SQL.InsertionLiensBDD(sondageweb);
+            Models.SQL.InsertionLiensBDD(sondageweb); //insertion des liens partage, suppression et résultat dans la BDD
 
             return View("SondageCree");
         }
 
-        public ActionResult SondageCree(int id)
+        public ActionResult SondageCree()
         {
+            int idDernierSondage = Models.SQL.GetIdSondage();
 
+            Models.SQL.GetLienPSondage(idDernierSondage);
+            Models.SQL.GetLienSSondage(idDernierSondage);
+            Models.SQL.GetLienRSondage(idDernierSondage);
 
             return View("SondageCree");
         }

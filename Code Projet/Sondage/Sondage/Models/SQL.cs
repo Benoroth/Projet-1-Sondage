@@ -45,7 +45,7 @@ namespace Sondage.Models
             connexion.Close();
         }
 
-        public static void InsererChoixBDD(Choix ChoixAInserer)
+        public static void InsererChoixBDD(Choix ChoixAInserer)  //insertion des choix BDD
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -114,13 +114,13 @@ namespace Sondage.Models
             connexion.Close();
         }
 
-        public static void GetLienPSondage(int id) //obtenir les liens du dernier sondage
+        public static string GetLienPSondage(int id) //obtenir les liens du dernier sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienPartage FROM TSondage WHERE idSondage = @id");
-            GetLiens.Paramaters.AddWithValue("@id", id);
+            GetLien.Parameters.AddWithValue("@id", id);
 
             string lienpartage = (string)GetLien.ExecuteScalar();
             connexion.Close();
@@ -128,13 +128,13 @@ namespace Sondage.Models
             return lienpartage;
         }
 
-        public static void GetLienSSondage(int id) //obtenir les liens du dernier sondage
+        public static string GetLienSSondage(int id) //obtenir les liens du dernier sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienSuppr FROM TSondage WHERE idSondage = @id");
-            GetLiens.Paramaters.AddWithValue("@id", id);
+            GetLien.Parameters.AddWithValue("@id", id);
 
             string liensuppr = (string)GetLien.ExecuteScalar();
             connexion.Close();
@@ -142,13 +142,13 @@ namespace Sondage.Models
             return liensuppr;
         }
 
-        public static void GetLienRSondage(int id) //obtenir les liens du dernier sondage
+        public static string GetLienRSondage(int id) //obtenir les liens du dernier sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienResult FROM TSondage WHERE idSondage = @id");
-            GetLiens.Paramaters.AddWithValue("@id", id);
+            GetLien.Parameters.AddWithValue("@id", id);
 
             string lienresu = (string)GetLien.ExecuteScalar();
             connexion.Close();

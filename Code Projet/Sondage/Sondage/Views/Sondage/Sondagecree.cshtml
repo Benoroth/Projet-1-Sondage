@@ -1,4 +1,4 @@
-﻿@model Sondage.Models.SQL
+﻿@model Sondage.Models.MSondage
 @{
     Layout = null;
 }
@@ -26,21 +26,21 @@
     <div id="conteneur">
         <div id="texte">
             <p>
-                Votre sondage (Identifiant = @Sondage.Models.SQL.GetIdSondage()) a été créé avec succès                
+                Votre sondage a été créé avec succès 
             </p>
 
             <p>                
                 Lien partagé :
-                <input type="text" value="" class="field left" readonly>
+                <input type="text" value="@Model._lienPartage" class="field left" readonly>
             </p>
             <p>
                 Résultats :
-                <input type="text" value="" class="field left" readonly>
+                <input type="text" value="@Model._lienResultat" class="field left" readonly>
             </p>
 
             <p>
                 Lien sécurisé (pour la suppression) :
-                <input type="text" value="" class="field left" readonly>
+                <input type="text" value="@Model._lienSuppression" class="field left" readonly>
             </p>
 
         </div>

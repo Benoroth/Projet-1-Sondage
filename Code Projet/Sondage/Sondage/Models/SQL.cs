@@ -33,7 +33,7 @@ namespace Sondage.Models
             return lastId;                 
         }
 
-        public static void InsertionLiensBDD(MSondage sondageAInserer) //insertion des liens de partage, résultat et suppression dans la base de données
+        public static void InsertionLiensBDD(MSondage sondageAInserer, int id) //insertion des liens de partage, résultat et suppression dans la base de données
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -41,7 +41,7 @@ namespace Sondage.Models
             InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
             InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._lienSuppression);
             InsererLiens.Parameters.AddWithValue("@lienresult", sondageAInserer._lienResultat);
-            InsererLiens.Parameters.AddWithValue("@id", GetIdSondage());
+            InsererLiens.Parameters.AddWithValue("@id", id);
             InsererLiens.ExecuteNonQuery();
 
             connexion.Close();
@@ -85,17 +85,6 @@ namespace Sondage.Models
 
             connexion.Close();
             return nomQuestionRecup;
-        }
-
-        public static int GetIdSondage() //obtenir l'id du dernier sondage créé
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
-            connexion.Open();
-            SqlCommand GetId = new SqlCommand(@"SELECT MAX(idSondage) FROM TSondage", connexion); 
-            int id = (int)GetId.ExecuteScalar();
-
-            connexion.Close();
-            return id;
         }
 
         public static void SuppressionSondage(int id) //suppression d'un sondage

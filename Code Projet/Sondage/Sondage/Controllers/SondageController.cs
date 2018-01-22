@@ -14,13 +14,13 @@ namespace Sondage.Controllers
         public ActionResult Home()
         {
             return View();
-        }        
+        }
+
+        int idDernierSondage;
 
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
         {
-            MSondage sondageweb = new MSondage(question);
-
-            int idDernierSondage;
+            MSondage sondageweb = new MSondage(question);            
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
                         
@@ -48,17 +48,13 @@ namespace Sondage.Controllers
             sondageweb._lienSuppression = lienSuppr;
             sondageweb._lienResultat = lienResul;
 
-            SQL.InsertionLiensBDD(sondageweb); //insertion des liens partage, suppression et résultat dans la BDD
+            SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 
-            return Redirect("SondageCree");
+            return View("SondageCree", sondageweb);
         }
 
-        public ActionResult SondageCree()
+        public ActionResult SondageCree(int id)
         {            
-            SQL.GetLienPSondage(idDernierSondage);
-            SQL.GetLienSSondage(idDernierSondage);
-            SQL.GetLienRSondage(idDernierSondage);
-
             return View("SondageCree");
         }
 

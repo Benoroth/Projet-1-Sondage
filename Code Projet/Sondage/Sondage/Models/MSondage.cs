@@ -38,8 +38,4 @@ namespace Sondage.Models
             _idSondage = idSondage;
         }
     }
-
-    
-
-    
 }

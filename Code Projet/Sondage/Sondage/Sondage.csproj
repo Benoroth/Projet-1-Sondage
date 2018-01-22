@@ -135,7 +135,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Sondage.cs" />
+    <Compile Include="Models\MSondage.cs" />
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

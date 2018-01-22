@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Sondage.Models
 {
-    public class Sondage
+    public class MSondage
     {
         public int _idSondage { get; set; }        
         public int _nbVote { get; set; }
@@ -16,7 +16,7 @@ namespace Sondage.Models
         public string _lienSuppression { get; set; }
         public string _lienResultat { get; set; }      
 
-        public Sondage(string nomQuest)
+        public MSondage(string nomQuest)
         {            
             _nbVote = 0;
             _nomQuest = nomQuest;

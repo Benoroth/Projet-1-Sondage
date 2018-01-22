@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Sondage.Models;
 
 
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
-    {
+    {        
         // GET: Sondage
         public ActionResult Home()
         {
             return View();
-        }
+        }        
 
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
         {
-            Models.Sondage sondageweb = new Models.Sondage(question);
+            MSondage sondageweb = new MSondage(question);
 
-            Models.SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
+            int idDernierSondage;
 
-            int idDernierSondage = Models.SQL.GetIdSondage();
+            idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
+                        
+            Choix choixun = new Choix(choix1, idDernierSondage);
+            Choix choixdeux = new Choix(choix2, idDernierSondage);
+            Choix choixtrois = new Choix(choix3, idDernierSondage);
+            Choix choixquatre = new Choix(choix4, idDernierSondage);
 
-            Models.Choix choixun = new Models.Choix(choix1, idDernierSondage);
-            Models.Choix choixdeux = new Models.Choix(choix2, idDernierSondage);
-            Models.Choix choixtrois = new Models.Choix(choix3, idDernierSondage);
-            Models.Choix choixquatre = new Models.Choix(choix4, idDernierSondage);
-
-            Models.SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
-            Models.SQL.InsererChoixBDD(choixdeux);
-            Models.SQL.InsererChoixBDD(choixtrois);
-            Models.SQL.InsererChoixBDD(choixquatre);
+            SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
+            SQL.InsererChoixBDD(choixdeux);
+            SQL.InsererChoixBDD(choixtrois);
+            SQL.InsererChoixBDD(choixquatre);
 
             string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
             string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
@@ -47,18 +48,16 @@ namespace Sondage.Controllers
             sondageweb._lienSuppression = lienSuppr;
             sondageweb._lienResultat = lienResul;
 
-            Models.SQL.InsertionLiensBDD(sondageweb); //insertion des liens partage, suppression et résultat dans la BDD
+            SQL.InsertionLiensBDD(sondageweb); //insertion des liens partage, suppression et résultat dans la BDD
 
-            return View("SondageCree");
+            return Redirect("SondageCree");
         }
 
         public ActionResult SondageCree()
-        {
-            int idDernierSondage = Models.SQL.GetIdSondage();
-
-            Models.SQL.GetLienPSondage(idDernierSondage);
-            Models.SQL.GetLienSSondage(idDernierSondage);
-            Models.SQL.GetLienRSondage(idDernierSondage);
+        {            
+            SQL.GetLienPSondage(idDernierSondage);
+            SQL.GetLienSSondage(idDernierSondage);
+            SQL.GetLienRSondage(idDernierSondage);
 
             return View("SondageCree");
         }
@@ -71,7 +70,7 @@ namespace Sondage.Controllers
 
         public ActionResult Suppression(int id)
         {
-            Models.SQL.SuppressionSondage(id);
+            SQL.SuppressionSondage(id);
 
             return View();
         }

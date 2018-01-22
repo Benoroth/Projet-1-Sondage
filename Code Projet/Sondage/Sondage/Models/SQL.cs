@@ -18,20 +18,22 @@ namespace Sondage.Models
         //1) Création d'un sondage
 
         //a) insérer nouveau sondage BDD
-        public static void InsererSondageBDD(Sondage sondageAInserer)
+        public static int InsererSondageBDD(MSondage sondageAInserer)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple) VALUES (@question, @nbVote, @choixMultiple)", connexion);            
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple) VALUES (@question, @nbVote, @choixMultiple); SELECT SCOPE_IDENTITY()", connexion);            
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
             InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
-            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);    
-            InsererSondage.ExecuteNonQuery();
+            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);               
+            int lastId = Convert.ToInt32(InsererSondage.ExecuteScalar());            
 
-            connexion.Close();                  
+            connexion.Close();
+
+            return lastId;                 
         }
 
-        public static void InsertionLiensBDD(Sondage sondageAInserer) //insertion des liens de partage, résultat et suppression dans la base de données
+        public static void InsertionLiensBDD(MSondage sondageAInserer) //insertion des liens de partage, résultat et suppression dans la base de données
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();

@@ -60,6 +60,8 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id)
         {
+            SQL.GetNomQuestion(id);
+            SQL.GetChoix(id);
             return View("Vote");
         }
 

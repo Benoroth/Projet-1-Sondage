@@ -71,20 +71,37 @@ namespace Sondage.Models
             return nombreVoteRecup;
         }
         //Récupérer nom de la question et nom des choix correspondants
-        private string NomQuestionEtChoix()
+        public static void GetNomQuestion(int id)
         {
-            //Nom Question
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand NomQuestion = new SqlCommand(@"SELECT nomQuestion FROM TSondage", connexion);
-            string nomQuestionRecup = (string)NomQuestion.ExecuteScalar();
-            //Nom Choix
-            SqlCommand NomChoixQuestion = new SqlCommand(@"SELECT nomChoix FROM TChoix, TSondage WHERE TSondage.idChoix=TChoix.idChoix 
-                                                            AND nomQuestion=@question", connexion);
-            SqlParameter.Equals("@question", nomQuestionRecup);
+
+            SqlCommand command = new SqlCommand(@"SELECT nomQuestion FROM TSondage WHERE idSondage = @id", connexion);
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteScalar();
 
             connexion.Close();
-            return nomQuestionRecup;
+        }
+
+        public static List<string> GetChoix(int id)
+        {            
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand command = new SqlCommand(@"SELECT nomChoix FROM TChoix WHERE idSondage = @id", connexion);
+            command.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader recordset = command.ExecuteReader();
+
+            List<string> Choix = new List<string>();
+
+            while (recordset.Read())
+            {
+                string nomChoix = (string)recordset["nomChoix"];
+            }
+
+            connexion.Close();
+            return Choix;
         }
 
         public static void SuppressionSondage(int id) //suppression d'un sondage

@@ -26,12 +26,12 @@ namespace Sondage.Controllers
                         
             Choix choixun = new Choix(choix1, idDernierSondage);
             Choix choixdeux = new Choix(choix2, idDernierSondage);
-            Choix choixtrois = new Choix(choix3, idDernierSondage);
-            Choix choixquatre = new Choix(choix4, idDernierSondage);
+            Choix choixtrois = new Choix(choix3, idDernierSondage);                       
+            Choix choixquatre = new Choix(choix4, idDernierSondage);            
 
             SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
             SQL.InsererChoixBDD(choixdeux);
-            SQL.InsererChoixBDD(choixtrois);
+            SQL.InsererChoixBDD(choixtrois);             
             SQL.InsererChoixBDD(choixquatre);
 
             string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
@@ -58,10 +58,10 @@ namespace Sondage.Controllers
             return View("SondageCree");
         }
 
-        public ActionResult Vote(int id)
+        public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            SQL.GetQuestionEtChoix(id);
-            return View("Vote");
+            QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id); 
+            return View("Vote", questionchoix);
         }
 
 
@@ -70,6 +70,11 @@ namespace Sondage.Controllers
             SQL.SuppressionSondage(id);
 
             return View();
+        }
+
+        public ActionResult Voter(int id, bool choix1, bool choix2, bool choix3, bool choix4)
+        {
+            return View("Resultat");
         }
     }
 }

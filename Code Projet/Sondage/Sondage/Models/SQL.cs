@@ -71,17 +71,32 @@ namespace Sondage.Models
             return nombreVoteRecup;
         }
 
-        public static QuestionEtChoix GetQuestionEtChoix(int id)
+        public static QuestionEtChoix GetQuestionEtChoix(int id) //methode pour obtenir la question et les choix liés à cette question
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand command = new SqlCommand(@"SELECT nomQuestion FROM TSondage WHERE idSondage = @id", connexion);
-            command.Parameters.AddWithValue("@id", id);
+            SqlCommand getQuestion = new SqlCommand(@"SELECT nomQuestion 
+                                                      FROM TSondage 
+                                                      WHERE idSondage = @id", connexion);
+            getQuestion.Parameters.AddWithValue("@id", id);
+            string Question = (string)getQuestion.ExecuteScalar(); //cherche la question dans la BDD
 
-            
-            
-                        
+            SqlCommand getChoix = new SqlCommand(@"SELECT nomChoix
+                                                   FROM TChoix
+                                                   WHERE idSondage = @id", connexion);
+            getChoix.Parameters.AddWithValue("@id", id);
+            SqlDataReader recordset = getChoix.ExecuteReader(); //cherche les choix dans la BDD
+            List<string> lChoix = new List<string>();
+               
+            while(recordset.Read())
+            {
+                lChoix.Add((string)recordset["nomChoix"]); //insère les choix dans une liste
+            }
+            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix);
+
+            connexion.Close();
+            return questionChoix; //retourne la question et ses choix
         }
 
         public static void SuppressionSondage(int id) //suppression d'un sondage

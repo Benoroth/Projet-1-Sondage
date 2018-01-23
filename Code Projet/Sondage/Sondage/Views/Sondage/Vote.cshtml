@@ -29,21 +29,22 @@
         <div id="texte">
             <form method="POST" action="Voter">
                 <h2> @Model._Question </h2>
-                <p>
-                    <input type="radio" name="vote1"> @Model._Choix1
-                </p>
-                <p>
-                    <input type="radio" name="vote2"> @Model._Choix2
-                </p>
-                <p>
-                    <input type="radio" name="vote3"> @Model._Choix3
-                </p>
-                <p>
-                    <input type="radio" name="vote4"> @Model._Choix4
-                </p>
-                <p>
-                    <button> Voter </button>
-                </p>
+                @{
+                    int i = 1;
+                    foreach (var choix in Model._ListeChoix)
+                    {
+                        string value = "choix1";
+                        if (i == 1) { value = "choix1"; }
+                        if (i == 2) { value = "choix2"; }
+                        if (i == 3) { value = "choix3"; }
+                        if (i == 4) { value = "choix4"; }
+                        <input type="radio" name="vote" value=@value> @choix
+                        <br />
+                        i ++;
+                        }
+                    }                               
+                <br />
+                <button> Voter </button>
             </form>
         </div>
     </div>

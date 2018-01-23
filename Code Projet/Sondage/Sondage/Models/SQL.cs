@@ -143,5 +143,17 @@ namespace Sondage.Models
 
             return lienresu;
         }
+        //insérer données contact
+        public static void InsererDonneesContact(Contact NouveauContact)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact(nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)");
+            InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact.nomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@prenom", NouveauContact.prenomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@email", NouveauContact.emailContact);
+            InsererDonneesContact.Parameters.AddWithValue("@message", NouveauContact.message);
+            connexion.Close();
+        }
     }
 }

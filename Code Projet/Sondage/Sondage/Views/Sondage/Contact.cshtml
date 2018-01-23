@@ -1,4 +1,4 @@
-﻿
+﻿@model Sondage.Models.SQL
 @{
     Layout = null;
 }
@@ -21,10 +21,16 @@
         <li><a href="BoiteaIdees">Boîte à idées</a></li>
         <li style="float:right"><a class="active" href="Contact">Contact</a></li>
     </ul>
-
-    <p>
-
-    </p>
+   
+     <div>
+        <form method="post" action="Contact">
+            Nom : <input type="text" name="nom" /><br />
+            Prénom : <input type="text" name="prenom" /><br />
+            Email : <input type="text" name="email" /><br /><br />
+            Message : <textarea></textarea>
+            <input type="submit" value="Envoyer" />
+        </form>
+    </div>
 
     <img src="/Content/agedepierre.png" id="imgenbas" />
 

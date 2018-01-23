@@ -71,5 +71,11 @@ namespace Sondage.Controllers
 
             return View();
         }
+        
+        public ActionResult Contact(string nom, string prenom, string message, string email)
+        {
+            SQL.InsererDonneesContact();
+            return RedirectToAction("Home");
+        }
     }
 }

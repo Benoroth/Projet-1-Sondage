@@ -70,38 +70,18 @@ namespace Sondage.Models
             connexion.Close();
             return nombreVoteRecup;
         }
-        //Récupérer nom de la question et nom des choix correspondants
-        public static void GetNomQuestion(int id)
+
+        public static QuestionEtChoix GetQuestionEtChoix(int id)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand command = new SqlCommand(@"SELECT nomQuestion FROM TSondage WHERE idSondage = @id", connexion);
             command.Parameters.AddWithValue("@id", id);
-            command.ExecuteScalar();
 
-            connexion.Close();
-        }
-
-        public static List<string> GetChoix(int id)
-        {            
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
-            connexion.Open();
-
-            SqlCommand command = new SqlCommand(@"SELECT nomChoix FROM TChoix WHERE idSondage = @id", connexion);
-            command.Parameters.AddWithValue("@id", id);
-
-            SqlDataReader recordset = command.ExecuteReader();
-
-            List<string> Choix = new List<string>();
-
-            while (recordset.Read())
-            {
-                string nomChoix = (string)recordset["nomChoix"];
-            }
-
-            connexion.Close();
-            return Choix;
+            
+            
+                        
         }
 
         public static void SuppressionSondage(int id) //suppression d'un sondage

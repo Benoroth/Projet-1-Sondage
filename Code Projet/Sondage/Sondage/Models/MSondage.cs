@@ -38,4 +38,16 @@ namespace Sondage.Models
             _idSondage = idSondage;
         }
     }
+
+    public class QuestionEtChoix
+    {
+        public string _Question { get; set; }
+        List<string> _ListeChoix;
+        
+        public QuestionEtChoix(string Question, List<string> Choix)
+        {
+            _Question = Question;
+            _ListeChoix = Choix;
+        }
+    }
 }

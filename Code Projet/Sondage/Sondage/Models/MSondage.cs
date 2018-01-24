@@ -42,8 +42,8 @@ namespace Sondage.Models
     public class QuestionEtChoix
     {
         public string _Question { get; set; }
-        List<string> _ListeChoix;
-        
+        public List<string> _ListeChoix { get; set; }
+
         public QuestionEtChoix(string Question, List<string> Choix)
         {
             _Question = Question;

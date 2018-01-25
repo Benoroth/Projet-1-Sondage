@@ -163,11 +163,13 @@ namespace Sondage.Models
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact(nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)");
-            InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact.nomContact);
-            InsererDonneesContact.Parameters.AddWithValue("@prenom", NouveauContact.prenomContact);
-            InsererDonneesContact.Parameters.AddWithValue("@email", NouveauContact.emailContact);
-            InsererDonneesContact.Parameters.AddWithValue("@message", NouveauContact.message);
+            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact(nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)", connexion);
+            InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact._nomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@prenom", NouveauContact._prenomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@email", NouveauContact._emailContact);
+            InsererDonneesContact.Parameters.AddWithValue("@message", NouveauContact._message);
+            InsererDonneesContact.ExecuteNonQuery();
+
             connexion.Close();
         }
     }

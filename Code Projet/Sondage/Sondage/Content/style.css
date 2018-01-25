@@ -136,3 +136,10 @@ th {
             margin-top: 5%;  
     
 }
+
+label
+{
+    display: block;
+    width: 150px;
+    float:left;
+}

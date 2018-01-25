@@ -71,6 +71,17 @@ namespace Sondage.Controllers
 
             return View();
         }
+        //public ActionResult Contact(Contact NouveauContact)
+        //{
+        //    SQL.InsererDonneesContact(NouveauContact);
+
+        //    return RedirectToAction("Home");        
+        //}
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
 
         public ActionResult Valider(int id, bool choix1, bool choix2, bool choix3, bool choix4)
         {
@@ -108,6 +119,7 @@ namespace Sondage.Controllers
             
 
             return View("Resultat");
+
         }
     }
 }

@@ -188,6 +188,20 @@ namespace Sondage.Models
             incrementerNbVotesChoix.Parameters.AddWithValue("@nomChoix", nomChoix);
 
             incrementerNbVotesChoix.ExecuteNonQuery();
+        }
+
+        //insérer données contact
+        public static void InsererDonneesContact(Contact NouveauContact)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact(nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)", connexion);
+            InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact._nomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@prenom", NouveauContact._prenomContact);
+            InsererDonneesContact.Parameters.AddWithValue("@email", NouveauContact._emailContact);
+            InsererDonneesContact.Parameters.AddWithValue("@message", NouveauContact._message);
+            InsererDonneesContact.ExecuteNonQuery();
+
 
             connexion.Close();
         }

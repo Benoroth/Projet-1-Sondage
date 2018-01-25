@@ -50,4 +50,20 @@ namespace Sondage.Models
             _ListeChoix = Choix;
         }
     }
+
+    public class Contact
+    {
+        public string _nomContact { get; set; }
+        public string _prenomContact { get; set; }
+        public string _emailContact { get; set; }
+        public string _message { get; set; }
+
+        public Contact(string nomContact, string prenomContact, string emailContact, string message)
+        {
+            _nomContact = nomContact;
+            _prenomContact = prenomContact;
+            _emailContact = emailContact;
+            _message = message;
+        }
+    }
 }

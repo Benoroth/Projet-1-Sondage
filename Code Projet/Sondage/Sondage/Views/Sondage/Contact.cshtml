@@ -1,4 +1,4 @@
-﻿
+﻿@model Sondage.Models.SQL
 @{
     Layout = null;
 }
@@ -21,10 +21,17 @@
         <li><a href="BoiteaIdees">Boîte à idées</a></li>
         <li style="float:right"><a class="active" href="Contact">Contact</a></li>
     </ul>
-
-    <p>
-
-    </p>
+   
+     <div class="border" id="centrer">
+         Veuillez Remplir les champs ci-dessous pour nous laisser un message :
+        <form method="post" action="Contact">
+            <label for="nom">Nom : </label><input type="text" name="nom" /><br />
+            <label for="prenom">Prénom : </label><input type="text" name="prenom" /><br />
+            <label for="email">Email : </label><input type="text" name="email" /><br /><br />
+            <label for="message">Message : </label><textarea name="message"></textarea><br />
+            <input type="submit" value="Envoyer" />
+        </form>
+    </div>
 
     <img src="/Content/agedepierre.png" id="imgenbas" />
 

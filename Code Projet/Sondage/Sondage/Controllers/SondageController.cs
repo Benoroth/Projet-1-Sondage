@@ -72,8 +72,41 @@ namespace Sondage.Controllers
             return View();
         }
 
-        public ActionResult Voter(int id, bool choix1, bool choix2, bool choix3, bool choix4)
+        public ActionResult Valider(int id, bool choix1, bool choix2, bool choix3, bool choix4)
         {
+            string chien = "Chien";
+            string chat = "Chat";
+            string dauphin = "Dauphin";
+            string loup = "Loup";
+            if (choix1)
+            {
+                SQL.Voter(id, chien);
+            }
+            else
+            {
+                if (choix2)
+                {
+                    SQL.Voter(id, chat);
+                }
+                else
+                {
+                    if(choix3)
+                    {
+                        SQL.Voter(id, dauphin);
+                    }
+                    else
+                    {
+                        if(choix4)
+                        {
+                            SQL.Voter(id, loup);
+                        }
+                    }
+                }
+            }
+
+
+            
+
             return View("Resultat");
         }
     }

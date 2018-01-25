@@ -25,7 +25,7 @@ namespace Sondage.Models
             SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple) VALUES (@question, @nbVote, @choixMultiple); SELECT SCOPE_IDENTITY()", connexion);            
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
             InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
-            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);               
+            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);                      
             int lastId = Convert.ToInt32(InsererSondage.ExecuteScalar());            
 
             connexion.Close();
@@ -65,7 +65,8 @@ namespace Sondage.Models
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand NbVotesBDD = new SqlCommand(@"SELECT nbVote FROM TSondage", connexion);
+            SqlCommand NbVotesBDD = new SqlCommand(@"SELECT nbVote 
+                                                     FROM TSondage", connexion);
             int nombreVoteRecup = (int)NbVotesBDD.ExecuteScalar();
             connexion.Close();
             return nombreVoteRecup;
@@ -104,12 +105,16 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand SupprimerQuestion = new SqlCommand(@"DELETE FROM TSondage WHERE idSondage = @id", connexion); //supprime une question de la BDD
+            SqlCommand SupprimerQuestion = new SqlCommand(@"DELETE 
+                                                            FROM TSondage 
+                                                            WHERE idSondage = @id", connexion); //supprime une question de la BDD
             SupprimerQuestion.Parameters.AddWithValue("@id", id);
 
             SupprimerQuestion.ExecuteNonQuery();
 
-            SqlCommand SupprimerChoix = new SqlCommand(@"DELETE FROM TChoix WHERE idSondage = @id", connexion); //supprime les choix liés à la question, de la BDD
+            SqlCommand SupprimerChoix = new SqlCommand(@"DELETE 
+                                                         FROM TChoix 
+                                                         WHERE idSondage = @id", connexion); //supprime les choix liés à la question, de la BDD
             SupprimerChoix.Parameters.AddWithValue("@id", id);
 
             SupprimerChoix.ExecuteNonQuery();
@@ -122,7 +127,9 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand GetLien = new SqlCommand(@"SELECT lienPartage FROM TSondage WHERE idSondage = @id");
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienPartage 
+                                                  FROM TSondage 
+                                                  WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
             string lienpartage = (string)GetLien.ExecuteScalar();
@@ -136,7 +143,9 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand GetLien = new SqlCommand(@"SELECT lienSuppr FROM TSondage WHERE idSondage = @id");
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienSuppr 
+                                                  FROM TSondage 
+                                                  WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
             string liensuppr = (string)GetLien.ExecuteScalar();
@@ -150,13 +159,37 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand GetLien = new SqlCommand(@"SELECT lienResult FROM TSondage WHERE idSondage = @id");
+            SqlCommand GetLien = new SqlCommand(@"SELECT lienResult 
+                                                  FROM TSondage 
+                                                  WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
             string lienresu = (string)GetLien.ExecuteScalar();
             connexion.Close();
 
             return lienresu;
+        }
+
+        public static void Voter(int id, string nomChoix)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage 
+                                                  SET nbVote = nbVote + 1 
+                                                  WHERE idSondage = @id", connexion);
+            incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
+            incrementerNbVotesSondage.ExecuteNonQuery();
+
+            SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
+                                                                  SET nbVoteChoix = nbVoteChoix + 1
+                                                                  WHERE idSondage = @id AND nomChoix = '@nomChoix'", connexion);
+            incrementerNbVotesChoix.Parameters.AddWithValue("@id", id);
+            incrementerNbVotesChoix.Parameters.AddWithValue("@nomChoix", nomChoix);
+
+            incrementerNbVotesChoix.ExecuteNonQuery();
+
+            connexion.Close();
         }
     }
 }

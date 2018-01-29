@@ -51,17 +51,9 @@ namespace Sondage.Controllers
 
             SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 
-            return View("SondageCree", sondageweb);
+            return View("SondageCree", sondageweb); //renvoie vers la page affichant les liens (partage, suppression, résultats)
         }
-
-
-
-        //Renvoie vers la page où le sondage est créé
-        public ActionResult SondageCree(int id)
-        {            
-            return View("SondageCree");
-        }
-
+        
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
             QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id); 
@@ -76,15 +68,6 @@ namespace Sondage.Controllers
 
             return View();
         }
-        //public ActionResult Contact(Contact NouveauContact)
-        //{
-        //    SQL.InsererDonneesContact(NouveauContact);
-
-        //    return RedirectToAction("Home");        
-        //}
-
-        //Renvoie vers la page de contact
-
 
         public ActionResult Contact()
         {

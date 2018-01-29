@@ -94,7 +94,7 @@ namespace Sondage.Models
             {
                 lChoix.Add((string)recordset["nomChoix"]); //insère les choix dans une liste
             }
-            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix);
+            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id);
 
             connexion.Close();
             return questionChoix; //retourne la question et ses choix
@@ -183,7 +183,7 @@ namespace Sondage.Models
 
             SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix + 1
-                                                                  WHERE idSondage = @id AND nomChoix = '@nomChoix'", connexion);
+                                                                  WHERE idSondage = @id AND nomChoix = @nomChoix", connexion);
             incrementerNbVotesChoix.Parameters.AddWithValue("@id", id);
             incrementerNbVotesChoix.Parameters.AddWithValue("@nomChoix", nomChoix);
 
@@ -205,5 +205,68 @@ namespace Sondage.Models
 
             connexion.Close();
         }
+
+        public static nbVotesQuestionChoix GetNbVotesQuestionChoix(int id)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand getQuestion = new SqlCommand(@"SELECT nomQuestion
+                                                      FROM TSondage
+                                                      WHERE idSondage = @id", connexion);
+            getQuestion.Parameters.AddWithValue("@id", id);
+
+            string question = (string)getQuestion.ExecuteScalar();
+
+            connexion.Close();
+
+            //=================================================================================================
+
+            connexion.Open();
+            SqlCommand getChoix = new SqlCommand(@"SELECT nomChoix
+                                                   FROM TChoix
+                                                   WHERE idSondage = @id", connexion);
+            getChoix.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader reader = getChoix.ExecuteReader();
+            List<string> lChoix = new List<string>();
+
+            while(reader.Read())
+            {
+                lChoix.Add((string)reader["nomChoix"]);
+            }
+            connexion.Close();
+
+            //=================================================================================================
+
+            connexion.Open();
+            SqlCommand getVotesQuestion = new SqlCommand(@"SELECT nbVote 
+                                                           FROM TSondage
+                                                           WHERE idSondage= @id", connexion);
+            getVotesQuestion.Parameters.AddWithValue("@id", id);
+
+            int nbVotesQuestion = (int)getVotesQuestion.ExecuteScalar();
+            connexion.Close();
+
+            //=================================================================================================
+
+            connexion.Open();
+            SqlCommand getVotesChoix = new SqlCommand(@"SELECT nbVoteChoix 
+                                                         FROM TChoix 
+                                                         WHERE idSondage = @id", connexion);
+            getVotesChoix.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader recordset = getVotesChoix.ExecuteReader();
+            List<int> lNbVotesChoix = new List<int>();
+
+            while (recordset.Read())
+            {
+                lNbVotesChoix.Add((int)recordset["nbVoteChoix"]); 
+            }
+            nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix);
+
+            connexion.Close();
+            return nbVotesQuestionEtChoix;
+        } 
     }
 }

@@ -28,16 +28,13 @@
     <div id="conteneur">
         <div id="texte">
             <form method="POST" action="Voter">
+                <input type="hidden" name="id" value=@Model._id />
                 <h2> @Model._Question </h2>
-                @{
-                    int i = 1;
+                @{                                               
                     foreach (var choix in Model._ListeChoix)
                     {
-                        string value = "choix";
-                        value = value + i;                   
-                        <input type="radio" name="vote" value=@value> @choix
-                        <br />
-                        i ++;
+                        <input type="radio" name="vote" value=@choix /> @choix                        
+                        <br />                        
                         }
                     }                               
                 <br />

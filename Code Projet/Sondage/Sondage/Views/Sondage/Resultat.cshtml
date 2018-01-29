@@ -1,4 +1,4 @@
-﻿
+﻿@model Sondage.Models.nbVotesQuestionChoix
 @{
     Layout = null;
 }
@@ -22,6 +22,21 @@
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
     <div id="conteneur">
+        <div id="texte">
+            <h2>@Model._Question (@Model._NbVotesQuestion votes)</h2>
+            <br />
+            <br />
+            @{
+                foreach (var choix in Model._ListeChoix)
+                {
+                    @choix <br /> <br />
+                }
+                foreach (var nbVotes in Model._NbVotesChoix)
+                {
+                    @nbVotes <br />
+                }
+            }
+        </div>
     </div>
 
     <img src="/Content/agedepierre.png" id="imgenbas" />

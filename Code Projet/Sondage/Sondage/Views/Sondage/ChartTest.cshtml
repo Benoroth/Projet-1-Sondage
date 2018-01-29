@@ -1,10 +1,4 @@
-﻿@model Sondage.Models.nbVotesQuestionChoix
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -22,7 +16,7 @@
         <li><a href="BoiteaIdees">Boîte à idées</a></li>
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
-    <canvas id="myChart" width="800" height="600"></canvas>
+
     <script>
     var randomScalingFactor = function() {
         return Math.round(Math.random() * 100);
@@ -60,27 +54,14 @@
             responsive: true
         }
     }; </script>
-    <div id="conteneur">
-        <div id="texte">
-            <h2>@Model._Question (@Model._NbVotesQuestion votes)</h2>
-            <br />
-            <br />
-            @{
-                foreach (var choix in Model._ListeChoix)
-                {
-                    @choix <br /> <br />
-                }
-                foreach (var nbVotes in Model._NbVotesChoix)
-                {
-                    @nbVotes <br />
-                }
-            }
 
-           
-        </div>
-    </div>
+
+
+
+
+
+
 
     <img src="/Content/agedepierre.png" id="imgenbas" />
-
-</body>
+    </body>
 </html>

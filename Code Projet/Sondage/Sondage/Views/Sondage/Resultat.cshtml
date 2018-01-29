@@ -27,13 +27,14 @@
             <br />
             <br />
             @{
-                foreach (var choix in Model._ListeChoix)
+                int longueurListe = Model._ListeChoix.Count();
+                for(int i = 0; i < longueurListe; i++)
                 {
-                    @choix <br /> <br />
-                }
-                foreach (var nbVotes in Model._NbVotesChoix)
-                {
-                    @nbVotes <br />
+                    
+                    float percent = (float)(Model._NbVotesChoix[i]) /  (float)(Model._NbVotesQuestion) * 100;
+                    @Model._ListeChoix[i]
+                    <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent</p>
+                                        
                 }
             }
         </div>

@@ -22,10 +22,11 @@ namespace Sondage.Models
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple) VALUES (@question, @nbVote, @choixMultiple); SELECT SCOPE_IDENTITY()", connexion);            
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple, actif) VALUES (@question, @nbVote, @choixMultiple, @actif); SELECT SCOPE_IDENTITY()", connexion);            
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
             InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
-            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);                      
+            InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);
+            InsererSondage.Parameters.AddWithValue("@actif", sondageAInserer._actif);                     
             int lastId = Convert.ToInt32(InsererSondage.ExecuteScalar());            
 
             connexion.Close();
@@ -89,6 +90,7 @@ namespace Sondage.Models
                                                    FROM TChoix
                                                    WHERE idSondage = @id", connexion);
             getChoix.Parameters.AddWithValue("@id", id);
+
             SqlDataReader recordset = getChoix.ExecuteReader(); //cherche les choix dans la BDD
             List<string> lChoix = new List<string>();
                
@@ -107,19 +109,12 @@ namespace Sondage.Models
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
-            SqlCommand SupprimerQuestion = new SqlCommand(@"DELETE 
-                                                            FROM TSondage 
-                                                            WHERE idSondage = @id", connexion); //supprime une question de la BDD
-            SupprimerQuestion.Parameters.AddWithValue("@id", id);
+            SqlCommand desactiveSondage = new SqlCommand(@"UPDATE TSondage
+                                                           SET actif = 0
+                                                           WHERE idSondage = @id", connexion);
+            desactiveSondage.Parameters.AddWithValue("@id", id);
 
-            SupprimerQuestion.ExecuteNonQuery();
-
-            SqlCommand SupprimerChoix = new SqlCommand(@"DELETE 
-                                                         FROM TChoix 
-                                                         WHERE idSondage = @id", connexion); //supprime les choix liés à la question, de la BDD
-            SupprimerChoix.Parameters.AddWithValue("@id", id);
-
-            SupprimerChoix.ExecuteNonQuery();
+            desactiveSondage.ExecuteNonQuery();
 
             connexion.Close();
         }
@@ -262,7 +257,7 @@ namespace Sondage.Models
             getVotesChoix.Parameters.AddWithValue("@id", id);
 
             SqlDataReader recordset = getVotesChoix.ExecuteReader();
-            List<int> lNbVotesChoix = new List<int>();
+            List<int> lNbVotesChoix = new List<int>();            
 
             while (recordset.Read())
             {
@@ -272,6 +267,35 @@ namespace Sondage.Models
 
             connexion.Close();
             return nbVotesQuestionEtChoix;
-        } 
+        }
+        public static int estActif(int id)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand command = new SqlCommand(@"SELECT actif
+                                                  FROM TSondage
+                                                  WHERE idSondage = @id", connexion);
+            command.Parameters.AddWithValue("@id", id);
+
+            int actif = (int)command.ExecuteScalar();
+
+            connexion.Close();
+            return actif;
+        }
+
+        public static int maxIdSondage()
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand command = new SqlCommand(@"SELECT MAX(idSondage)
+                                                  FROM TSondage", connexion);
+
+            int maxId = (int)command.ExecuteScalar();
+            connexion.Close();
+
+            return maxId;
+        }
     }
 }

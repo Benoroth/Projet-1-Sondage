@@ -155,6 +155,7 @@
     <Content Include="Views\Sondage\Vote.cshtml" />
     <Content Include="Views\Sondage\SondageCree.cshtml" />
     <Content Include="Views\Sondage\Suppression.cshtml" />
+    <Content Include="Views\Sondage\Introuvable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

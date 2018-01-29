@@ -37,6 +37,10 @@ namespace Sondage.Controllers
             SQL.InsererChoixBDD(choixtrois);             
             SQL.InsererChoixBDD(choixquatre);
 
+            Random rnd = new Random();
+            int cleSuppression = rnd.Next(0, 64000);
+            Convert.ToString(cleSuppression);
+
             string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
             string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
             string lienResul = "localhost:1093/Sondage/Resultat?id="; //lien vers la page de résultat
@@ -44,7 +48,7 @@ namespace Sondage.Controllers
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
 
             lienPartage = lienPartage + idDernierSondage; //concaténation lien partage et id du derniere sondage créé
-            lienSuppr = lienSuppr + idDernierSondage; //concaténation lien suppression et id du derniere sondage créé
+            lienSuppr = lienSuppr + idDernierSondage + cleSuppression; //concaténation lien suppression et id du derniere sondage créé
             lienResul = lienResul + idDernierSondage; //concaténation lien résultat et id du derniere sondage créé
 
             sondageweb._lienPartage = lienPartage;

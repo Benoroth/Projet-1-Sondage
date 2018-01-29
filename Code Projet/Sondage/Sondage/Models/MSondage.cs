@@ -46,11 +46,13 @@ namespace Sondage.Models
     {
         public string _Question { get; set; }
         public List<string> _ListeChoix { get; set; }
+        public int _id { get; set; }
 
-        public QuestionEtChoix(string Question, List<string> Choix)
+        public QuestionEtChoix(string Question, List<string> Choix, int id)
         {
             _Question = Question;
             _ListeChoix = Choix;
+            _id = id;
         }
     }
 
@@ -69,6 +71,22 @@ namespace Sondage.Models
             _prenomContact = prenomContact;
             _emailContact = emailContact;
             _message = message;
+        }
+    }
+
+    public class nbVotesQuestionChoix
+    {
+        public string _Question { get; set; }
+        public List<string> _ListeChoix { get; set; }
+        public int _NbVotesQuestion { get; set; }
+        public List<int> _NbVotesChoix { get; set; }
+
+        public nbVotesQuestionChoix(string question, List<string> lChoix ,int nbVoteQuestion, List<int> nbVotesChoix)
+        {
+            _Question = question;
+            _ListeChoix = lChoix;
+            _NbVotesQuestion = nbVoteQuestion;
+            _NbVotesChoix = nbVotesChoix;
         }
     }
 }

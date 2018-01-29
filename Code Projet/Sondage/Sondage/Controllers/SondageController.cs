@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Sondage.Models;
 
 
+
+
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
@@ -95,5 +97,8 @@ namespace Sondage.Controllers
                            
             return View("Resultat", sondageEtNbVotes);
         }
+
+        
+
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Web.UI.DataVisualization.Charting;
 
 namespace Sondage.Models
 {
@@ -89,4 +91,6 @@ namespace Sondage.Models
             _NbVotesChoix = nbVotesChoix;
         }
     }
+
+
 }

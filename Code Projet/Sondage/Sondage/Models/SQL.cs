@@ -104,14 +104,14 @@ namespace Sondage.Models
             return questionChoix; //retourne la question et ses choix
         }
 
-        public static void SuppressionSondage(int id) //suppression d'un sondage
+        public static void SuppressionSondage(string id) //suppression d'un sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand desactiveSondage = new SqlCommand(@"UPDATE TSondage
                                                            SET actif = 0
-                                                           WHERE idSondage = @id", connexion);
+                                                           WHERE lienSuppr = @id", connexion);
             desactiveSondage.Parameters.AddWithValue("@id", id);
 
             desactiveSondage.ExecuteNonQuery();

@@ -61,12 +61,14 @@ namespace Sondage.Models
         }
 
         //Récupérer nombre de votants en BDD
-        private int NombreVotesSondage()
+        public static int NombreVotesSondage(int id)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
             SqlCommand NbVotesBDD = new SqlCommand(@"SELECT nbVote 
-                                                     FROM TSondage", connexion);
+                                                     FROM TSondage
+                                                     WHERE idSondage =@id", connexion);
+            NbVotesBDD.Parameters.AddWithValue("@id", id);
             int nombreVoteRecup = (int)NbVotesBDD.ExecuteScalar();
             connexion.Close();
             return nombreVoteRecup;
@@ -189,6 +191,11 @@ namespace Sondage.Models
 
             incrementerNbVotesChoix.ExecuteNonQuery();
         }
+
+        //Lier les données de sondage et de vote à un graphique
+
+            //Lier données ci dessus à un graph
+
 
         //Insérer données contact
         public static void InsererDonneesContact(Contact NouveauContact)

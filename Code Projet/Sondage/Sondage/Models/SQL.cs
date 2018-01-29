@@ -12,7 +12,7 @@ namespace Sondage.Models
     {
 
         //Adresse BDD SQL
-        private const string SqlConnectionString = @"Server=.;Initial Catalog=Projet; Trusted_Connection=Yes";
+        private const string SqlConnectionString = @"Server=172.19.240.12;Initial Catalog=Projet; Trusted_Connection=Yes";
         ////Requètes SQL
 
         //1) Création d'un sondage
@@ -138,7 +138,7 @@ namespace Sondage.Models
             return lienpartage;
         }
 
-        public static string GetLienSSondage(int id) //obtenir les liens du dernier sondage
+        public static string GetLienSSondage(int id) //obtenir le lien de suppression du dernier sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -154,7 +154,7 @@ namespace Sondage.Models
             return liensuppr;
         }
 
-        public static string GetLienRSondage(int id) //obtenir les liens du dernier sondage
+        public static string GetLienRSondage(int id) //obtenir le lien de résultat du dernier sondage
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
@@ -169,7 +169,7 @@ namespace Sondage.Models
 
             return lienresu;
         }
-
+        //Incrémenter le nombre de vote total et le nombre de vote par choix
         public static void Voter(int id, string nomChoix)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
@@ -190,19 +190,17 @@ namespace Sondage.Models
             incrementerNbVotesChoix.ExecuteNonQuery();
         }
 
-        //insérer données contact
+        //Insérer données contact
         public static void InsererDonneesContact(Contact NouveauContact)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
-            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact(nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)", connexion);
+            SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact( nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)", connexion);
             InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact._nomContact);
             InsererDonneesContact.Parameters.AddWithValue("@prenom", NouveauContact._prenomContact);
             InsererDonneesContact.Parameters.AddWithValue("@email", NouveauContact._emailContact);
             InsererDonneesContact.Parameters.AddWithValue("@message", NouveauContact._message);
             InsererDonneesContact.ExecuteNonQuery();
-
-
             connexion.Close();
         }
     }

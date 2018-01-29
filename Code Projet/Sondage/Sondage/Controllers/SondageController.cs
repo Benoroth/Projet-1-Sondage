@@ -18,6 +18,7 @@ namespace Sondage.Controllers
 
         int idDernierSondage;
 
+        //Valider et insérer la question et les choix en bdd
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
         {
             MSondage sondageweb = new MSondage(question);            
@@ -53,6 +54,9 @@ namespace Sondage.Controllers
             return View("SondageCree", sondageweb);
         }
 
+
+
+        //Renvoie vers la page où le sondage est créé
         public ActionResult SondageCree(int id)
         {            
             return View("SondageCree");
@@ -65,6 +69,7 @@ namespace Sondage.Controllers
         }
 
 
+        //Renvoie vers la validation de suppression du sondage
         public ActionResult Suppression(int id)
         {
             SQL.SuppressionSondage(id);
@@ -78,11 +83,23 @@ namespace Sondage.Controllers
         //    return RedirectToAction("Home");        
         //}
 
+        //Renvoie vers la page de contact
+
+
         public ActionResult Contact()
         {
             return View();
         }
+        public ActionResult Contacter(string nomBDD, string prenomBDD, string emailBDD, string messageBDD)
+        {
+            Contact NouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD);
+            SQL.InsererDonneesContact(NouveauContact);
 
+            return View("Contact", NouveauContact);
+        }
+
+
+        //test et validation d'un choix, et ajout BDD
         public ActionResult Valider(int id, bool choix1, bool choix2, bool choix3, bool choix4)
         {
             string chien = "Chien";

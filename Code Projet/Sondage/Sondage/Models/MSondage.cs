@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Sondage.Models
 {
+    //Classe du sondage
     public class MSondage
     {
         public int _idSondage { get; set; }        
@@ -24,6 +25,7 @@ namespace Sondage.Models
         }
     }
 
+    //Classe des choix
     public class Choix
     {
         public int _idChoix { get; set; }
@@ -39,6 +41,7 @@ namespace Sondage.Models
         }
     }
 
+    //Classe de la question et ses choix liés
     public class QuestionEtChoix
     {
         public string _Question { get; set; }
@@ -51,6 +54,7 @@ namespace Sondage.Models
         }
     }
 
+    //Classe pour stocker le contact et le message
     public class Contact
     {
         public string _nomContact { get; set; }
@@ -58,6 +62,7 @@ namespace Sondage.Models
         public string _emailContact { get; set; }
         public string _message { get; set; }
 
+        //Constructeur contact
         public Contact(string nomContact, string prenomContact, string emailContact, string message)
         {
             _nomContact = nomContact;

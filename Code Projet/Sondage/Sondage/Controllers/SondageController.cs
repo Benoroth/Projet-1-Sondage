@@ -58,18 +58,32 @@ namespace Sondage.Controllers
         
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id); 
-            return View("Vote", questionchoix);
+            if (id < SQL.maxIdSondage())
+            {
+                if (SQL.estActif(id) == 1)
+                {
+                    QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
+                    return View("Vote", questionchoix);
+                }
+                else
+                {
+                    return Redirect("Introuvable");
+                }
+            }
+            else
+            {
+                return Redirect("Introuvable");
+            }
         }
 
 
         //Renvoie vers la validation de suppression du sondage
-        public ActionResult Suppression(int id)
-        {
-            SQL.SuppressionSondage(id);
+        //public ActionResult Suppression(int id)
+        //{
+            //SQL.SuppressionSondage(id);
 
-            return View();
-        }
+          //  return View();
+        //}
 
         public ActionResult Contact()
         {
@@ -84,7 +98,7 @@ namespace Sondage.Controllers
         }
 
         public ActionResult Voter(int id, string vote)
-        {
+        {           
             SQL.Voter(id, vote);
 
             return Redirect("Resultat");
@@ -92,10 +106,28 @@ namespace Sondage.Controllers
 
         public ActionResult Resultat(int id)
         {
-            nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
-            
-                           
-            return View("Resultat", sondageEtNbVotes);
+            if (id < SQL.maxIdSondage())
+            {
+                if (SQL.estActif(id) == 1)
+                {
+                    nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
+
+                    return View("Resultat", sondageEtNbVotes);
+                }
+                else
+                {
+                    return Redirect("Introuvable");
+                }
+            }
+            else
+            {
+                return Redirect("Introuvable");
+            }
+        }
+
+        public ActionResult Introuvable()
+        {
+            return View("Introuvable");
         }
 
         

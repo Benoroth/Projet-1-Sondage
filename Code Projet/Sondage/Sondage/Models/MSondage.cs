@@ -17,13 +17,15 @@ namespace Sondage.Models
         public bool _choixMultiple { get; set; } 
         public string _lienPartage { get; set; }
         public string _lienSuppression { get; set; }
-        public string _lienResultat { get; set; }        
+        public string _lienResultat { get; set; } 
+        public int _actif { get; set; }       
 
         public MSondage(string nomQuest)
         {            
             _nbVote = 0;
             _nomQuest = nomQuest;
-            _choixMultiple = false;            
+            _choixMultiple = false;
+            _actif = 1;        
         }
     }
 
@@ -81,7 +83,7 @@ namespace Sondage.Models
         public string _Question { get; set; }
         public List<string> _ListeChoix { get; set; }
         public int _NbVotesQuestion { get; set; }
-        public List<int> _NbVotesChoix { get; set; }
+        public List<int> _NbVotesChoix { get; set; }        
 
         public nbVotesQuestionChoix(string question, List<string> lChoix ,int nbVoteQuestion, List<int> nbVotesChoix)
         {

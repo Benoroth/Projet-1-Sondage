@@ -22,6 +22,27 @@
         <li><a href="BoiteaIdees">Boîte à idées</a></li>
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
+   
+    <div id="conteneur">
+        <div id="texte">
+            <h2>@Model._Question (@Model._NbVotesQuestion votes)</h2>
+            <br />
+            <br />
+            @{
+                int longueurListe = Model._ListeChoix.Count();
+                for(int i = 0; i < longueurListe; i++)
+                {
+                    
+                    float percent = (float)(Model._NbVotesChoix[i]) /  (float)(Model._NbVotesQuestion) * 100;
+                    @Model._ListeChoix[i]
+                    <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent</p>
+                                        
+                }
+            }
+
+           
+        </div>
+    </div>
     <canvas id="myChart" width="800" height="600"></canvas>
     <script>
     var randomScalingFactor = function() {
@@ -60,27 +81,6 @@
             responsive: true
         }
     }; </script>
-    <div id="conteneur">
-        <div id="texte">
-            <h2>@Model._Question (@Model._NbVotesQuestion votes)</h2>
-            <br />
-            <br />
-            @{
-                int longueurListe = Model._ListeChoix.Count();
-                for(int i = 0; i < longueurListe; i++)
-                {
-                    
-                    float percent = (float)(Model._NbVotesChoix[i]) /  (float)(Model._NbVotesQuestion) * 100;
-                    @Model._ListeChoix[i]
-                    <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent</p>
-                                        
-                }
-            }
-
-           
-        </div>
-    </div>
-
     <img src="/Content/agedepierre.png" id="imgenbas" />
 
 </body>

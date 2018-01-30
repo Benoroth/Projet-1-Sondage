@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@model Sondage.Models.nbVotesQuestionChoix
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -17,51 +21,54 @@
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
 
+
+
+
+
+
+    <div id="canvas-holder" style="width:40%">
+        <canvas id="chart-area" />
+    </div>
     <script>
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
 
-    var config = {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                ],
-                backgroundColor: [
-                    window.chartColors.red,
-                    window.chartColors.orange,
-                    window.chartColors.yellow,
-                    window.chartColors.green,
-                    window.chartColors.blue,
-                ],
-                label: 'Dataset 1'
-            }],
-            labels: [
-                "Red",
-                "Orange",
-                "Yellow",
-                "Green",
-                "Blue"
-            ]
-        },
-        options: {
-            responsive: true
-        }
-    }; </script>
+        var config = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: [
+                                  @Model._NbVotesChoix[0],
+                                  @Model._NbVotesChoix[1],
+                                  @Model._NbVotesChoix[2],
+                                  @Model._NbVotesChoix[3]
 
+                    ],
+                    backgroundColor: [
+                        window.chartColors.red,
+                        window.chartColors.orange,
+                        window.chartColors.yellow,
+                        window.chartColors.green,
+                        window.chartColors.blue,
+                    ],
+                    label: @Model._Question (@Model._NbVotesQuestion votes)
+                }],
+                labels: [
+                    @Model._ListeChoix[0],
+                    @Model._ListeChoix[1],
+                    @Model._ListeChoix[2],
+                    @Model._ListeChoix[3]
 
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        };
+        window.onload = function () {
+            var ctx = document.getElementById("chart-area").getContext("2d");
+            window.monGraph = new Chart(ctx, config);
+        };
 
-
-
-
-
-
+    </script>
     <img src="/Content/agedepierre.png" id="imgenbas" />
-    </body>
+</body>
 </html>

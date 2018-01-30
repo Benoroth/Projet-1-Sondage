@@ -23,7 +23,7 @@
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
    
-    <canvas id="myChart" width="800" height="600"></canvas>
+    <canvas id="myChart" width="640" height="480"></canvas>
     
 
 
@@ -34,7 +34,7 @@
             <br />
             @{
                 int longueurListe = Model._ListeChoix.Count();
-                for(int i = 0; i < longueurListe; i++)
+                for (int i = 0; i < longueurListe; i++)
                 {
                     float percent = 0;
                     if (Model._NbVotesQuestion == 0)
@@ -43,11 +43,11 @@
                     }
                     else
                     {
-                        percent = (float)(Model._NbVotesChoix[i]) /  (float)(Model._NbVotesQuestion) * 100;
+                        percent = (float)(Model._NbVotesChoix[i]) / (float)(Model._NbVotesQuestion) * 100;
                     }
                     @Model._ListeChoix[i]
                     <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent</p>
-                                        
+
                 }
             }
 
@@ -57,20 +57,12 @@
 
     <img src="/Content/agedepierre.png" id="imgenbas" />
     <script>
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
-
     var config = {
         type: 'pie',
         data: {
             datasets: [{
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
+                                
                 ],
                 backgroundColor: [
                     window.chartColors.red,
@@ -79,7 +71,7 @@
                     window.chartColors.green,
                     window.chartColors.blue,
                 ],
-                label: 'Dataset 1'
+                label: @Model._Question (@Model._NbVotesQuestion votes)
             }],
             labels: [
                 "Red",

@@ -18,20 +18,28 @@
     </ul>
 
     <script>
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
 
     var config = {
         type: 'pie',
         data: {
             datasets: [{
                 data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
+                                @{
+                                    int longueurListe = Model._ListeChoix.Count();
+    for (int i = 0; i < longueurListe; i++)
+    {
+        float percent = 0;
+        if (Model._NbVotesQuestion == 0)
+    {
+
+    }
+    else
+    {
+            percent = (float)(Model._NbVotesChoix[i]) / (float)(Model._NbVotesQuestion) * 100;
+    }
+        @Model._ListeChoix[i]
+    }
+    }
                 ],
                 backgroundColor: [
                     window.chartColors.red,
@@ -40,7 +48,7 @@
                     window.chartColors.green,
                     window.chartColors.blue,
                 ],
-                label: 'Dataset 1'
+                label: @Model._Question (@Model._NbVotesQuestion votes)
             }],
             labels: [
                 "Red",

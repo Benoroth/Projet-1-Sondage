@@ -92,15 +92,26 @@ namespace Sondage.Models
             getChoix.Parameters.AddWithValue("@id", id);
 
             SqlDataReader recordset = getChoix.ExecuteReader(); //cherche les choix dans la BDD
-            List<string> lChoix = new List<string>();
+            List<string> lChoix = new List<string>();            
                
             while(recordset.Read())
             {
                 lChoix.Add((string)recordset["nomChoix"]); //insère les choix dans une liste
             }
-            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id);
+            connexion.Close();
+            connexion.Open();
+
+            SqlCommand getTypeChoix = new SqlCommand(@"SELECT choixMultiple
+                                                       FROM TSondage
+                                                       WHERE idSondage = @id", connexion);
+            getTypeChoix.Parameters.AddWithValue("@id", id);
+
+            bool typeChoix = (bool)getTypeChoix.ExecuteScalar();
+
+            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix);
 
             connexion.Close();
+                
             return questionChoix; //retourne la question et ses choix
         }
 
@@ -296,6 +307,46 @@ namespace Sondage.Models
             connexion.Close();
 
             return maxId;
+        }
+
+        public static QuestionsPopulaires GetQuestionsPopulaires()
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand getQuestions = new SqlCommand(@"SELECT TOP 10 nomQuestion
+                                                  FROM TSondage
+                                                  ORDER BY nbVote DESC", connexion);
+            SqlDataReader reader = getQuestions.ExecuteReader();            
+
+            List<string> lQuestionsPopulaires = new List<string>();
+
+            while(reader.Read())
+            {
+                lQuestionsPopulaires.Add((string)reader["nomQuestion"]);
+            }
+
+            connexion.Close();
+            //====================================================================================================================
+            connexion.Open();
+
+            SqlCommand getNbVotes = new SqlCommand(@"SELECT TOP 10 nbVote
+                                                     FROM TSondage
+                                                     ORDER BY nbVote DESC", connexion);
+            SqlDataReader recordset = getNbVotes.ExecuteReader();
+
+            List<int> lNbVote = new List<int>();
+
+            while(recordset.Read())
+            {
+                lNbVote.Add((int)recordset["nbVote"]);
+            }
+
+            connexion.Close();
+
+            QuestionsPopulaires questionsPopu = new QuestionsPopulaires(lQuestionsPopulaires, lNbVote);
+
+            return questionsPopu;
         }
     }
 }

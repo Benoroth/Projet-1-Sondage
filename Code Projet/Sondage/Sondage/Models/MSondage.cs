@@ -20,11 +20,11 @@ namespace Sondage.Models
         public string _lienResultat { get; set; } 
         public int _actif { get; set; }       
 
-        public MSondage(string nomQuest)
+        public MSondage(string nomQuest, bool choixM)
         {            
             _nbVote = 0;
             _nomQuest = nomQuest;
-            _choixMultiple = false;
+            _choixMultiple = choixM;
             _actif = 1;        
         }
     }
@@ -51,12 +51,14 @@ namespace Sondage.Models
         public string _Question { get; set; }
         public List<string> _ListeChoix { get; set; }
         public int _id { get; set; }
+        public bool _TypeChoix { get; set; }
 
-        public QuestionEtChoix(string Question, List<string> Choix, int id)
+        public QuestionEtChoix(string Question, List<string> Choix, int id, bool typeChoix)
         {
             _Question = Question;
             _ListeChoix = Choix;
             _id = id;
+            _TypeChoix = typeChoix;
         }
     }
 
@@ -91,6 +93,18 @@ namespace Sondage.Models
             _ListeChoix = lChoix;
             _NbVotesQuestion = nbVoteQuestion;
             _NbVotesChoix = nbVotesChoix;
+        }
+    }
+
+    public class QuestionsPopulaires
+    {
+        public List<string> _ListeQuestions { get; set; }
+        public List<int> _ListeNbVotes { get; set; }
+
+        public QuestionsPopulaires(List<string> questions, List<int> nbVotes)
+        {
+            _ListeQuestions = questions;
+            _ListeNbVotes = nbVotes;
         }
     }
 

@@ -21,9 +21,19 @@ namespace Sondage.Controllers
         int idDernierSondage;
 
         //Valider et insérer la question et les choix en bdd
-        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
+        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
         {
-            MSondage sondageweb = new MSondage(question);
+            bool choixMultiple = false;
+            if (TypeChoix == "ChoixM")
+            {
+                choixMultiple = true;
+            }
+            else
+            {
+                choixMultiple = false;
+            }
+
+            MSondage sondageweb = new MSondage(question, choixMultiple);
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
@@ -107,7 +117,7 @@ namespace Sondage.Controllers
         {
             SQL.Voter(id, vote);
 
-            return Redirect("Resultat");
+            return Redirect("Resultat?id=" + id);
         }
 
         public ActionResult Resultat(int id)
@@ -127,6 +137,13 @@ namespace Sondage.Controllers
         public ActionResult Introuvable()
         {
             return View("Introuvable");
+        }
+
+        public ActionResult SondagesPopulaires()
+        {
+            QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
+
+            return View("SondagesPopulaires", questionsPopulaires);
         }
     }
 }

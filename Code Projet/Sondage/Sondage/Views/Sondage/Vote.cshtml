@@ -17,9 +17,7 @@
     <!--Corps de la page -->
     <ul>
         <li><a href="Home">Créer un sondage</a></li>
-        <li><a href="SondagesRecents">Sondage récents</a></li>
         <li><a href="SondagesPopulaires">Sondage populaires</a></li>
-        <li><a href="BoiteaIdees">Boîte à idées</a></li>
         <li><a class="active" href="Vote">Sondage</a></li>
         <li style="float:right"><a href="Contact">Contact</a></li>
 
@@ -30,13 +28,21 @@
             <form method="POST" action="Voter">
                 <input type="hidden" name="id" value=@Model._id />
                 <h2> @Model._Question </h2>
-                @{                                               
+                @{
                     foreach (var choix in Model._ListeChoix)
                     {
-                        <input type="radio" name="vote" value=@choix /> @choix                        
-                        <br />                        
+                        if (Model._TypeChoix)
+                        {
+                            <input type="checkbox" name="vote" value="@choix" /> @choix
+                            <br />
                         }
-                    }                               
+                        else
+                        {
+                            <input type="radio" name="vote" value=@choix /> @choix
+                            <br />
+                        }
+                    }
+                }
                 <br />
                 <button> Voter </button>
             </form>

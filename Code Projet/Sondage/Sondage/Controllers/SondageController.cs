@@ -11,7 +11,7 @@ using Sondage.Models;
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
-    {        
+    {
         // GET: Sondage
         public ActionResult Home()
         {
@@ -21,25 +21,35 @@ namespace Sondage.Controllers
         int idDernierSondage;
 
         //Valider et insérer la question et les choix en bdd
-        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4)
+        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
         {
-            MSondage sondageweb = new MSondage(question);            
+            bool choixMultiple = false;
+            if (TypeChoix == "ChoixM")
+            {
+                choixMultiple = true;
+            }
+            else
+            {
+                choixMultiple = false;
+            }
+
+            MSondage sondageweb = new MSondage(question, choixMultiple);
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
-                        
+
             Choix choixun = new Choix(choix1, idDernierSondage);
             Choix choixdeux = new Choix(choix2, idDernierSondage);
-            Choix choixtrois = new Choix(choix3, idDernierSondage);                       
-            Choix choixquatre = new Choix(choix4, idDernierSondage);            
+            Choix choixtrois = new Choix(choix3, idDernierSondage);
+            Choix choixquatre = new Choix(choix4, idDernierSondage);
 
             SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
             SQL.InsererChoixBDD(choixdeux);
-            SQL.InsererChoixBDD(choixtrois);             
+            SQL.InsererChoixBDD(choixtrois);
             SQL.InsererChoixBDD(choixquatre);
 
             Random rnd = new Random();
-            int cleSuppression = rnd.Next(0, 64000);
-            Convert.ToString(cleSuppression);
+            int nombreRandom = rnd.Next(0, 64000);
+            Convert.ToString(nombreRandom);
 
             string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
             string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
@@ -47,22 +57,24 @@ namespace Sondage.Controllers
 
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
 
+            string cleSuppression = Convert.ToString(idDernierSondage) + nombreRandom; //création de la clé sécurisée
+
             lienPartage = lienPartage + idDernierSondage; //concaténation lien partage et id du derniere sondage créé
-            lienSuppr = lienSuppr + idDernierSondage + cleSuppression; //concaténation lien suppression et id du derniere sondage créé
+            lienSuppr = lienSuppr + cleSuppression; //concaténation lien suppression et id du derniere sondage créé
             lienResul = lienResul + idDernierSondage; //concaténation lien résultat et id du derniere sondage créé
 
             sondageweb._lienPartage = lienPartage;
-            sondageweb._lienSuppression = lienSuppr;
+            sondageweb._lienSuppression = cleSuppression;
             sondageweb._lienResultat = lienResul;
 
             SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 
             return View("SondageCree", sondageweb); //renvoie vers la page affichant les liens (partage, suppression, résultats)
         }
-        
+
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            if (id < SQL.maxIdSondage())
+            if (id <= SQL.maxIdSondage())
             {
                 if (SQL.estActif(id) == 1)
                 {
@@ -82,12 +94,12 @@ namespace Sondage.Controllers
 
 
         //Renvoie vers la validation de suppression du sondage
-        //public ActionResult Suppression(int id)
-        //{
-            //SQL.SuppressionSondage(id);
+        public ActionResult Suppression(string id)
+        {
+            SQL.SuppressionSondage(id);
 
-          //  return View();
-        //}
+            return View();
+        }
 
         public ActionResult Contact()
         {
@@ -102,26 +114,19 @@ namespace Sondage.Controllers
         }
 
         public ActionResult Voter(int id, string vote)
-        {           
+        {
             SQL.Voter(id, vote);
 
-            return Redirect("Resultat");
+            return Redirect("Resultat?id=" + id);
         }
 
         public ActionResult Resultat(int id)
         {
-            if (id < SQL.maxIdSondage())
+            if (id <= SQL.maxIdSondage())
             {
-                if (SQL.estActif(id) == 1)
-                {
-                    nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
+                nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
 
-                    return View("Resultat", sondageEtNbVotes);
-                }
-                else
-                {
-                    return Redirect("Introuvable");
-                }
+                return View("Resultat", sondageEtNbVotes);
             }
             else
             {
@@ -134,13 +139,18 @@ namespace Sondage.Controllers
             return View("Introuvable");
         }
 
+        public ActionResult SondagesPopulaires()
+        {
+            QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
+
+            return View("SondagesPopulaires", questionsPopulaires);
+        }
+
         public ActionResult ChartTest(int id)
         {
             nbVotesQuestionChoix nouveauResultat = SQL.GetNbVotesQuestionChoix(id);
 
             return View("ChartTest", nouveauResultat);
         }
-
-
     }
 }

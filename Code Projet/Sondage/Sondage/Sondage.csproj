@@ -150,9 +150,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Sondage\Home.cshtml" />
-    <Content Include="Views\Sondage\SondagesRecents.cshtml" />
     <Content Include="Views\Sondage\SondagesPopulaires.cshtml" />
-    <Content Include="Views\Sondage\BoiteaIdees.cshtml" />
     <Content Include="Views\Sondage\Contact.cshtml" />
     <Content Include="Views\Sondage\SoumettreIdee.cshtml" />
     <Content Include="Views\Sondage\Resultat.cshtml" />

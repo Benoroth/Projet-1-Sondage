@@ -1,4 +1,4 @@
-﻿
+﻿@model Sondage.Models.QuestionsPopulaires
 @{
     Layout = null;
 }
@@ -15,10 +15,8 @@
 <body>
     <!--Corps de la page -->
     <ul>
-        <li><a href="Home">Créer un sondage</a></li>
-        <li><a href="SondagesRecents">Sondage récents</a></li>
-        <li><a class="active" href="SondagesPopulaires">Sondage populaires</a></li>
-        <li><a href="BoiteaIdees">Boîte à idées</a></li>
+        <li><a href="Home">Créer un sondage</a></li>        
+        <li><a class="active" href="SondagesPopulaires">Sondage populaires</a></li>        
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
 
@@ -27,58 +25,47 @@
         <table>
             <tr>
                 <th>Question</th>
-                <th>Date</th>
-                <th>Note</th>
+                <th>Nombre de votes</th>                
             </tr>
             <tr>
-                <td>Test</td>
-                <td>Test1</td>
-                <td>Test2</td>
+                <td>@Model._ListeQuestions[0]</td>
+                <td>@Model._ListeNbVotes[0]</td>        
             </tr>
             <tr>
-                <td>Test3</td>
-                <td>Test4</td>
-                <td>Test5</td>
+                <td>@Model._ListeQuestions[1]</td>
+                <td>@Model._ListeNbVotes[1]</td>                
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[2]</td>
+                <td>@Model._ListeNbVotes[2]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[3]</td>
+                <td>@Model._ListeNbVotes[3]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[4]</td>
+                <td>@Model._ListeNbVotes[4]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[5]</td>
+                <td>@Model._ListeNbVotes[5]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[6]</td>
+                <td>@Model._ListeNbVotes[6]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[7]</td>
+                <td>@Model._ListeNbVotes[7]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[8]</td>
+                <td>@Model._ListeNbVotes[8]</td>
             </tr>
             <tr>
-                <td>Test6</td>
-                <td>Test7</td>
-                <td>Test8</td>
+                <td>@Model._ListeQuestions[9]</td>
+                <td>@Model._ListeNbVotes[9]</td>
             </tr>
         </table>
     </div>

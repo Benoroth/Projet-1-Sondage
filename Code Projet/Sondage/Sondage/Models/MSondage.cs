@@ -52,13 +52,15 @@ namespace Sondage.Models
         public List<string> _ListeChoix { get; set; }
         public int _id { get; set; }
         public bool _TypeChoix { get; set; }
+        public List<int> _idChoix { get; set; }
 
-        public QuestionEtChoix(string Question, List<string> Choix, int id, bool typeChoix)
+        public QuestionEtChoix(string Question, List<string> Choix, int id, bool typeChoix, List<int> idChoix)
         {
             _Question = Question;
             _ListeChoix = Choix;
             _id = id;
             _TypeChoix = typeChoix;
+            _idChoix = idChoix;
         }
     }
 

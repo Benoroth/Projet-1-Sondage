@@ -108,9 +108,24 @@ namespace Sondage.Models
 
             bool typeChoix = (bool)getTypeChoix.ExecuteScalar();
 
-            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix);
-
             connexion.Close();
+            connexion.Open();
+
+            SqlCommand getIdChoix = new SqlCommand(@"SELECT idChoix
+                                                     FROM TChoix
+                                                     WHERE idSondage = @id", connexion);
+            getIdChoix.Parameters.AddWithValue("@id", id);
+
+            SqlDataReader lecteur = getIdChoix.ExecuteReader();
+            List<int> lIdChoix = new List<int>();
+
+            while(lecteur.Read())
+            {
+                lIdChoix.Add((int)lecteur["idChoix"]); //insère les idChoix dans une liste
+            }
+            connexion.Close();
+
+            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix, lIdChoix);            
                 
             return questionChoix; //retourne la question et ses choix
         }
@@ -178,24 +193,44 @@ namespace Sondage.Models
             return lienresu;
         }
         //Incrémenter le nombre de vote total et le nombre de vote par choix
-        public static void Voter(int id, string nomChoix)
+        public static void Voter(int id, int idChoix)
         {
             SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage 
-                                                  SET nbVote = nbVote + 1 
-                                                  WHERE idSondage = @id", connexion);
+                                                                    SET nbVote = nbVote + 1 
+                                                                    WHERE idSondage = @id", connexion);
             incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
             incrementerNbVotesSondage.ExecuteNonQuery();
 
             SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix + 1
-                                                                  WHERE idSondage = @id AND nomChoix = @nomChoix", connexion);
+                                                                  WHERE idSondage = @id AND idChoix = @idChoix", connexion);
             incrementerNbVotesChoix.Parameters.AddWithValue("@id", id);
-            incrementerNbVotesChoix.Parameters.AddWithValue("@nomChoix", nomChoix);
+            incrementerNbVotesChoix.Parameters.AddWithValue("@idChoix", idChoix);
 
             incrementerNbVotesChoix.ExecuteNonQuery();
+
+            connexion.Close();
+        }
+
+        public static void VoterMultiple(int id, int? voteun, int? votedeux, int? votetrois, int? votequatre)
+        {
+            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+            connexion.Open();
+
+            SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage
+                                                                    SET nbVote = nbVote + 1
+                                                                    WHERE idSondage = @id", connexion);
+            incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
+            incrementerNbVotesSondage.ExecuteNonQuery();
+
+
+            SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
+                                                                  SET nbVoteChoix = nbVoteChoix +1
+                                                                  WHERE idChoix = @id", connexion);
+            incrementerNbVotesChoix.Parameters.AddWithValue("@id", votedeux);
         }
 
         //Lier les données de sondage et de vote à un graphique

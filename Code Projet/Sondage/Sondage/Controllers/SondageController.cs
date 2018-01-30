@@ -113,9 +113,21 @@ namespace Sondage.Controllers
             return View("Contact", NouveauContact);
         }
 
-        public ActionResult Voter(int id, string vote)
+        public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
             SQL.Voter(id, vote);
+
+            return Redirect("Resultat?id=" + id);
+        }
+
+        public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3)
+        {
+            int? premier = valeur0;
+            int? deuxieme = valeur1;
+            int? troisieme = valeur2;
+            int? quatrieme = valeur3;
+
+
 
             return Redirect("Resultat?id=" + id);
         }

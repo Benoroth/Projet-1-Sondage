@@ -24,28 +24,49 @@
     </ul>
 
     <div id="conteneur">
-        <div id="texte">
-            <form method="POST" action="Voter">
-                <input type="hidden" name="id" value=@Model._id />
-                <h2> @Model._Question </h2>
-                @{
-                    foreach (var choix in Model._ListeChoix)
-                    {
-                        if (Model._TypeChoix)
+        <div id="texte">           
+            @{ 
+                int i = 0;
+                string valeur = "vote";
+                if(Model._TypeChoix)
+                {
+                    <form method="post" action="VoterM">
+                    <input type="hidden" name="id" value=@Model._id />
+                    <h2> @Model._Question </h2>
+                    @{
+                        foreach (var choix in Model._ListeChoix)
                         {
-                            <input type="checkbox" name="vote" value="@choix" /> @choix
+                            valeur = "valeur";
+                            valeur = valeur + i;
+                            <input type="checkbox" name=@valeur value=@Model._idChoix[i] /> @choix
+                            i++;
+                            <br />
                             <br />
                         }
-                        else
-                        {
-                            <input type="radio" name="vote" value=@choix /> @choix
-                            <br />
-                        }
+                        <br />
+                        <button> Voter </button>
                     }
-                }
-                <br />
-                <button> Voter </button>
-            </form>
+                    </form>
+                        }
+                else
+                {
+                            <form method="post" action="Voter">
+                            <input type="hidden" name="id" value=@Model._id />
+                            <h2> @Model._Question </h2>
+                                @{
+                        foreach (var choix in Model._ListeChoix)
+                        {
+                                        <input type="radio" name=vote value=@Model._idChoix[i] /> @choix
+                                        i++;
+                                        <br />
+                                        <br />
+                                    }
+                                    <br />
+                                    <button> Voter </button>
+                                }
+                            </form>
+                        }
+            }
         </div>
     </div>
 

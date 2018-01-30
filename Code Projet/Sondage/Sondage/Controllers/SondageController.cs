@@ -134,7 +134,13 @@ namespace Sondage.Controllers
             return View("Introuvable");
         }
 
-        
+        public ActionResult ChartTest(int id)
+        {
+            nbVotesQuestionChoix nouveauResultat = SQL.GetNbVotesQuestionChoix(id);
+
+            return View("ChartTest", nouveauResultat);
+        }
+
 
     }
 }

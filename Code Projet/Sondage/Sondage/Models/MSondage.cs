@@ -113,5 +113,15 @@ namespace Sondage.Models
         }
     }
 
+    public class SondagesRecents
+    {
+        public List<string> _ListeQuestions { get; set; }
+        public List<int> _ListeNbVotes { get; set; }
 
+        public SondagesRecents(List<string> questions, List<int> nbVotes)
+        {
+            _ListeQuestions = questions;
+            _ListeNbVotes = nbVotes;
+        }
+    }
 }

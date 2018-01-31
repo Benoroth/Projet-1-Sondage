@@ -1,4 +1,4 @@
-﻿@model Sondage.Models.QuestionsPopulaires
+﻿@model Sondage.Models.SondagesRecents
 @{
     Layout = null;
 }
@@ -10,31 +10,33 @@
     <meta name="viewport" content="width=device-width" />
     <title> Sond-ageDePierre </title>
     <link rel="stylesheet" href="/Content/style.css" />
+
 </head>
 
 <body>
     <!--Corps de la page -->
     <ul>
-        <li><a href="Home">Créer un sondage</a></li>        
-        <li><a class="active" href="SondagesPopulaires">Sondage populaires</a></li>
-        <li><a href="SondagesRecents">Sondage récents</a></li>        
+        <li><a href="Home">Créer un sondage</a></li>
+        <li><a href="SondagesPopulaires">Sondage populaires</a></li>
+        <li><a class="active" href="SondagesRecents">Sondage récents</a></li>        
         <li style="float:right"><a href="Contact">Contact</a></li>
+
     </ul>
 
     <div>
-        <h2 align="center">Sondages populaires</h2>
+        <h2 align="center">Sondages récents</h2>
         <table>
             <tr>
                 <th>Question</th>
-                <th>Nombre de votes</th>                
+                <th>Nombre de votes</th>
             </tr>
             <tr>
                 <td>@Model._ListeQuestions[0]</td>
-                <td>@Model._ListeNbVotes[0]</td>        
+                <td>@Model._ListeNbVotes[0]</td>
             </tr>
             <tr>
                 <td>@Model._ListeQuestions[1]</td>
-                <td>@Model._ListeNbVotes[1]</td>                
+                <td>@Model._ListeNbVotes[1]</td>
             </tr>
             <tr>
                 <td>@Model._ListeQuestions[2]</td>

@@ -169,5 +169,12 @@ namespace Sondage.Controllers
 
             return View("ChartTest", nouveauResultat);
         }
+
+        public ActionResult SondagesRecents()
+        {
+            SondagesRecents sondagesRecents = SQL.GetSondagesRecents();
+
+            return View("SondagesRecents", sondagesRecents);
+        }
     }
 }

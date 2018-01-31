@@ -99,35 +99,34 @@ namespace Sondage.Controllers
 
             return View();
         }
-
+        //Renvoie vers la page de contact
         public ActionResult Contact()
         {
             return View();
         }
+        //Envoie en BDD les informations rentrées dans le formulaire de contact
         public ActionResult Contacter(string nomBDD, string prenomBDD, string emailBDD, string messageBDD)
         {
-            Contact NouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD);
-            SQL.InsererDonneesContact(NouveauContact);
+            Contact NouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD); //création d'un nouveau contact
+            SQL.InsererDonneesContact(NouveauContact); //insertion BDD
 
-            return View("Contact", NouveauContact);
+            return View("Contact", NouveauContact); //Envoi vers la vue correspondante
         }
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
-            SQL.Voter(id, vote);
-
-            return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
-            HttpCookie cookie = new HttpCookie("Cookie");
-            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();
+            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+            // Vérification de la présence d'un cookie
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
             {
-                return View("DejaVote");
+                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
             }
-            else
+            else //si cookie absent, on en ajoute un, ensuite on vote
             {
                 this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 SQL.Voter(id, vote);
-                return Redirect("Resultat?id=" + id);
+                return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
             }
         }
 

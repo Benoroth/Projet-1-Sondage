@@ -1,4 +1,4 @@
-﻿@{
+﻿@model Sondage.Models.QuestionEtChoix
     Layout = null;
 }
 
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width" />
     <title> Sond-ageDePierre </title>
     <link rel="stylesheet" href="/Content/style.css" />
-
+    <meta http-equiv="Refresh" content="5;url="Sondage/Resultat?id=@Model."  />
 </head>
 
 <body>
@@ -24,7 +24,8 @@
 
     <div id="conteneur">
         <div id="texte">
-                    <h1>Vous avez déjà voté sur ce sondage !</h1>
+                    <h1>Vous avez déjà voté sur ce sondage !</h1><br />
+                    <h2>Renvoi vers la page de résultats dans 5 secondes...</h2>
         </div>
     </div>
 

@@ -225,12 +225,48 @@ namespace Sondage.Models
                                                                     WHERE idSondage = @id", connexion);
             incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
             incrementerNbVotesSondage.ExecuteNonQuery();
-
-
-            SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
+            
+            SqlCommand incrementerNbVotesChoixUn = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix +1
                                                                   WHERE idChoix = @id", connexion);
-            incrementerNbVotesChoix.Parameters.AddWithValue("@id", votedeux);
+            incrementerNbVotesChoixUn.Parameters.AddWithValue("@id", voteun);
+            
+            SqlCommand incrementerNbVotesChoixDeux = new SqlCommand(@"UPDATE TChoix
+                                                                  SET nbVoteChoix = nbVoteChoix +1
+                                                                  WHERE idChoix = @id", connexion);
+            incrementerNbVotesChoixDeux.Parameters.AddWithValue("@id", votedeux);
+
+            SqlCommand incrementerNbVotesChoixTrois = new SqlCommand(@"UPDATE TChoix
+                                                                  SET nbVoteChoix = nbVoteChoix +1
+                                                                  WHERE idChoix = @id", connexion);
+            incrementerNbVotesChoixTrois.Parameters.AddWithValue("@id", votetrois);
+
+            SqlCommand incrementerNbVotesChoixQuatre = new SqlCommand(@"UPDATE TChoix
+                                                                  SET nbVoteChoix = nbVoteChoix +1
+                                                                  WHERE idChoix = @id", connexion);
+            incrementerNbVotesChoixQuatre.Parameters.AddWithValue("@id", votequatre);
+            
+            if(voteun != null)
+            { 
+            incrementerNbVotesChoixUn.ExecuteNonQuery();
+            }
+
+            if(votedeux != null)
+            {
+                incrementerNbVotesChoixDeux.ExecuteNonQuery();
+            }
+
+            if(votetrois != null)
+            { 
+            incrementerNbVotesChoixTrois.ExecuteNonQuery();
+            }
+
+            if(votequatre != null)
+            { 
+            incrementerNbVotesChoixQuatre.ExecuteNonQuery();
+            }
+
+            connexion.Close();
         }
 
         //Lier les données de sondage et de vote à un graphique

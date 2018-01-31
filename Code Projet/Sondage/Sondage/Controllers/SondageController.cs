@@ -127,7 +127,7 @@ namespace Sondage.Controllers
             int? troisieme = valeur2;
             int? quatrieme = valeur3;
 
-
+            SQL.VoterMultiple(id, premier, deuxieme, troisieme, quatrieme);
 
             return Redirect("Resultat?id=" + id);
         }

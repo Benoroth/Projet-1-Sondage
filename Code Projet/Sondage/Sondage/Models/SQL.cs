@@ -17,10 +17,11 @@ namespace Sondage.Models
         private static SqlConnection connexion = new SqlConnection(SqlConnectionString);
         ////Requètes SQL
                 
-        public static int InsererSondageBDD(MSondage sondageAInserer) //insertion de la question, du nombre de votants (initialisé à 0), du type de sondage (choix unique/multiple) et le statut du sondage (actif = true)
+        public static int InsererSondageBDD(MSondage sondageAInserer) //insertion de la question, du nombre de votants (initialisé à 0), du type de sondage (choix unique/multiple), le statut du sondage (actif = true), et la date actuelle
         {            
             connexion.Open();
-            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple, actif) VALUES (@question, @nbVote, @choixMultiple, @actif); SELECT SCOPE_IDENTITY()", connexion);            
+            SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple, actif, dateSondage) 
+                                                         VALUES (@question, @nbVote, @choixMultiple, @actif, GETDATE()); SELECT SCOPE_IDENTITY()", connexion);            
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
             InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
             InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);
@@ -35,7 +36,9 @@ namespace Sondage.Models
         public static void InsertionLiensBDD(MSondage sondageAInserer, int id) //insertion des liens de partage, résultat et suppression dans la base de données
         {            
             connexion.Open();
-            SqlCommand InsererLiens = new SqlCommand(@"UPDATE TSondage SET lienPartage = @lienpartage, lienResult = @lienresult, lienSuppr = @liensuppr WHERE idSondage = @id", connexion);
+            SqlCommand InsererLiens = new SqlCommand(@"UPDATE TSondage 
+                                                       SET lienPartage = @lienpartage, lienResult = @lienresult, lienSuppr = @liensuppr 
+                                                       WHERE idSondage = @id", connexion);
             InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
             InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._lienSuppression);
             InsererLiens.Parameters.AddWithValue("@lienresult", sondageAInserer._lienResultat);
@@ -48,7 +51,8 @@ namespace Sondage.Models
         public static void InsererChoixBDD(Choix ChoixAInserer)  //insertion des choix BDD
         {            
             connexion.Open();
-            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix) VALUES (@nomChoix, @idSondage,@nbVoteChoix)", connexion);
+            SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix) 
+                                                       VALUES (@nomChoix, @idSondage,@nbVoteChoix)", connexion);
             InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer._nomChoix);
             InsererChoix.Parameters.AddWithValue("@idSondage", ChoixAInserer._idSondage);
             InsererChoix.Parameters.AddWithValue("@nbVoteChoix", ChoixAInserer._nbVoteChoix);
@@ -420,6 +424,47 @@ namespace Sondage.Models
             QuestionsPopulaires questionsPopu = new QuestionsPopulaires(lQuestionsPopulaires, lNbVote);
 
             return questionsPopu;
+        }
+
+        public static SondagesRecents GetSondagesRecents()
+        {
+            connexion.Open();
+
+            SqlCommand getQuestions = new SqlCommand(@"SELECT TOP 10 nomQuestion
+                                                       FROM TSondage
+                                                       ORDER BY idSondage DESC", connexion);
+            SqlDataReader reader = getQuestions.ExecuteReader();
+
+            List<string> lQuestionsRecentes = new List<string>();
+
+            while(reader.Read())
+            {
+                lQuestionsRecentes.Add((string)reader["nomQuestion"]);
+            }
+
+            connexion.Close();
+
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getNbVotes = new SqlCommand(@"SELECT TOP 10 nbVote
+                                                    FROM TSondage
+                                                    ORDER BY idSondage DESC", connexion);
+            SqlDataReader recordset = getNbVotes.ExecuteReader();
+
+            List<int> lNbVote = new List<int>();
+
+            while(recordset.Read())
+            {
+                lNbVote.Add((int)recordset["nbVote"]);
+            }
+
+            connexion.Close();
+
+            SondagesRecents sondagesRecents = new SondagesRecents(lQuestionsRecentes, lNbVote);
+
+            return sondagesRecents;
         }
     }
 }

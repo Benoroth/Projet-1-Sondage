@@ -345,9 +345,21 @@ namespace Sondage.Models
             {
                 lNbVotesChoix.Add((int)recordset["nbVoteChoix"]); 
             }
-            nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix);
-
+            
             connexion.Close();
+
+            //===================================================================================================
+
+            connexion.Open();
+            SqlCommand getTypeChoix = new SqlCommand(@"SELECT choixMultiple
+                                                       FROM TSondage
+                                                       WHERE idSondage = @id", connexion);
+            getTypeChoix.Parameters.AddWithValue("@id", id);
+
+            bool typeChoix = (bool)getTypeChoix.ExecuteScalar();
+
+            nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix, typeChoix);
+
             return nbVotesQuestionEtChoix;
         }
         public static int estActif(int id)

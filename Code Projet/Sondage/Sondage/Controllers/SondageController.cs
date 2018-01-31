@@ -11,9 +11,8 @@ using Sondage.Models;
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
-    {
-        // GET: Sondage
-        public ActionResult Home()
+    {        
+        public ActionResult Home() //return vers la page de création de sondage (home)
         {
             return View();
         }
@@ -23,8 +22,8 @@ namespace Sondage.Controllers
         //Valider et insérer la question et les choix en bdd
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
         {
-            bool choixMultiple = false;
-            if (TypeChoix == "ChoixM")
+            bool choixMultiple = false;  
+            if (TypeChoix == "ChoixM") //attribuer le type de choix à un boolean
             {
                 choixMultiple = true;
             }
@@ -33,7 +32,7 @@ namespace Sondage.Controllers
                 choixMultiple = false;
             }
 
-            MSondage sondageweb = new MSondage(question, choixMultiple);
+            MSondage sondageweb = new MSondage(question, choixMultiple); 
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
@@ -48,8 +47,8 @@ namespace Sondage.Controllers
             SQL.InsererChoixBDD(choixquatre);
 
             Random rnd = new Random();
-            int nombreRandom = rnd.Next(0, 64000);
-            Convert.ToString(nombreRandom);
+            int nombreRandom = rnd.Next(0, 64000); //génération d'un nombre aléatoire pour la clé de suppression
+            Convert.ToString(nombreRandom); //convertion du nombre aléatoire en chaine de caractères
 
             string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
             string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
@@ -74,14 +73,14 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            if (id <= SQL.maxIdSondage())
+            if (id <= SQL.maxIdSondage()) //si id entré est supérieur à l'id max dans la BDD, l'utilisateur sera redirigé vers la page "Introuvable"
             {
-                if (SQL.estActif(id) == 1)
+                if (SQL.estActif(id) == 1) //si le sondage est actif, l'utilisateur est dirigé vers la page de vote
                 {
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
                 }
-                else
+                else 
                 {
                     return Redirect("Introuvable");
                 }
@@ -96,7 +95,7 @@ namespace Sondage.Controllers
         //Renvoie vers la validation de suppression du sondage
         public ActionResult Suppression(string id)
         {
-            SQL.SuppressionSondage(id);
+            SQL.SuppressionSondage(id); //rend inactif un sondage dans la BDD (impossible de voter, résultats consultables)
 
             return View();
         }
@@ -117,24 +116,19 @@ namespace Sondage.Controllers
         {
             SQL.Voter(id, vote);
 
-            return Redirect("Resultat?id=" + id);
+            return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
         }
 
-        public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3)
-        {
-            int? premier = valeur0;
-            int? deuxieme = valeur1;
-            int? troisieme = valeur2;
-            int? quatrieme = valeur3;
+        public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
+        {           
+            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3); 
 
-            SQL.VoterMultiple(id, premier, deuxieme, troisieme, quatrieme);
-
-            return Redirect("Resultat?id=" + id);
+            return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
         }
 
         public ActionResult Resultat(int id)
         {
-            if (id <= SQL.maxIdSondage())
+            if (id <= SQL.maxIdSondage()) //si id entré est supérieur à l'id max dans la BDD, l'utilisateur sera redirigé vers la page "Introuvable"
             {
                 nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
 
@@ -146,19 +140,19 @@ namespace Sondage.Controllers
             }
         }
 
-        public ActionResult Introuvable()
+        public ActionResult Introuvable() 
         {
             return View("Introuvable");
         }
 
-        public ActionResult SondagesPopulaires()
+        public ActionResult SondagesPopulaires() //page affichant les 10 sondages comptant le plus de votants
         {
             QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
 
             return View("SondagesPopulaires", questionsPopulaires);
         }
 
-        public ActionResult ChartTest(int id)
+        public ActionResult ChartTest(int id) //A SUPPRIMER
         {
             nbVotesQuestionChoix nouveauResultat = SQL.GetNbVotesQuestionChoix(id);
 

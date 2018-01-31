@@ -13,21 +13,19 @@ namespace Sondage.Models
 
         //Adresse BDD SQL
         private const string SqlConnectionString = @"Server=172.19.240.12;Initial Catalog=Projet; Trusted_Connection=Yes";
+
+        private static SqlConnection connexion = new SqlConnection(SqlConnectionString);
         ////Requètes SQL
-
-        //1) Création d'un sondage
-
-        //a) insérer nouveau sondage BDD
-        public static int InsererSondageBDD(MSondage sondageAInserer)
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+                
+        public static int InsererSondageBDD(MSondage sondageAInserer) //insertion de la question, du nombre de votants (initialisé à 0), du type de sondage (choix unique/multiple) et le statut du sondage (actif = true)
+        {            
             connexion.Open();
             SqlCommand InsererSondage = new SqlCommand(@"INSERT INTO TSondage(nomQuestion, nbVote, choixMultiple, actif) VALUES (@question, @nbVote, @choixMultiple, @actif); SELECT SCOPE_IDENTITY()", connexion);            
             InsererSondage.Parameters.AddWithValue("@question", sondageAInserer._nomQuest);
             InsererSondage.Parameters.AddWithValue("@nbVote", sondageAInserer._nbVote);
             InsererSondage.Parameters.AddWithValue("@choixMultiple", sondageAInserer._choixMultiple);
             InsererSondage.Parameters.AddWithValue("@actif", sondageAInserer._actif);                     
-            int lastId = Convert.ToInt32(InsererSondage.ExecuteScalar());            
+            int lastId = Convert.ToInt32(InsererSondage.ExecuteScalar()); //récupère l'id du sondage venant d'être créé      
 
             connexion.Close();
 
@@ -35,8 +33,7 @@ namespace Sondage.Models
         }
 
         public static void InsertionLiensBDD(MSondage sondageAInserer, int id) //insertion des liens de partage, résultat et suppression dans la base de données
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+        {            
             connexion.Open();
             SqlCommand InsererLiens = new SqlCommand(@"UPDATE TSondage SET lienPartage = @lienpartage, lienResult = @lienresult, lienSuppr = @liensuppr WHERE idSondage = @id", connexion);
             InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
@@ -49,8 +46,7 @@ namespace Sondage.Models
         }
 
         public static void InsererChoixBDD(Choix ChoixAInserer)  //insertion des choix BDD
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+        {            
             connexion.Open();
             SqlCommand InsererChoix = new SqlCommand(@"INSERT INTO TChoix(nomChoix, idSondage, nbVoteChoix) VALUES (@nomChoix, @idSondage,@nbVoteChoix)", connexion);
             InsererChoix.Parameters.AddWithValue("@nomChoix", ChoixAInserer._nomChoix);
@@ -61,44 +57,34 @@ namespace Sondage.Models
             connexion.Close();
         }
 
-        //Récupérer nombre de votants en BDD
-        public static int NombreVotesSondage(int id)
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
-            connexion.Open();
-            SqlCommand NbVotesBDD = new SqlCommand(@"SELECT nbVote 
-                                                     FROM TSondage
-                                                     WHERE idSondage =@id", connexion);
-            NbVotesBDD.Parameters.AddWithValue("@id", id);
-            int nombreVoteRecup = (int)NbVotesBDD.ExecuteScalar();
-            connexion.Close();
-            return nombreVoteRecup;
-        }
-
         public static QuestionEtChoix GetQuestionEtChoix(int id) //methode pour obtenir la question et les choix liés à cette question
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+        {            
             connexion.Open();
 
             SqlCommand getQuestion = new SqlCommand(@"SELECT nomQuestion 
                                                       FROM TSondage 
                                                       WHERE idSondage = @id", connexion);
             getQuestion.Parameters.AddWithValue("@id", id);
-            string Question = (string)getQuestion.ExecuteScalar(); //cherche la question dans la BDD
+            string Question = (string)getQuestion.ExecuteScalar(); //récupère la question dans la BDD
+
+            //====================================================================================================================
 
             SqlCommand getChoix = new SqlCommand(@"SELECT nomChoix
                                                    FROM TChoix
                                                    WHERE idSondage = @id", connexion);
             getChoix.Parameters.AddWithValue("@id", id);
 
-            SqlDataReader recordset = getChoix.ExecuteReader(); //cherche les choix dans la BDD
+            SqlDataReader recordset = getChoix.ExecuteReader(); 
             List<string> lChoix = new List<string>();            
                
             while(recordset.Read())
             {
-                lChoix.Add((string)recordset["nomChoix"]); //insère les choix dans une liste
+                lChoix.Add((string)recordset["nomChoix"]); //récupère les choix et les insère dans une liste
             }
             connexion.Close();
+
+            //====================================================================================================================
+
             connexion.Open();
 
             SqlCommand getTypeChoix = new SqlCommand(@"SELECT choixMultiple
@@ -109,6 +95,9 @@ namespace Sondage.Models
             bool typeChoix = (bool)getTypeChoix.ExecuteScalar();
 
             connexion.Close();
+
+            //====================================================================================================================
+
             connexion.Open();
 
             SqlCommand getIdChoix = new SqlCommand(@"SELECT idChoix
@@ -121,18 +110,17 @@ namespace Sondage.Models
 
             while(lecteur.Read())
             {
-                lIdChoix.Add((int)lecteur["idChoix"]); //insère les idChoix dans une liste
+                lIdChoix.Add((int)lecteur["idChoix"]); //récupère les idChoix et les insère dans une liste
             }
             connexion.Close();
 
             QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix, lIdChoix);            
                 
-            return questionChoix; //retourne la question et ses choix
+            return questionChoix; //retourne la question, ses choix, l'id de la question, les id des choix, et le type du sondage (choix unique ou multiple)
         }
 
         public static void SuppressionSondage(string id) //suppression d'un sondage
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+        {            
             connexion.Open();
 
             SqlCommand desactiveSondage = new SqlCommand(@"UPDATE TSondage
@@ -140,14 +128,13 @@ namespace Sondage.Models
                                                            WHERE lienSuppr = @id", connexion);
             desactiveSondage.Parameters.AddWithValue("@id", id);
 
-            desactiveSondage.ExecuteNonQuery();
+            desactiveSondage.ExecuteNonQuery(); //rend inactif un sondage (vote impossible, résultats consultables)
 
             connexion.Close();
         }
 
         public static string GetLienPSondage(int id) //obtenir les liens du dernier sondage
-        {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
+        {            
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienPartage 
@@ -155,15 +142,14 @@ namespace Sondage.Models
                                                   WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
-            string lienpartage = (string)GetLien.ExecuteScalar();
+            string lienpartage = (string)GetLien.ExecuteScalar(); //récupère le lien de vote d'un sondage
             connexion.Close();
 
             return lienpartage;
         }
 
-        public static string GetLienSSondage(int id) //obtenir le lien de suppression du dernier sondage
+        public static string GetLienSSondage(int id) //obtenir le lien de suppression d'un sondage
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienSuppr 
@@ -171,15 +157,14 @@ namespace Sondage.Models
                                                   WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
-            string liensuppr = (string)GetLien.ExecuteScalar();
+            string liensuppr = (string)GetLien.ExecuteScalar(); //récupère le lien permettant de rendre inactif un sondage
             connexion.Close();
 
             return liensuppr;
         }
 
-        public static string GetLienRSondage(int id) //obtenir le lien de résultat du dernier sondage
+        public static string GetLienRSondage(int id) //obtenir le lien de résultat d'un sondage
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand GetLien = new SqlCommand(@"SELECT lienResult 
@@ -187,22 +172,24 @@ namespace Sondage.Models
                                                   WHERE idSondage = @id");
             GetLien.Parameters.AddWithValue("@id", id);
 
-            string lienresu = (string)GetLien.ExecuteScalar();
+            string lienresu = (string)GetLien.ExecuteScalar(); //récupère le lien de résultat d'un sondage
             connexion.Close();
 
             return lienresu;
         }
-        //Incrémenter le nombre de vote total et le nombre de vote par choix
+
+        //Incrémenter le nombre de vote total et le nombre de vote par choix, pour un sondage à choix unique
         public static void Voter(int id, int idChoix)
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage 
                                                                     SET nbVote = nbVote + 1 
                                                                     WHERE idSondage = @id", connexion);
             incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
-            incrementerNbVotesSondage.ExecuteNonQuery();
+            incrementerNbVotesSondage.ExecuteNonQuery(); //incrémente le nombre de votants total d'un sondage de 1
+
+            //====================================================================================================================
 
             SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix + 1
@@ -210,74 +197,78 @@ namespace Sondage.Models
             incrementerNbVotesChoix.Parameters.AddWithValue("@id", id);
             incrementerNbVotesChoix.Parameters.AddWithValue("@idChoix", idChoix);
 
-            incrementerNbVotesChoix.ExecuteNonQuery();
+            incrementerNbVotesChoix.ExecuteNonQuery(); //incrémente de 1 le nombre de votes d'un choix
 
             connexion.Close();
         }
 
+        //Incrémenter le nombre de vote total et le nombre de vote par choix, pour un sondage à choix multiple
         public static void VoterMultiple(int id, int? voteun, int? votedeux, int? votetrois, int? votequatre)
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage
                                                                     SET nbVote = nbVote + 1
                                                                     WHERE idSondage = @id", connexion);
             incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
-            incrementerNbVotesSondage.ExecuteNonQuery();
+            incrementerNbVotesSondage.ExecuteNonQuery(); //incrémente le nombre de votants total d'un sondage de 1
+
+            //==================================================================================================================
             
             SqlCommand incrementerNbVotesChoixUn = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix +1
                                                                   WHERE idChoix = @id", connexion);
             incrementerNbVotesChoixUn.Parameters.AddWithValue("@id", voteun);
+
+            //===================================================================================================================
             
             SqlCommand incrementerNbVotesChoixDeux = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix +1
                                                                   WHERE idChoix = @id", connexion);
             incrementerNbVotesChoixDeux.Parameters.AddWithValue("@id", votedeux);
 
+            //====================================================================================================================
+
             SqlCommand incrementerNbVotesChoixTrois = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix +1
                                                                   WHERE idChoix = @id", connexion);
             incrementerNbVotesChoixTrois.Parameters.AddWithValue("@id", votetrois);
 
+            //====================================================================================================================
+
             SqlCommand incrementerNbVotesChoixQuatre = new SqlCommand(@"UPDATE TChoix
                                                                   SET nbVoteChoix = nbVoteChoix +1
                                                                   WHERE idChoix = @id", connexion);
             incrementerNbVotesChoixQuatre.Parameters.AddWithValue("@id", votequatre);
-            
-            if(voteun != null)
+
+            //====================================================================================================================
+
+            if (voteun != null)
             { 
-            incrementerNbVotesChoixUn.ExecuteNonQuery();
+            incrementerNbVotesChoixUn.ExecuteNonQuery(); //si voteun n'est pas null, incrémente de 1 le nombre de votes du choix 
             }
 
             if(votedeux != null)
             {
-                incrementerNbVotesChoixDeux.ExecuteNonQuery();
+                incrementerNbVotesChoixDeux.ExecuteNonQuery(); //si votedeux n'est pas null, incrémente de 1 le nombre de votes du choix
             }
 
             if(votetrois != null)
             { 
-            incrementerNbVotesChoixTrois.ExecuteNonQuery();
+            incrementerNbVotesChoixTrois.ExecuteNonQuery(); //si votetrois n'est pas null, incrémente de 1 le nombre de votes du choix
             }
 
             if(votequatre != null)
             { 
-            incrementerNbVotesChoixQuatre.ExecuteNonQuery();
+            incrementerNbVotesChoixQuatre.ExecuteNonQuery(); //si votequatre n'est pas null, incrémente de 1 le nombre de votes du choix
             }
 
             connexion.Close();
         }
-
-        //Lier les données de sondage et de vote à un graphique
-
-            //Lier données ci dessus à un graph
-
-
+        
         //Insérer données contact
         public static void InsererDonneesContact(Contact NouveauContact)
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
             SqlCommand InsererDonneesContact = new SqlCommand(@"INSERT INTO Contact( nomContact, prenomContact, emailContact, messageContact) VALUES (@nom, @prenom, @email, @message)", connexion);
             InsererDonneesContact.Parameters.AddWithValue("@nom", NouveauContact._nomContact);
@@ -290,7 +281,6 @@ namespace Sondage.Models
 
         public static nbVotesQuestionChoix GetNbVotesQuestionChoix(int id)
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand getQuestion = new SqlCommand(@"SELECT nomQuestion
@@ -298,7 +288,7 @@ namespace Sondage.Models
                                                       WHERE idSondage = @id", connexion);
             getQuestion.Parameters.AddWithValue("@id", id);
 
-            string question = (string)getQuestion.ExecuteScalar();
+            string question = (string)getQuestion.ExecuteScalar();  //récupère la question du sondage
 
             connexion.Close();
 
@@ -315,7 +305,7 @@ namespace Sondage.Models
 
             while(reader.Read())
             {
-                lChoix.Add((string)reader["nomChoix"]);
+                lChoix.Add((string)reader["nomChoix"]); //récupère la liste des choix liés à un sondage et les insère dans une liste
             }
             connexion.Close();
 
@@ -327,7 +317,7 @@ namespace Sondage.Models
                                                            WHERE idSondage= @id", connexion);
             getVotesQuestion.Parameters.AddWithValue("@id", id);
 
-            int nbVotesQuestion = (int)getVotesQuestion.ExecuteScalar();
+            int nbVotesQuestion = (int)getVotesQuestion.ExecuteScalar(); //récupère le nombre de votants total pour un sondage
             connexion.Close();
 
             //=================================================================================================
@@ -343,12 +333,12 @@ namespace Sondage.Models
 
             while (recordset.Read())
             {
-                lNbVotesChoix.Add((int)recordset["nbVoteChoix"]); 
+                lNbVotesChoix.Add((int)recordset["nbVoteChoix"]); //récupère le nombre de votes pour chaque choix et les insère dans une liste
             }
             
             connexion.Close();
 
-            //===================================================================================================
+            //==================================================================================================
 
             connexion.Open();
             SqlCommand getTypeChoix = new SqlCommand(@"SELECT choixMultiple
@@ -356,15 +346,16 @@ namespace Sondage.Models
                                                        WHERE idSondage = @id", connexion);
             getTypeChoix.Parameters.AddWithValue("@id", id);
 
-            bool typeChoix = (bool)getTypeChoix.ExecuteScalar();
+            bool typeChoix = (bool)getTypeChoix.ExecuteScalar(); //récupère un boolean pour savoir si le sondage est à choix unique ou multiple
 
             nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix, typeChoix);
+
+            connexion.Close();
 
             return nbVotesQuestionEtChoix;
         }
         public static int estActif(int id)
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand command = new SqlCommand(@"SELECT actif
@@ -372,7 +363,7 @@ namespace Sondage.Models
                                                   WHERE idSondage = @id", connexion);
             command.Parameters.AddWithValue("@id", id);
 
-            int actif = (int)command.ExecuteScalar();
+            int actif = (int)command.ExecuteScalar(); //récupère un boolean pour savoir si le sondage est à choix unique ou multiple
 
             connexion.Close();
             return actif;
@@ -380,13 +371,13 @@ namespace Sondage.Models
 
         public static int maxIdSondage()
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand command = new SqlCommand(@"SELECT MAX(idSondage)
                                                   FROM TSondage", connexion);
 
-            int maxId = (int)command.ExecuteScalar();
+            int maxId = (int)command.ExecuteScalar(); //récupère l'id max dans la table TSondage
+
             connexion.Close();
 
             return maxId;
@@ -394,7 +385,6 @@ namespace Sondage.Models
 
         public static QuestionsPopulaires GetQuestionsPopulaires()
         {
-            SqlConnection connexion = new SqlConnection(SqlConnectionString);
             connexion.Open();
 
             SqlCommand getQuestions = new SqlCommand(@"SELECT TOP 10 nomQuestion
@@ -406,7 +396,7 @@ namespace Sondage.Models
 
             while(reader.Read())
             {
-                lQuestionsPopulaires.Add((string)reader["nomQuestion"]);
+                lQuestionsPopulaires.Add((string)reader["nomQuestion"]); //récupère les 10 questions comptant le plus de votants et les insère dans une liste
             }
 
             connexion.Close();
@@ -422,7 +412,7 @@ namespace Sondage.Models
 
             while(recordset.Read())
             {
-                lNbVote.Add((int)recordset["nbVote"]);
+                lNbVote.Add((int)recordset["nbVote"]); //récupère le nombre de votants des 10 questions comptant le plus de votants et les insère dans une liste
             }
 
             connexion.Close();

@@ -11,7 +11,7 @@ using Sondage.Models;
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
-    {        
+    {
         public ActionResult Home() //return vers la page de création de sondage (home)
         {
             return View();
@@ -22,7 +22,7 @@ namespace Sondage.Controllers
         //Valider et insérer la question et les choix en bdd
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
         {
-            bool choixMultiple = false;  
+            bool choixMultiple = false;
             if (TypeChoix == "ChoixM") //attribuer le type de choix à un boolean
             {
                 choixMultiple = true;
@@ -32,7 +32,7 @@ namespace Sondage.Controllers
                 choixMultiple = false;
             }
 
-            MSondage sondageweb = new MSondage(question, choixMultiple); 
+            MSondage sondageweb = new MSondage(question, choixMultiple);
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
@@ -73,22 +73,21 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            if (id <= SQL.maxIdSondage()) //si id entré est supérieur à l'id max dans la BDD, l'utilisateur sera redirigé vers la page "Introuvable"
+            List<int> lIdSondage = GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
+
+            foreach(var idSondage in lIdSondage)
             {
-                if (SQL.estActif(id) == 1) //si le sondage est actif, l'utilisateur est dirigé vers la page de vote
+                if(id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
                 {
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
                 }
-                else 
+                else //si l'id n'est pas trouvé dans la liste --> redirige vers la page "Introuvable"
                 {
                     return Redirect("Introuvable");
                 }
             }
-            else
-            {
-                return Redirect("Introuvable");
-            }
+            
         }
 
 
@@ -131,8 +130,8 @@ namespace Sondage.Controllers
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
-        {           
-            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3); 
+        {
+            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
 
             return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
         }
@@ -151,7 +150,7 @@ namespace Sondage.Controllers
             }
         }
 
-        public ActionResult Introuvable() 
+        public ActionResult Introuvable()
         {
             return View("Introuvable");
         }

@@ -115,9 +115,18 @@ namespace Sondage.Controllers
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
-            SQL.Voter(id, vote);
-
-            return Redirect("Resultat?id=" + id);
+            HttpCookie cookie = new HttpCookie("Cookie");
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+            {
+                return View("DejaVote");
+            }
+            else
+            {
+                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                SQL.Voter(id, vote);
+                return Redirect("Resultat?id=" + id);
+            }
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3)

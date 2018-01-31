@@ -78,12 +78,10 @@ right : 3px;
 
 #conteneur, texte{ 
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
+            flex-wrap: nowrap;
             margin: auto;
             width: 50%;
-            margin-top: 17%;            
+            margin-top: 10%;            
 }
 
 .textbox{

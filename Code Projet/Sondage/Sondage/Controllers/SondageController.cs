@@ -11,7 +11,7 @@ using Sondage.Models;
 namespace Sondage.Controllers
 {
     public class SondageController : Controller
-    {        
+    {
         public ActionResult Home() //return vers la page de création de sondage (home)
         {
             return View();
@@ -22,7 +22,7 @@ namespace Sondage.Controllers
         //Valider et insérer la question et les choix en bdd
         public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
         {
-            bool choixMultiple = false;  
+            bool choixMultiple = false;
             if (TypeChoix == "ChoixM") //attribuer le type de choix à un boolean
             {
                 choixMultiple = true;
@@ -32,7 +32,7 @@ namespace Sondage.Controllers
                 choixMultiple = false;
             }
 
-            MSondage sondageweb = new MSondage(question, choixMultiple); 
+            MSondage sondageweb = new MSondage(question, choixMultiple);
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
@@ -80,7 +80,7 @@ namespace Sondage.Controllers
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
                 }
-                else 
+                else
                 {
                     return Redirect("Introuvable");
                 }
@@ -90,8 +90,11 @@ namespace Sondage.Controllers
                 return Redirect("Introuvable");
             }
         }
-
-
+        //Page erreur vote
+        public ActionResult DejaVote()
+        {
+            return View();
+        }
         //Renvoie vers la validation de suppression du sondage
         public ActionResult Suppression(string id)
         {
@@ -120,7 +123,7 @@ namespace Sondage.Controllers
             // Vérification de la présence d'un cookie
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
             {
-                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
+                return View("DejaVote"); //si cookie présent envoie vers page erreur vote
             }
             else //si cookie absent, on en ajoute un, ensuite on vote
             {
@@ -131,10 +134,20 @@ namespace Sondage.Controllers
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
-        {           
-            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3); 
+        {
+            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+            // Vérification de la présence d'un cookie
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+            {
+                return View("DejaVote"); //si cookie présent envoie vers page erreur vote
+            }
+            else {
+                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
 
-            return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+                return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+            }
         }
 
         public ActionResult Resultat(int id)
@@ -151,7 +164,7 @@ namespace Sondage.Controllers
             }
         }
 
-        public ActionResult Introuvable() 
+        public ActionResult Introuvable()
         {
             return View("Introuvable");
         }
@@ -161,13 +174,6 @@ namespace Sondage.Controllers
             QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
 
             return View("SondagesPopulaires", questionsPopulaires);
-        }
-
-        public ActionResult ChartTest(int id) //A SUPPRIMER
-        {
-            nbVotesQuestionChoix nouveauResultat = SQL.GetNbVotesQuestionChoix(id);
-
-            return View("ChartTest", nouveauResultat);
         }
 
         public ActionResult SondagesRecents()

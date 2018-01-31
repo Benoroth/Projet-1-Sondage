@@ -117,6 +117,18 @@ namespace Sondage.Controllers
             SQL.Voter(id, vote);
 
             return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+            HttpCookie cookie = new HttpCookie("Cookie");
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+            {
+                return View("DejaVote");
+            }
+            else
+            {
+                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                SQL.Voter(id, vote);
+                return Redirect("Resultat?id=" + id);
+            }
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple

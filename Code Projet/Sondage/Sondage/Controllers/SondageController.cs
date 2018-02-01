@@ -71,10 +71,6 @@ namespace Sondage.Controllers
             return Redirect("Introuvable");
         }        
         
-        public ActionResult DejaVote(int id)
-        {
-            return View("DejaVote", id);
-        }
         public ActionResult Suppression(string id) //Renvoie vers la validation de suppression du sondage
         {
             SQL.SuppressionSondage(id); //rend inactif un sondage dans la BDD (impossible de voter, résultats consultables)
@@ -97,44 +93,36 @@ namespace Sondage.Controllers
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {            
-            HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
-            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+            HttpCookie cookie = Request.Cookies["Cookie" + id]; //Vérification si cookie existe
 
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
+            if (cookie==null) // Si pas de cookie
             {
-                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
+                cookie = new HttpCookie("Cookie" + id);         // On créé le cookie
+                SQL.Voter(id, vote);                            // On vote
+                Response.Cookies.Add(cookie);                   // On ajoute le cookie
+                return Redirect("Resultat?id=" + id);           //envoi vers la page de résultats du sondage
             }
-            else //si cookie absent, on en ajoute un, ensuite on vote
-            {
-                if (SQL.estActif(id) == 1)
-                {
-                    this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                    SQL.Voter(id, vote);
-                    return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
-                }
+            else
+            { 
+                    return View("DejaVote", id);                // Envoi vers la page d'erreur
             }
-            return Redirect("Resultat?id=" + id);
+
         }
 
         public ActionResult VoterM(int id, List<int> valeurs) // int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
         {
-            HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
-            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
-
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
+            HttpCookie cookie = Request.Cookies["Cookie" + id]; //Vérification si cookie existe
+            if (cookie==null) // Vérification de la présence d'un cookie
             {
-                return Redirect("DejaVote?id=" + id); //si cookie présent envoie vers page erreur vote
+                cookie = new HttpCookie("Cookie" + id);         // On créé le cookie
+                SQL.VoterMultiple(id, valeurs);
+                Response.Cookies.Add(cookie);
+                return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
             }
             else
             {
-                if (SQL.estActif(id) == 1)
-                {
-                    this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                    SQL.VoterMultiple(id, valeurs);
-                    return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
-                }                
+                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote           
             }
-            return Redirect("Resultat?id=" + id);
         }
 
         public ActionResult Resultat(int id)

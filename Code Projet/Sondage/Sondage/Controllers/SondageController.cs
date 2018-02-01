@@ -73,22 +73,22 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            if (id <= SQL.maxIdSondage()) //si id entré est supérieur à l'id max dans la BDD, l'utilisateur sera redirigé vers la page "Introuvable"
+            List<int> lIdSondage = GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
+
+            foreach(var idSondage in lIdSondage)
             {
-                if (SQL.estActif(id) == 1) //si le sondage est actif, l'utilisateur est dirigé vers la page de vote
+                if(id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
                 {
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
                 }
-                else
+                else //si l'id n'est pas trouvé dans la liste --> redirige vers la page "Introuvable"
+
                 {
                     return Redirect("Introuvable");
                 }
             }
-            else
-            {
-                return Redirect("Introuvable");
-            }
+            
         }
         //Page erreur vote
         public ActionResult DejaVote()
@@ -135,6 +135,7 @@ namespace Sondage.Controllers
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
         {
+<<<<<<< HEAD
             HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
             // Vérification de la présence d'un cookie
@@ -145,6 +146,9 @@ namespace Sondage.Controllers
             else {
                 this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+=======
+            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+>>>>>>> 1032d31d7e61c0894dbc2750054234bcd031353c
 
                 return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
             }

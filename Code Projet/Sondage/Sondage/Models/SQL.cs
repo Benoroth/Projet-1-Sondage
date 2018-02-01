@@ -426,7 +426,7 @@ namespace Sondage.Models
             return questionsPopu;
         }
 
-        public static SondagesRecents GetSondagesRecents()
+        public static SondagesRecents GetSondagesRecents() //récupère les derniers sondages créés
         {
             connexion.Open();
 
@@ -439,7 +439,7 @@ namespace Sondage.Models
 
             while(reader.Read())
             {
-                lQuestionsRecentes.Add((string)reader["nomQuestion"]);
+                lQuestionsRecentes.Add((string)reader["nomQuestion"]); //récupère les 10 dernières questions créées et les insère dans une liste
             }
 
             connexion.Close();
@@ -457,14 +457,34 @@ namespace Sondage.Models
 
             while(recordset.Read())
             {
-                lNbVote.Add((int)recordset["nbVote"]);
+                lNbVote.Add((int)recordset["nbVote"]); //récupère le nombre de votes des 10 dernières questions créées et les insère dans une liste
             }
 
             connexion.Close();
 
             SondagesRecents sondagesRecents = new SondagesRecents(lQuestionsRecentes, lNbVote);
 
-            return sondagesRecents;
+            return sondagesRecents;            
+        }
+
+        public static List<int> GetTousLesId() //récupère la liste de tous les idSondage présents dans la BDD
+        {
+            connexion.Open();
+
+            SqlCommand command = new SqlCommand(@"SELECT idSondage
+                                                      FROM TSondage", connexion);
+            SqlDataReader reader = command.ExecuteReader();
+
+            List<int> lIdSondage = new List<int>();
+
+            while (reader.Read())
+            {
+                lIdSondage.Add((int)reader["idSondage"]);
+            }
+
+            connexion.Close();
+
+            return lIdSondage;
         }
     }
 }

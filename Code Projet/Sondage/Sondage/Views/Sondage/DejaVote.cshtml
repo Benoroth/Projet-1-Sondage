@@ -1,0 +1,35 @@
+﻿@model Sondage.Models.QuestionEtChoix
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title> Sond-ageDePierre </title>
+    <link rel="stylesheet" href="/Content/style.css" />
+    <meta http-equiv="Refresh" content="5;url=localhost:1093/Sondage/Resultat?id=@Model._id" />
+
+</head>
+
+<body>
+    <!--Corps de la page -->
+    <ul>
+        <li><a href="Home">Créer un sondage</a></li>
+        <li><a href="SondagesPopulaires">Sondage populaires</a></li>
+        <li><a href="SondagesRecents">Sondage récents</a></li>
+        <li><a class="active" href="Vote">Sondage</a></li>
+        <li style="float:right"><a href="Contact">Contact</a></li>
+
+    </ul>
+
+    <div id="conteneur">
+        <div id="texte">
+                    <h1>Vous avez déjà voté sur ce sondage !</h1><br />
+                    <h2>Renvoi vers la page de résultats dans 5 secondes...</h2>
+        </div>
+    </div>
+
+
+    <img src="/Content/agedepierre.png" id="imgenbas" />
+
+</body>
+</html>

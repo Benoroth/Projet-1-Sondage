@@ -17,8 +17,11 @@ namespace Sondage.Controllers
             return View();
         }
 
+        public ActionResult Creation()
+        {
+            return View();
+        }
         int idDernierSondage;
-
         // Valider et insérer la question et les choix en bdd
         public ActionResult Valider(string question, List<string> choix, string TypeChoix) // string choix2, string choix3, string choix4, )
         {

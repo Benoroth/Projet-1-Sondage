@@ -356,7 +356,7 @@ namespace Sondage.Models
             return maxId;
         }
 
-        public static QuestionsPopulaires GetQuestionsPopulaires()
+        public static QuestionsEtNbVotes GetQuestionsPopulaires()
         {
             connexion.Open();
 
@@ -390,12 +390,12 @@ namespace Sondage.Models
 
             connexion.Close();
 
-            QuestionsPopulaires questionsPopu = new QuestionsPopulaires(lQuestionsPopulaires, lNbVote);
+            QuestionsEtNbVotes questionsPopu = new QuestionsEtNbVotes(lQuestionsPopulaires, lNbVote);
 
             return questionsPopu;
         }
 
-        public static SondagesRecents GetSondagesRecents() //récupère les derniers sondages créés
+        public static QuestionsEtNbVotes GetSondagesRecents() //récupère les derniers sondages créés
         {
             connexion.Open();
 
@@ -431,7 +431,7 @@ namespace Sondage.Models
 
             connexion.Close();
 
-            SondagesRecents sondagesRecents = new SondagesRecents(lQuestionsRecentes, lNbVote);
+            QuestionsEtNbVotes sondagesRecents = new QuestionsEtNbVotes(lQuestionsRecentes, lNbVote);
 
             return sondagesRecents;            
         }

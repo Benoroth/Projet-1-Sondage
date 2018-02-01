@@ -48,55 +48,41 @@
         <div id="texte">
             <h2>@Model._Question (@Model._NbVotesQuestion votes)</h2>
             <br />
-            <br />
-            
-            @{
-                if (Model._TypeChoix)
-                {
-                    int longueurListe = Model._ListeChoix.Count();
+            <br />            
+            <table>
+                <tr>
+                    <th>Choix</th>
+                    <th>Nombre de votes</th>
+                    <th>Pourcentage de votes</th>
+                </tr>
+                @{
                     int nbVotesTotal = 0;
-                    foreach(var nbVotes in Model._NbVotesChoix)
+                    foreach (var nbVotes in Model._NbVotesChoix)
                     {
                         nbVotesTotal = nbVotesTotal + nbVotes;
                     }
-                    for (int i = 0; i < longueurListe; i++)
+                    for (int i = 0; i < Model._ListeChoix.Count(); i++)
                     {
                         float percent = 0;
-                        if (Model._NbVotesQuestion == 0)
+                        if (Model._NbVotesQuestion != 0)
                         {
-
+                            if (Model._TypeChoix)
+                            {
+                                percent = (float)(Model._NbVotesChoix[i]) / (float)(nbVotesTotal) * 100;
+                            }
+                            else
+                            {
+                                percent = (float)(Model._NbVotesChoix[i]) / (float)(Model._NbVotesQuestion) * 100;
+                            }
                         }
-                        else
-                        {
-                            percent = (float)(Model._NbVotesChoix[i]) / (float)(nbVotesTotal) * 100;
-                        }
-                        @Model._ListeChoix[i]
-                        <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent %</p>
-
+                        <tr>
+                            <td>@Model._ListeChoix[i]</td>
+                            <td>@Model._NbVotesChoix[i]</td>
+                            <td>@percent %</td>
+                        </tr>
                     }
                 }
-                else
-                {
-                    int longueurListe = Model._ListeChoix.Count();
-                    for (int i = 0; i < longueurListe; i++)
-                    {
-                        float percent = 0;
-                        if (Model._NbVotesQuestion == 0)
-                        {
-
-                        }
-                        else
-                        {
-                            percent = (float)(Model._NbVotesChoix[i]) / (float)(Model._NbVotesQuestion) * 100;
-                        }
-                    @Model._ListeChoix[i]
-                    <p> Nombre de votes : @Model._NbVotesChoix[i] Pourcentage : @percent %</p>
-
-                        }
-                    }
-                }
-
-
+            </table>
         </div>
         <div id="piechart" style="width: 900px; height: 500px;"></div>
     </div>

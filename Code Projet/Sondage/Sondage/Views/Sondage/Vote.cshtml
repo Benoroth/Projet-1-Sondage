@@ -28,7 +28,6 @@
         <div id="texte">           
             @{ 
                 int i = 0;
-                string valeur = "vote";
                 if(Model._TypeChoix)
                 {
                     <form method="post" action="VoterM">
@@ -37,10 +36,7 @@
                     @{
                         foreach (var choix in Model._ListeChoix)
                         {
-                            valeur = "valeur";
-                            valeur = valeur + i;
-                            <input type="checkbox" name=@valeur value=@Model._idChoix[i] /> @choix
-                            i++;
+                            <input type="checkbox" name="valeurs" value=@Model._idChoix[i++] /> @choix
                             <br />
                             <br />
                         }

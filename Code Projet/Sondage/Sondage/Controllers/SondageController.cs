@@ -71,6 +71,10 @@ namespace Sondage.Controllers
             return Redirect("Introuvable");
         }        
         
+        public ActionResult DejaVote()
+        {
+            return View("DejaVote");
+        }
         public ActionResult Suppression(string id) //Renvoie vers la validation de suppression du sondage
         {
             SQL.SuppressionSondage(id); //rend inactif un sondage dans la BDD (impossible de voter, résultats consultables)
@@ -102,7 +106,7 @@ namespace Sondage.Controllers
 
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
-                return Redirect("Resultat?id=" + id); //si cookie présent envoie vers page erreur vote
+                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
             }
             else //si cookie absent, on en ajoute un, ensuite on vote
             {

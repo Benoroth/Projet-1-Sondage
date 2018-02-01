@@ -96,11 +96,7 @@ namespace Sondage.Controllers
         }
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
-        {
-            if (vote < 1)
-            {
-                throw new Exception("Pas de vote");
-            }
+        {            
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
@@ -126,10 +122,9 @@ namespace Sondage.Controllers
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
-
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
-                return Redirect("Resultat?id=" + id); //si cookie présent envoie vers page erreur vote
+                return Redirect("DejaVote?id=" + id); //si cookie présent envoie vers page erreur vote
             }
             else
             {
@@ -165,14 +160,14 @@ namespace Sondage.Controllers
 
         public ActionResult SondagesPopulaires() //page affichant les 10 sondages comptant le plus de votants
         {
-            QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
+            QuestionsEtNbVotes questionsPopulaires = SQL.GetQuestionsPopulaires();
 
             return View("SondagesPopulaires", questionsPopulaires);
         }
 
         public ActionResult SondagesRecents() //page affichant les 10 derniers sondages créés
         {
-            SondagesRecents sondagesRecents = SQL.GetSondagesRecents();
+            QuestionsEtNbVotes sondagesRecents = SQL.GetSondagesRecents();
 
             return View("SondagesRecents", sondagesRecents);
         }

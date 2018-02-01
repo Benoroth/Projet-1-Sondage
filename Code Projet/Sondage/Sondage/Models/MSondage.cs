@@ -103,24 +103,12 @@ namespace Sondage.Models
         }
     }
 
-    public class QuestionsPopulaires
+    public class QuestionsEtNbVotes
     {
         public List<string> _ListeQuestions { get; set; }
         public List<int> _ListeNbVotes { get; set; }
 
-        public QuestionsPopulaires(List<string> questions, List<int> nbVotes)
-        {
-            _ListeQuestions = questions;
-            _ListeNbVotes = nbVotes;
-        }
-    }
-
-    public class SondagesRecents
-    {
-        public List<string> _ListeQuestions { get; set; }
-        public List<int> _ListeNbVotes { get; set; }
-
-        public SondagesRecents(List<string> questions, List<int> nbVotes)
+        public QuestionsEtNbVotes(List<string> questions, List<int> nbVotes)
         {
             _ListeQuestions = questions;
             _ListeNbVotes = nbVotes;

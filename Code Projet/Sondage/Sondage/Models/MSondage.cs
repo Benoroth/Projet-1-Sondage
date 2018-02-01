@@ -107,11 +107,13 @@ namespace Sondage.Models
     {
         public List<string> _ListeQuestions { get; set; }
         public List<int> _ListeNbVotes { get; set; }
+        public List<DateTime> _lDate { get; set; }
 
-        public QuestionsEtNbVotes(List<string> questions, List<int> nbVotes)
+        public QuestionsEtNbVotes(List<string> questions, List<int> nbVotes, List<DateTime> listeDate)
         {
             _ListeQuestions = questions;
             _ListeNbVotes = nbVotes;
+            _lDate = listeDate;
         }
     }
 }

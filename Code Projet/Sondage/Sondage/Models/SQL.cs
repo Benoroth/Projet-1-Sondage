@@ -390,7 +390,25 @@ namespace Sondage.Models
 
             connexion.Close();
 
-            QuestionsEtNbVotes questionsPopu = new QuestionsEtNbVotes(lQuestionsPopulaires, lNbVote);
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getDate = new SqlCommand(@"SELECT TOP 10 dateSondage
+                                                  FROM TSondage
+                                                  ORDER BY nbVote DESC", connexion);
+            SqlDataReader lecteur = getDate.ExecuteReader();
+
+            List<DateTime> lDate = new List<DateTime>();
+
+            while (lecteur.Read())
+            {
+                lDate.Add((DateTime)lecteur["dateSondage"]); //récupère les dates de création des 10 dernières questions créées et les insère dans une liste
+            }
+
+            connexion.Close();
+
+            QuestionsEtNbVotes questionsPopu = new QuestionsEtNbVotes(lQuestionsPopulaires, lNbVote, lDate);
 
             return questionsPopu;
         }
@@ -431,7 +449,26 @@ namespace Sondage.Models
 
             connexion.Close();
 
-            QuestionsEtNbVotes sondagesRecents = new QuestionsEtNbVotes(lQuestionsRecentes, lNbVote);
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getDate = new SqlCommand(@"SELECT TOP 10 dateSondage
+                                                  FROM TSondage
+                                                  ORDER BY idSondage DESC", connexion);
+            SqlDataReader lecteur = getDate.ExecuteReader();
+
+            List<DateTime> lDate = new List<DateTime>();
+
+            while(lecteur.Read())
+            {
+                lDate.Add((DateTime)lecteur["dateSondage"]); //récupère les dates de création des 10 dernières questions créées et les insère dans une liste
+            }
+            
+
+            connexion.Close();
+
+            QuestionsEtNbVotes sondagesRecents = new QuestionsEtNbVotes(lQuestionsRecentes, lNbVote, lDate);            
 
             return sondagesRecents;            
         }

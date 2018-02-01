@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -15,41 +13,34 @@
 <body>
     <!--Corps de la page -->
     <ul>
-        <li><a class="active" href="Home">Créer un sondage</a></li>        
+        <li><a class="active" href="Creation">Créer un sondage</a></li>
         <li><a href="SondagesPopulaires">Sondage populaires</a></li>
-        <li><a href="SondagesRecents">Sondage récents</a></li>       
+        <li><a href="SondagesRecents">Sondage récents</a></li>
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
+  
+    <p>
+        <h1 align="center">Soyez le bienvenu sur Sond-AgeDePierre </h1><br />
+        <img src="~/Content/lascaux.jpg" alt="imgHome" />
+    </p>  
 
-
-    <h1 align="center">Soyez le bienvenu sur Sond-AgeDePierre </h1>
-    <br />
-    <br />
-    <br />
-    <h2 align=center> Création du Sondage : </h2>
-    <div id="centrer">
-
-        <div class="border">
-            <div id="centrer">
-                <br />
-                <form method="POST" action="Valider">
-                    <label1>Votre question</label1> : <input type="text" name="question" placeholder="Saisissez votre question" /> <br />
-                    <br />
-                    Choix : <br>
-                    <input id="texte" type="text" name="choix" placeholder="Choix 1" /> <br />
-                    <input id="texte" type="text" name="choix" placeholder="Choix 2" /> <br />
-                    <input id="texte" type="text" name="choix" placeholder="Choix 3" /> <br />
-                    <input id="texte" type="text" name="choix" placeholder="Choix 4" /> <br />
-                    <input type="radio" name="TypeChoix" value="ChoixU" checked> Choix unique <br />
-                    <input type="radio" name="TypeChoix" value="ChoixM"> Choix multiple                    
-                    <br />                                        
-                    <button> Valider </button>
-                </form>
-            </div>
-        </div>
-
+    <div id="texte">
+        <a align="center" href="Creation"><img src="~/Content/idee3.png" /><br />Créer un sondage</a>
     </div>
-    <img src="~/Content/agedepierre.png" id="imgenbas" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

@@ -118,7 +118,19 @@ namespace Sondage.Models
             }
             connexion.Close();
 
-            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix, lIdChoix);            
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getNbVotants = new SqlCommand(@"SELECT nbVote
+                                                       FROM TSondage
+                                                       WHERE idSondage = @id", connexion);
+            getNbVotants.Parameters.AddWithValue("@id", id);
+            int nbVotants = (int)getNbVotants.ExecuteScalar();
+
+            connexion.Close();
+
+            QuestionEtChoix questionChoix = new QuestionEtChoix(Question, lChoix, id, typeChoix, lIdChoix, nbVotants);
                 
             return questionChoix; //retourne la question, ses choix, l'id de la question, les id des choix, et le type du sondage (choix unique ou multiple)
         }

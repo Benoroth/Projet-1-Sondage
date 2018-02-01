@@ -149,7 +149,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Sondage\Home.cshtml" />
+    <Content Include="Views\Sondage\Creation.cshtml" />
     <Content Include="Views\Sondage\SondagesPopulaires.cshtml" />
     <Content Include="Views\Sondage\Contact.cshtml" />
     <Content Include="Views\Sondage\SoumettreIdee.cshtml" />
@@ -160,6 +160,7 @@
     <Content Include="Views\Sondage\Introuvable.cshtml" />
     <Content Include="Views\Sondage\SondagesRecents.cshtml" />
     <Content Include="Views\Sondage\DejaVote.cshtml" />
+    <Content Include="Views\Sondage\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

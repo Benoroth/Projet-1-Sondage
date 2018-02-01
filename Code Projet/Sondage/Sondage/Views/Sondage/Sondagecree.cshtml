@@ -30,17 +30,17 @@
 
             <p>                
                 Lien partagé :
-                <input type="text" value="@Model._lienPartage" class="field left" readonly>
+                <a href="@Model._lienPartage">@Model._lienPartage</a>
             </p>
             <p>
                 Résultats :
-                <input type="text" value="@Model._lienResultat" class="field left" readonly>
-            </p>
+                <a href="@Model._lienResultat">@Model._lienResultat</a>
+</p>
 
             <p>
                 Lien sécurisé (pour la suppression) :
-                <input type="text" value="localhost:1093/Sondage/Suppression?id=@Model._lienSuppression" class="field left" readonly>
-            </p>
+                <a href="localhost:1093/Sondage/Suppression?id=@Model._cleSuppression">localhost:1093/Sondage/Suppression?id=@Model._cleSuppression</a>
+</p>
 
         </div>
 

@@ -17,7 +17,7 @@ namespace Sondage.Models
         public string _nomQuest { get; set; }
         public bool _choixMultiple { get; set; } 
         public string _lienPartage { get; set; }
-        public string _lienSuppression { get; set; }
+        public string _cleSuppression { get; set; }
         public string _lienResultat { get; set; } 
         public int _actif { get; set; }       
 
@@ -30,7 +30,7 @@ namespace Sondage.Models
         }
     }
 
-    //Classe des choix
+    // Représente un choix en base de données
     public class Choix
     {
         public int _idChoix { get; set; }
@@ -46,7 +46,7 @@ namespace Sondage.Models
         }
     }
 
-    //Classe de la question et ses choix liés
+    // Classe de la question et ses choix liés
     public class QuestionEtChoix
     {
         public string _Question { get; set; }
@@ -65,7 +65,7 @@ namespace Sondage.Models
         }
     }
 
-    //Classe pour stocker le contact et le message
+    // Classe pour stocker le contact et le message
     public class Contact
     {
         public string _nomContact { get; set; }

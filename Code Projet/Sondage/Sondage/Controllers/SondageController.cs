@@ -19,8 +19,8 @@ namespace Sondage.Controllers
 
         int idDernierSondage;
 
-        //Valider et insérer la question et les choix en bdd
-        public ActionResult Valider(string question, string choix1, string choix2, string choix3, string choix4, string TypeChoix)
+        // Valider et insérer la question et les choix en bdd
+        public ActionResult Valider(string question, List<string> choix, string TypeChoix) // string choix2, string choix3, string choix4, )
         {
             bool choixMultiple = false;
             if (TypeChoix == "ChoixM") //attribuer le type de choix à un boolean
@@ -36,35 +36,20 @@ namespace Sondage.Controllers
 
             idDernierSondage = SQL.InsererSondageBDD(sondageweb); //insertion du sondage dans la BDD
 
-            Choix choixun = new Choix(choix1, idDernierSondage);
-            Choix choixdeux = new Choix(choix2, idDernierSondage);
-            Choix choixtrois = new Choix(choix3, idDernierSondage);
-            Choix choixquatre = new Choix(choix4, idDernierSondage);
-
-            SQL.InsererChoixBDD(choixun);  //insertion des choix dans la BDD
-            SQL.InsererChoixBDD(choixdeux);
-            SQL.InsererChoixBDD(choixtrois);
-            SQL.InsererChoixBDD(choixquatre);
+            foreach (string nom in choix)
+            {
+                SQL.InsererChoixBDD(new Choix(nom, idDernierSondage));
+            }
 
             Random rnd = new Random();
-            int nombreRandom = rnd.Next(0, 64000); //génération d'un nombre aléatoire pour la clé de suppression
-            Convert.ToString(nombreRandom); //convertion du nombre aléatoire en chaine de caractères
-
-            string lienPartage = "localhost:1093/Sondage/Vote?id="; //lien vers la page de vote
-            string lienSuppr = "localhost:1093/Sondage/Suppression?id="; //lien vers la page de suppression
-            string lienResul = "localhost:1093/Sondage/Resultat?id="; //lien vers la page de résultat
+            int nombreRandom = rnd.Next(0, 64000); // génération d'un nombre aléatoire pour la clé de suppression
+            Convert.ToString(nombreRandom); // convertion du nombre aléatoire en chaine de caractères        
 
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
 
-            string cleSuppression = Convert.ToString(idDernierSondage) + nombreRandom; //création de la clé sécurisée
-
-            lienPartage = lienPartage + idDernierSondage; //concaténation lien partage et id du derniere sondage créé
-            lienSuppr = lienSuppr + cleSuppression; //concaténation lien suppression et id du derniere sondage créé
-            lienResul = lienResul + idDernierSondage; //concaténation lien résultat et id du derniere sondage créé
-
-            sondageweb._lienPartage = lienPartage;
-            sondageweb._lienSuppression = cleSuppression;
-            sondageweb._lienResultat = lienResul;
+            sondageweb._lienPartage = "localhost:1093/Sondage/Vote?id=" + idDernierSondage;
+            sondageweb._cleSuppression = Convert.ToString(idDernierSondage) + nombreRandom;
+            sondageweb._lienResultat = "localhost:1093/Sondage/Resultat?id=" + idDernierSondage;
 
             SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 
@@ -108,7 +93,7 @@ namespace Sondage.Controllers
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
-            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
@@ -117,15 +102,19 @@ namespace Sondage.Controllers
             }
             else //si cookie absent, on en ajoute un, ensuite on vote
             {
-                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                SQL.Voter(id, vote);
-                return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
+                if (SQL.estActif(id) == 1)
+                {
+                    this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                    SQL.Voter(id, vote);
+                    return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
+                }
             }
+            return Redirect("Resultat?id=" + id);
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
         {
-            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
@@ -134,11 +123,15 @@ namespace Sondage.Controllers
             }
             else
             {
-                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
-                SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
-                return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+                if (SQL.estActif(id) == 1)
+                {
+                    this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                    SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+                    SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+                    return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+                }                
             }
+            return Redirect("Resultat?id=" + id);
         }
 
         public ActionResult Resultat(int id)
@@ -156,7 +149,7 @@ namespace Sondage.Controllers
             return Redirect("Introuvable");
         }
 
-        public ActionResult Introuvable()
+        public ActionResult Introuvable() //lorqu'un sondage n'est pas dans la BDD, l'utilisateur est rédirigé vers cette page
         {
             return View("Introuvable");
         }
@@ -168,7 +161,7 @@ namespace Sondage.Controllers
             return View("SondagesPopulaires", questionsPopulaires);
         }
 
-        public ActionResult SondagesRecents()
+        public ActionResult SondagesRecents() //page affichant les 10 derniers sondages créés
         {
             SondagesRecents sondagesRecents = SQL.GetSondagesRecents();
 

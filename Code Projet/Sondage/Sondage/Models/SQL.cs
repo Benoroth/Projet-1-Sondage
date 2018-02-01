@@ -40,7 +40,7 @@ namespace Sondage.Models
                                                        SET lienPartage = @lienpartage, lienResult = @lienresult, lienSuppr = @liensuppr 
                                                        WHERE idSondage = @id", connexion);
             InsererLiens.Parameters.AddWithValue("@lienpartage", sondageAInserer._lienPartage);
-            InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._lienSuppression);
+            InsererLiens.Parameters.AddWithValue("@liensuppr", sondageAInserer._cleSuppression);
             InsererLiens.Parameters.AddWithValue("@lienresult", sondageAInserer._lienResultat);
             InsererLiens.Parameters.AddWithValue("@id", id);
             InsererLiens.ExecuteNonQuery();

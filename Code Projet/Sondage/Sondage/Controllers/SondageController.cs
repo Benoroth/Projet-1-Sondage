@@ -75,18 +75,21 @@ namespace Sondage.Controllers
         {
             List<int> lIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
 
-            foreach(var idSondage in lIdSondage)
+            foreach (var idSondage in lIdSondage)
             {
-                if(id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
+                if (id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
                 {
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
-                }
+                }                
             }
-            return Redirect("Introuvable");            
+            return Redirect("Introuvable");
         }
-
-
+        //Page erreur vote
+        public ActionResult DejaVote()
+        {
+            return View();
+        }
         //Renvoie vers la validation de suppression du sondage
         public ActionResult Suppression(string id)
         {
@@ -111,15 +114,14 @@ namespace Sondage.Controllers
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
             List<int> lIdSondage = SQL.GetTousLesId();
+            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
             foreach (var idSondage in lIdSondage)
             {
                 if (id == idSondage)
                 {
-                    HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
-                    cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
-                                                                                       // Vérification de la présence d'un cookie
-                    if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+                    if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
                     {
                         return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
                     }
@@ -136,9 +138,29 @@ namespace Sondage.Controllers
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
         {
-            SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+            List<int> lIdSondage = SQL.GetTousLesId();
 
-            return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+
+            foreach (var idSondage in lIdSondage)
+            {
+                if (id == idSondage)
+                {
+                    if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
+                    {
+                        return View("DejaVote"); //si cookie présent envoie vers page erreur vote
+                    }
+                    else
+                    {
+                        this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                        SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+                        SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+                        return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
+                    }
+                }
+            }
+            return Redirect("Introuvable");
         }
 
         public ActionResult Resultat(int id)
@@ -165,13 +187,6 @@ namespace Sondage.Controllers
             QuestionsPopulaires questionsPopulaires = SQL.GetQuestionsPopulaires();
 
             return View("SondagesPopulaires", questionsPopulaires);
-        }
-
-        public ActionResult ChartTest(int id) //A SUPPRIMER
-        {
-            nbVotesQuestionChoix nouveauResultat = SQL.GetNbVotesQuestionChoix(id);
-
-            return View("ChartTest", nouveauResultat);
         }
 
         public ActionResult SondagesRecents()

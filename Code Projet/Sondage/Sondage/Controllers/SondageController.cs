@@ -30,7 +30,7 @@ namespace Sondage.Controllers
             else
             {
                 choixMultiple = false;
-            }
+            }           
 
             MSondage sondageweb = new MSondage(question, choixMultiple);
 
@@ -93,12 +93,16 @@ namespace Sondage.Controllers
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
+            if (vote < 1)
+            {
+                throw new Exception("Pas de vote");
+            }
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
-                return Redirect("Resultat?=" + id); //si cookie présent envoie vers page erreur vote
+                return Redirect("Resultat?id=" + id); //si cookie présent envoie vers page erreur vote
             }
             else //si cookie absent, on en ajoute un, ensuite on vote
             {
@@ -113,10 +117,11 @@ namespace Sondage.Controllers
             return Redirect("Resultat?id=" + id);
         }
 
-        public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
+        public ActionResult VoterM(int id, List<int> valeurs) // int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
         {
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+
 
             if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
@@ -127,8 +132,7 @@ namespace Sondage.Controllers
                 if (SQL.estActif(id) == 1)
                 {
                     this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                    SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
-                    SQL.VoterMultiple(id, valeur0, valeur1, valeur2, valeur3);
+                    SQL.VoterMultiple(id, valeurs);
                     return Redirect("Resultat?id=" + id); //redirection vers la page de résultats du sondage
                 }                
             }

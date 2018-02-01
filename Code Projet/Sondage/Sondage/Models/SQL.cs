@@ -207,66 +207,23 @@ namespace Sondage.Models
         }
 
         //Incrémenter le nombre de vote total et le nombre de vote par choix, pour un sondage à choix multiple
-        public static void VoterMultiple(int id, int? voteun, int? votedeux, int? votetrois, int? votequatre)
+        public static void VoterMultiple(int id, List<int> votes_id)
         {
             connexion.Open();
-
             SqlCommand incrementerNbVotesSondage = new SqlCommand(@"UPDATE TSondage
                                                                     SET nbVote = nbVote + 1
                                                                     WHERE idSondage = @id", connexion);
             incrementerNbVotesSondage.Parameters.AddWithValue("@id", id);
             incrementerNbVotesSondage.ExecuteNonQuery(); //incrémente le nombre de votants total d'un sondage de 1
 
-            //==================================================================================================================
-            
-            SqlCommand incrementerNbVotesChoixUn = new SqlCommand(@"UPDATE TChoix
-                                                                  SET nbVoteChoix = nbVoteChoix +1
-                                                                  WHERE idChoix = @id", connexion);
-            incrementerNbVotesChoixUn.Parameters.AddWithValue("@id", voteun);
-
-            //===================================================================================================================
-            
-            SqlCommand incrementerNbVotesChoixDeux = new SqlCommand(@"UPDATE TChoix
-                                                                  SET nbVoteChoix = nbVoteChoix +1
-                                                                  WHERE idChoix = @id", connexion);
-            incrementerNbVotesChoixDeux.Parameters.AddWithValue("@id", votedeux);
-
-            //====================================================================================================================
-
-            SqlCommand incrementerNbVotesChoixTrois = new SqlCommand(@"UPDATE TChoix
-                                                                  SET nbVoteChoix = nbVoteChoix +1
-                                                                  WHERE idChoix = @id", connexion);
-            incrementerNbVotesChoixTrois.Parameters.AddWithValue("@id", votetrois);
-
-            //====================================================================================================================
-
-            SqlCommand incrementerNbVotesChoixQuatre = new SqlCommand(@"UPDATE TChoix
-                                                                  SET nbVoteChoix = nbVoteChoix +1
-                                                                  WHERE idChoix = @id", connexion);
-            incrementerNbVotesChoixQuatre.Parameters.AddWithValue("@id", votequatre);
-
-            //====================================================================================================================
-
-            if (voteun != null)
-            { 
-            incrementerNbVotesChoixUn.ExecuteNonQuery(); //si voteun n'est pas null, incrémente de 1 le nombre de votes du choix 
-            }
-
-            if(votedeux != null)
+            foreach (int vote_id in votes_id)
             {
-                incrementerNbVotesChoixDeux.ExecuteNonQuery(); //si votedeux n'est pas null, incrémente de 1 le nombre de votes du choix
+                SqlCommand incrementerNbVotesChoix = new SqlCommand(@"UPDATE TChoix
+                                                                      SET nbVoteChoix = nbVoteChoix +1
+                                                                      WHERE idChoix = @id", connexion);
+                incrementerNbVotesChoix.Parameters.AddWithValue("@id", vote_id);
+                incrementerNbVotesChoix.ExecuteNonQuery();
             }
-
-            if(votetrois != null)
-            { 
-            incrementerNbVotesChoixTrois.ExecuteNonQuery(); //si votetrois n'est pas null, incrémente de 1 le nombre de votes du choix
-            }
-
-            if(votequatre != null)
-            { 
-            incrementerNbVotesChoixQuatre.ExecuteNonQuery(); //si votequatre n'est pas null, incrémente de 1 le nombre de votes du choix
-            }
-
             connexion.Close();
         }
         

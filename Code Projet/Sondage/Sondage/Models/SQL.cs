@@ -270,7 +270,8 @@ namespace Sondage.Models
             connexion.Open();
             SqlCommand getChoix = new SqlCommand(@"SELECT nomChoix
                                                    FROM TChoix
-                                                   WHERE idSondage = @id", connexion);
+                                                   WHERE idSondage = @id
+                                                   ORDER BY nbVoteChoix DESC", connexion);
             getChoix.Parameters.AddWithValue("@id", id);
 
             SqlDataReader reader = getChoix.ExecuteReader();
@@ -298,7 +299,8 @@ namespace Sondage.Models
             connexion.Open();
             SqlCommand getVotesChoix = new SqlCommand(@"SELECT nbVoteChoix 
                                                          FROM TChoix 
-                                                         WHERE idSondage = @id", connexion);
+                                                         WHERE idSondage = @id
+                                                         ORDER BY nbVoteChoix DESC", connexion);
             getVotesChoix.Parameters.AddWithValue("@id", id);
 
             SqlDataReader recordset = getVotesChoix.ExecuteReader();
@@ -478,7 +480,7 @@ namespace Sondage.Models
             connexion.Open();
 
             SqlCommand command = new SqlCommand(@"SELECT idSondage
-                                                      FROM TSondage", connexion);
+                                                  FROM TSondage", connexion);
             SqlDataReader reader = command.ExecuteReader();
 
             List<int> lIdSondage = new List<int>();

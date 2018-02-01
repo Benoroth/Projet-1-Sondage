@@ -71,9 +71,9 @@ namespace Sondage.Controllers
             return Redirect("Introuvable");
         }        
         
-        public ActionResult DejaVote()
+        public ActionResult DejaVote(int id)
         {
-            return View("DejaVote");
+            return View("DejaVote", id);
         }
         public ActionResult Suppression(string id) //Renvoie vers la validation de suppression du sondage
         {
@@ -113,7 +113,6 @@ namespace Sondage.Controllers
                 if (SQL.estActif(id) == 1)
                 {
                     this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
                     SQL.Voter(id, vote);
                     return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
                 }

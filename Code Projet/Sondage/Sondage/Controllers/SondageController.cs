@@ -73,7 +73,7 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            List<int> lIdSondage = GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
+            List<int> lIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
 
             foreach(var idSondage in lIdSondage)
             {
@@ -82,12 +82,8 @@ namespace Sondage.Controllers
                     QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
                     return View("Vote", questionchoix);
                 }
-                else //si l'id n'est pas trouvé dans la liste --> redirige vers la page "Introuvable"
-                {
-                    return Redirect("Introuvable");
-                }
             }
-            
+            return Redirect("Introuvable");            
         }
 
 
@@ -114,19 +110,28 @@ namespace Sondage.Controllers
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
         {
-            HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
-            cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
-            // Vérification de la présence d'un cookie
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+            List<int> lIdSondage = SQL.GetTousLesId();
+
+            foreach (var idSondage in lIdSondage)
             {
-                return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
+                if (id == idSondage)
+                {
+                    HttpCookie cookie = new HttpCookie("Cookie"); //Création d'un nouveau cookie
+                    cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
+                                                                                       // Vérification de la présence d'un cookie
+                    if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie"))
+                    {
+                        return View("DejaVote", id); //si cookie présent envoie vers page erreur vote
+                    }
+                    else //si cookie absent, on en ajoute un, ensuite on vote
+                    {
+                        this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                        SQL.Voter(id, vote);
+                        return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
+                    }
+                }
             }
-            else //si cookie absent, on en ajoute un, ensuite on vote
-            {
-                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-                SQL.Voter(id, vote);
-                return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
-            }
+            return Redirect("Introuvable");
         }
 
         public ActionResult VoterM(int id, int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple

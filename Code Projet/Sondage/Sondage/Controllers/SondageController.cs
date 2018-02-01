@@ -96,7 +96,7 @@ namespace Sondage.Controllers
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
                 return Redirect("Resultat?=" + id); //si cookie présent envoie vers page erreur vote
             }
@@ -105,6 +105,7 @@ namespace Sondage.Controllers
                 if (SQL.estActif(id) == 1)
                 {
                     this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+
                     SQL.Voter(id, vote);
                     return Redirect("Resultat?id=" + id); //envoi vers la page de résultats du sondage
                 }
@@ -117,7 +118,7 @@ namespace Sondage.Controllers
             HttpCookie cookie = new HttpCookie("Cookie" + id); //Création d'un nouveau cookie
             cookie.Value = "A voté le : " + DateTime.Now.ToShortTimeString();  //attribution d'une valeur à "cookie" ainsin que date création
 
-            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie")) // Vérification de la présence d'un cookie
+            if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Cookie" + id)) // Vérification de la présence d'un cookie
             {
                 return Redirect("Resultat?id=" + id); //si cookie présent envoie vers page erreur vote
             }

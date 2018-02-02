@@ -347,12 +347,31 @@ namespace Sondage.Models
 
             while (lecteur.Read())
             {
-                listeDates.Add((DateTime)lecteur["dateSondage"]); //récupère les dates de création des 10 dernières questions créées et les insère dans une liste
+                listeDates.Add((DateTime)lecteur["dateSondage"]); //récupère les dates de création des 10 dernières questions comptant le plus de votants et les insère dans une liste
             }
 
             connexion.Close();
 
-            QuestionsEtNbVotes questionsPopu = new QuestionsEtNbVotes(listeQuestionsPopulaires, listeNbVote, listeDates);
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getLiensResultat = new SqlCommand(@"SELECT TOP 10 lienResult
+                                                           FROM TSondage
+                                                           ORDER BY nbVote DESC", connexion);
+
+            SqlDataReader lire = getLiensResultat.ExecuteReader();
+
+            List<string> listeLiensResultat = new List<string>();
+
+            while(lire.Read())
+            {
+                listeLiensResultat.Add((string)lire["lienResult"]); //récupère les liens de résultats des 10 dernières questions comptant le plus de votants et les insère dans une liste
+            }
+
+            connexion.Close();
+
+            QuestionsEtNbVotes questionsPopu = new QuestionsEtNbVotes(listeQuestionsPopulaires, listeNbVote, listeDates, listeLiensResultat);
 
             return questionsPopu;
         }
@@ -370,7 +389,7 @@ namespace Sondage.Models
 
             while(reader.Read())
             {
-                listeQuestionsRecentes.Add((string)reader["nomQuestion"]); //récupère les 10 dernières questions créées et les insère dans une liste
+                listeQuestionsRecentes.Add((string)reader["nomQuestion"]); //récupère les 10 dernières questions comptant le plus de votants et les insère dans une liste
             }
 
             connexion.Close();
@@ -388,7 +407,7 @@ namespace Sondage.Models
 
             while(recordset.Read())
             {
-                listeNbVote.Add((int)recordset["nbVote"]); //récupère le nombre de votes des 10 dernières questions créées et les insère dans une liste
+                listeNbVote.Add((int)recordset["nbVote"]); //récupère le nombre de votes des 10 dernières questions comptant le plus de votants et les insère dans une liste
             }
 
             connexion.Close();
@@ -412,7 +431,26 @@ namespace Sondage.Models
 
             connexion.Close();
 
-            QuestionsEtNbVotes sondagesRecents = new QuestionsEtNbVotes(listeQuestionsRecentes, listeNbVote, listeDates);            
+            //====================================================================================================================
+
+            connexion.Open();
+
+            SqlCommand getLiensResultat = new SqlCommand(@"SELECT TOP 10 lienResult
+                                                           FROM TSondage
+                                                           ORDER BY idSondage DESC", connexion);
+
+            SqlDataReader lire = getLiensResultat.ExecuteReader();
+
+            List<string> listeLiensResultat = new List<string>();
+
+            while (lire.Read())
+            {
+                listeLiensResultat.Add((string)lire["lienResult"]); //récupère les liens de résultats des 10 dernières questions créées et les insère dans une liste
+            }
+
+            connexion.Close();
+
+            QuestionsEtNbVotes sondagesRecents = new QuestionsEtNbVotes(listeQuestionsRecentes, listeNbVote, listeDates, listeLiensResultat);            
 
             return sondagesRecents;            
         }

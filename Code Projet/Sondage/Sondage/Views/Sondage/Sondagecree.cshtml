@@ -30,18 +30,15 @@
 
             <p>                
                 Lien partagé :
-                <a href="@Model._lienPartage">@Model._lienPartage</a>
+                <a href="http://@Model.LienPartage">@Model.LienPartage</a>                        
             </p>
             <p>
                 Résultats :
-                <a href="@Model._lienResultat">@Model._lienResultat</a>
+                <a href="http://@Model.LienResultat">@Model.LienResultat</a>
 </p>
 
-            <p>
-                Lien sécurisé (pour la suppression) :
-                <a href="localhost:1093/Sondage/Suppression?id=@Model._cleSuppression">localhost:1093/Sondage/Suppression?id=@Model._cleSuppression</a>
-</p>
-
+            <p>Lien sécurisé (pour la suppression) : <a href="http://localhost:1093/Sondage/Suppression?id=@Model.CleSuppression">localhost:1093/Sondage/Suppression?id=@Model.CleSuppression</a>
+            </p>
         </div>
 
     </div>

@@ -12,108 +12,108 @@ namespace Sondage.Models
     //Classe du sondage
     public class MSondage
     {
-        public int _idSondage { get; set; }        
-        public int _nbVote { get; set; }
-        public string _nomQuest { get; set; }
-        public bool _choixMultiple { get; set; } 
-        public string _lienPartage { get; set; }
-        public string _cleSuppression { get; set; }
-        public string _lienResultat { get; set; } 
-        public int _actif { get; set; }       
+        public int IdSondage { get; set; }        
+        public int NbVote { get; set; }
+        public string NomQuest { get; set; }
+        public bool ChoixMultiple { get; set; } 
+        public string LienPartage { get; set; }
+        public string CleSuppression { get; set; }
+        public string LienResultat { get; set; } 
+        public bool Actif { get; set; }       
 
         public MSondage(string nomQuest, bool choixM)
         {            
-            _nbVote = 0;
-            _nomQuest = nomQuest;
-            _choixMultiple = choixM;
-            _actif = 1;        
+            NbVote = 0;
+            NomQuest = nomQuest;
+            ChoixMultiple = choixM;
+            Actif = true;        
         }
     }
 
     // Représente un choix en base de données
     public class Choix
     {
-        public int _idChoix { get; set; }
-        public string _nomChoix { get; set; }
-        public int _nbVoteChoix { get; set; }
-        public int _idSondage { get; set; }        
+        public int IdChoix { get; set; }
+        public string NomChoix { get; set; }
+        public int NbVoteChoix { get; set; }
+        public int IdSondage { get; set; }        
 
         public Choix(string nomChoix, int idSondage)
         {            
-            _nomChoix = nomChoix;
-            _nbVoteChoix = 0;
-            _idSondage = idSondage;            
+            NomChoix = nomChoix;
+            NbVoteChoix = 0;
+            IdSondage = idSondage;            
         }
     }
 
     // Classe de la question et ses choix liés
     public class QuestionEtChoix
     {
-        public string _Question { get; set; }
-        public List<string> _ListeChoix { get; set; }
-        public int _id { get; set; }
-        public bool _TypeChoix { get; set; }
-        public List<int> _idChoix { get; set; }
-        public int _nbVotants { get; set; }
+        public string Question { get; set; }
+        public List<string> ListeChoix { get; set; }
+        public int Id { get; set; }
+        public bool TypeChoix { get; set; }
+        public List<int> IdChoix { get; set; }
+        public int NbVotants { get; set; }
 
-        public QuestionEtChoix(string Question, List<string> Choix, int id, bool typeChoix, List<int> idChoix, int nbVotants)
+        public QuestionEtChoix(string question, List<string> choix, int id, bool typeChoix, List<int> idChoix, int nbVotants)
         {
-            _Question = Question;
-            _ListeChoix = Choix;
-            _id = id;
-            _TypeChoix = typeChoix;
-            _idChoix = idChoix;
-            _nbVotants = nbVotants;
+            Question = question;
+            ListeChoix = choix;
+            Id = id;
+            TypeChoix = typeChoix;
+            IdChoix = idChoix;
+            NbVotants = nbVotants;
         }
     }
 
     // Classe pour stocker le contact et le message
     public class Contact
     {
-        public string _nomContact { get; set; }
-        public string _prenomContact { get; set; }
-        public string _emailContact { get; set; }
-        public string _message { get; set; }
+        public string NomContact { get; set; }
+        public string PrenomContact { get; set; }
+        public string EmailContact { get; set; }
+        public string Message { get; set; }
 
         //Constructeur contact
         public Contact(string nomContact, string prenomContact, string emailContact, string message)
         {
-            _nomContact = nomContact;
-            _prenomContact = prenomContact;
-            _emailContact = emailContact;
-            _message = message;
+            NomContact = nomContact;
+            PrenomContact = prenomContact;
+            EmailContact = emailContact;
+            Message = message;
         }
     }
 
     public class nbVotesQuestionChoix
     {
-        public string _Question { get; set; }
-        public List<string> _ListeChoix { get; set; }
-        public int _NbVotesQuestion { get; set; }
-        public List<int> _NbVotesChoix { get; set; }
-        public bool _TypeChoix { get; set; }        
+        public string Question { get; set; }
+        public List<string> ListeChoix { get; set; }
+        public int NbVotesQuestion { get; set; }
+        public List<int> NbVotesChoix { get; set; }
+        public bool TypeChoix { get; set; }        
 
         public nbVotesQuestionChoix(string question, List<string> lChoix ,int nbVoteQuestion, List<int> nbVotesChoix, bool typeChoix)
         {
-            _Question = question;
-            _ListeChoix = lChoix;
-            _NbVotesQuestion = nbVoteQuestion;
-            _NbVotesChoix = nbVotesChoix;
-            _TypeChoix = typeChoix;
+            Question = question;
+            ListeChoix = lChoix;
+            NbVotesQuestion = nbVoteQuestion;
+            NbVotesChoix = nbVotesChoix;
+            TypeChoix = typeChoix;
         }
     }
 
     public class QuestionsEtNbVotes
     {
-        public List<string> _ListeQuestions { get; set; }
-        public List<int> _ListeNbVotes { get; set; }
-        public List<DateTime> _lDate { get; set; }
+        public List<string> ListeQuestions { get; set; }
+        public List<int> ListeNbVotes { get; set; }
+        public List<DateTime> ListeDate { get; set; }
 
         public QuestionsEtNbVotes(List<string> questions, List<int> nbVotes, List<DateTime> listeDate)
         {
-            _ListeQuestions = questions;
-            _ListeNbVotes = nbVotes;
-            _lDate = listeDate;
+            ListeQuestions = questions;
+            ListeNbVotes = nbVotes;
+            ListeDate = listeDate;
         }
     }
 }

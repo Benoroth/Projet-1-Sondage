@@ -152,7 +152,6 @@
     <Content Include="Views\Sondage\Creation.cshtml" />
     <Content Include="Views\Sondage\SondagesPopulaires.cshtml" />
     <Content Include="Views\Sondage\Contact.cshtml" />
-    <Content Include="Views\Sondage\SoumettreIdee.cshtml" />
     <Content Include="Views\Sondage\Resultat.cshtml" />
     <Content Include="Views\Sondage\Vote.cshtml" />
     <Content Include="Views\Sondage\SondageCree.cshtml" />

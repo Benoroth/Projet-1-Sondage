@@ -23,10 +23,10 @@ namespace Sondage.Controllers
         }
         int idDernierSondage;
         // Valider et insérer la question et les choix en bdd
-        public ActionResult Valider(string question, List<string> choix, string TypeChoix) // string choix2, string choix3, string choix4, )
+        public ActionResult Valider(string question, List<string> choix, string typeChoix) // string choix2, string choix3, string choix4, )
         {
             bool choixMultiple = false;
-            if (TypeChoix == "ChoixM") //attribuer le type de choix à un boolean
+            if (typeChoix == "ChoixM") //attribuer le type de choix à un boolean
             {
                 choixMultiple = true;
             }
@@ -41,7 +41,7 @@ namespace Sondage.Controllers
 
             foreach (string nom in choix)
             {
-                SQL.InsererChoixBDD(new Choix(nom, idDernierSondage));
+                    SQL.InsererChoixBDD(new Choix(nom, idDernierSondage));                
             }
 
             Random rnd = new Random();
@@ -50,9 +50,9 @@ namespace Sondage.Controllers
 
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
 
-            sondageweb._lienPartage = "localhost:1093/Sondage/Vote?id=" + idDernierSondage;
-            sondageweb._cleSuppression = Convert.ToString(idDernierSondage) + nombreRandom;
-            sondageweb._lienResultat = "localhost:1093/Sondage/Resultat?id=" + idDernierSondage;
+            sondageweb.LienPartage = "localhost:1093/Sondage/Vote?id=" + idDernierSondage;
+            sondageweb.CleSuppression = Convert.ToString(idDernierSondage) + nombreRandom;
+            sondageweb.LienResultat = "localhost:1093/Sondage/Resultat?id=" + idDernierSondage;
 
             SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 
@@ -61,15 +61,21 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            List<int> lIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
-
-            foreach (var idSondage in lIdSondage)
+            List<int> listeIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
+            if (SQL.EstActif(id)) //si le sondage est désactivé, redirige vers la page de résultat du sondage
             {
-                if (id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
+                foreach (var idSondage in listeIdSondage)
                 {
-                    QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
-                    return View("Vote", questionchoix);
+                    if (id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
+                    {
+                        QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
+                        return View("Vote", questionchoix);
+                    }
                 }
+            }
+            else
+            {
+                return Redirect("Resultat?id=" + id);
             }
             return Redirect("Introuvable");
         }        
@@ -88,10 +94,10 @@ namespace Sondage.Controllers
         //Envoie en BDD les informations rentrées dans le formulaire de contact
         public ActionResult Contacter(string nomBDD, string prenomBDD, string emailBDD, string messageBDD)
         {
-            Contact NouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD); //création d'un nouveau contact
-            SQL.InsererDonneesContact(NouveauContact); //insertion BDD
+            Contact nouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD); //création d'un nouveau contact
+            SQL.InsererDonneesContact(nouveauContact); //insertion BDD
 
-            return View("Contact", NouveauContact); //Envoi vers la vue correspondante
+            return View("Contact", nouveauContact); //Envoi vers la vue correspondante
         }
 
         public ActionResult Voter(int id, int vote) //Vote pour choix unique
@@ -112,7 +118,7 @@ namespace Sondage.Controllers
 
         }
 
-        public ActionResult VoterM(int id, List<int> valeurs) // int? valeur0, int? valeur1, int? valeur2, int? valeur3) //Vote pour un choix multiple
+        public ActionResult VoterM(int id, List<int> valeurs) 
         {
             HttpCookie cookie = Request.Cookies["Cookie" + id]; //Vérification si cookie existe
             if (cookie==null) // Vérification de la présence d'un cookie
@@ -130,9 +136,9 @@ namespace Sondage.Controllers
 
         public ActionResult Resultat(int id)
         {
-            List<int> lIdSondage = SQL.GetTousLesId();
+            List<int> listeIdSondage = SQL.GetTousLesId();
 
-            foreach (var idSondage in lIdSondage)
+            foreach (var idSondage in listeIdSondage)
             {
                 if (id == idSondage)
                 {
@@ -150,9 +156,9 @@ namespace Sondage.Controllers
 
         public ActionResult SondagesPopulaires() //page affichant les 10 sondages comptant le plus de votants
         {
-            QuestionsEtNbVotes questionsPopulaires = SQL.GetQuestionsPopulaires();
+            QuestionsEtNbVotes sondagesPopulaires = SQL.GetQuestionsPopulaires();
 
-            return View("SondagesPopulaires", questionsPopulaires);
+            return View("SondagesPopulaires", sondagesPopulaires);
         }
 
         public ActionResult SondagesRecents() //page affichant les 10 derniers sondages créés

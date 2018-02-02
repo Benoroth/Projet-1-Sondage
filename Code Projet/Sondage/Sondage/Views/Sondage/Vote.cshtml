@@ -28,15 +28,15 @@
         <div id="texte">           
             @{ 
                 int i = 0;
-                if(Model._TypeChoix)
+                if(Model.TypeChoix)
                 {
                     <form method="post" action="VoterM">
-                    <input type="hidden" name="id" value=@Model._id />
-                    <h2> @Model._Question (Nombre de votants : @Model._nbVotants) </h2>
+                    <input type="hidden" name="id" value=@Model.Id />
+                    <h2> @Model.Question (Nombre de votants : @Model.NbVotants) </h2>
                     @{
-                        foreach (var choix in Model._ListeChoix)
+                        foreach (var choix in Model.ListeChoix)
                         {
-                            <input type="checkbox" name="valeurs" value=@Model._idChoix[i++] /> @choix
+                            <input type="checkbox" name="valeurs" value=@Model.IdChoix[i++] /> @choix
                             <br />
                             <br />
                         }
@@ -48,12 +48,12 @@
                 else
                 {
                             <form method="post" action="Voter">
-                            <input type="hidden" name="id" value=@Model._id />
-                            <h2> @Model._Question (Nombre de votants : @Model._nbVotants)    </h2>
+                            <input type="hidden" name="id" value=@Model.Id />
+                            <h2> @Model.Question (Nombre de votants : @Model.NbVotants)    </h2>
                                 @{
-                        foreach (var choix in Model._ListeChoix)
+                        foreach (var choix in Model.ListeChoix)
                         {
-                                        <input type="radio" name=vote value=@Model._idChoix[i] /> @choix
+                                        <input type="radio" name=vote value=@Model.IdChoix[i] /> @choix
                                         i++;
                                         <br />
                                         <br />

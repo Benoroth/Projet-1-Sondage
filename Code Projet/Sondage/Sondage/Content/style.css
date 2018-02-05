@@ -124,18 +124,9 @@ th {
             width: 50%;
             margin-top: 20px;            
 }
-
-#boiteaidee{
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            width: 100%;
-            margin-top: 5%;  
-    
+.retourVote{
+  padding-left:45%;
 }
-
 label
 {
     display: block;

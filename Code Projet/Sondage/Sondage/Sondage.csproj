@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\agedepierre.png" />
+    <Content Include="Content\giphy.gif" />
     <Content Include="Content\idee.jpg" />
     <Content Include="Content\idee3.png" />
     <Content Include="Content\lascaux.jpg" />

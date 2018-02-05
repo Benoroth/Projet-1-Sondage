@@ -53,9 +53,9 @@ namespace Sondage.Controllers
 
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
 
-            sondageweb.LienPartage = "localhost:1093/Sondage/Vote?id=" + idDernierSondage;
+            sondageweb.LienPartage = "172.19.240.12/Sondage/Vote?id=" + idDernierSondage;
             sondageweb.CleSuppression = Convert.ToString(idDernierSondage) + nombreRandom;
-            sondageweb.LienResultat = "localhost:1093/Sondage/Resultat?id=" + idDernierSondage;
+            sondageweb.LienResultat = "172.19.240.12:1093/Sondage/Resultat?id=" + idDernierSondage;
 
             SQL.InsertionLiensBDD(sondageweb, idDernierSondage); //insertion des liens partage, suppression et résultat dans la BDD
 

@@ -64,22 +64,22 @@ namespace Sondage.Controllers
 
         public ActionResult Vote(int id) //insère la question et ses choix dans la vue de Vote
         {
-            List<int> listeIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
-            if (SQL.EstActif(id)) //si le sondage est désactivé, redirige vers la page de résultat du sondage
-            {
-                foreach (var idSondage in listeIdSondage)
+                List<int> listeIdSondage = SQL.GetTousLesId(); //récupère la liste de tous les idSondage présents dans la BDD
+                if (SQL.EstActif(id)) //si le sondage est désactivé, redirige vers la page de résultat du sondage
                 {
-                    if (id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
+                    foreach (var idSondage in listeIdSondage)
                     {
-                        QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
-                        return View("Vote", questionchoix);
+                        if (id == idSondage) //si l'id est dans la liste de tous les idSondage présents dans la BDD --> redirige vers la page de vote
+                        {
+                            QuestionEtChoix questionchoix = SQL.GetQuestionEtChoix(id);
+                            return View("Vote", questionchoix);
+                        }
                     }
                 }
-            }
-            else
-            {
-                return Redirect("Resultat?id=" + id);
-            }
+                else
+                {
+                    return Redirect("Resultat?id=" + id);
+                }
             return Redirect("Introuvable");
         }        
         
@@ -143,7 +143,7 @@ namespace Sondage.Controllers
 
             foreach (var idSondage in listeIdSondage)
             {
-                if (id == idSondage)
+                if (id == idSondage) //vérifie si l'id du sondage demandé est contenu dans la BDD
                 {
                     nbVotesQuestionChoix sondageEtNbVotes = SQL.GetNbVotesQuestionChoix(id);
                     return View("Resultat", sondageEtNbVotes);

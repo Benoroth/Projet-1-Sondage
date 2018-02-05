@@ -41,7 +41,10 @@ namespace Sondage.Controllers
 
             foreach (string nom in choix)
             {
-                    SQL.InsererChoixBDD(new Choix(nom, idDernierSondage));                
+                if (nom != "")
+                {
+                    SQL.InsererChoixBDD(new Choix(nom, idDernierSondage));
+                }
             }
 
             Random rnd = new Random();

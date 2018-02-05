@@ -12,7 +12,7 @@ namespace Sondage.Models
     {
 
         //Adresse BDD SQL
-        private const string SqlConnectionString = @"Server=172.19.240.123; Database=ProjetERTG; User Id=sa; password=pf68*CCI";
+        private const string SqlConnectionString = @"Server=172.19.240.123; Database=ProjetERTG; User Id=sa; password=pf68*CCI";        
 
         private static SqlConnection connexion = new SqlConnection(SqlConnectionString);
         ////Requètes SQL

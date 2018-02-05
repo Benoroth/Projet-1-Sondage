@@ -91,15 +91,17 @@ namespace Sondage.Models
         public List<string> ListeChoix { get; set; }
         public int NbVotesQuestion { get; set; }
         public List<int> NbVotesChoix { get; set; }
-        public bool TypeChoix { get; set; }        
+        public bool TypeChoix { get; set; }
+        public int Id { get; set; }        
 
-        public nbVotesQuestionChoix(string question, List<string> lChoix ,int nbVoteQuestion, List<int> nbVotesChoix, bool typeChoix)
+        public nbVotesQuestionChoix(string question, List<string> lChoix ,int nbVoteQuestion, List<int> nbVotesChoix, bool typeChoix, int id)
         {
             Question = question;
             ListeChoix = lChoix;
             NbVotesQuestion = nbVoteQuestion;
             NbVotesChoix = nbVotesChoix;
             TypeChoix = typeChoix;
+            Id = id;
         }
     }
 

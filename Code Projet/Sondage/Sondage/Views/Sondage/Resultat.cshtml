@@ -59,7 +59,7 @@
                 </tr>
                 @{
                     int nbVotesTotal = 0;
-                    foreach (var nbVotes in Model.NbVotesChoix)
+                    foreach (var nbVotes in Model.NbVotesChoix)                    
                     {
                         nbVotesTotal = nbVotesTotal + nbVotes;
                     }
@@ -86,8 +86,9 @@
                 }
             </table>
         </div>
-        <div id="piechart" style="width: 900px; height: 500px;"></div>
+        <div id="piechart" style="width: 900px; height: 500px;"></div>       
     </div>
+    <a href="http://localhost:1093/Sondage/Vote?id=@Model.Id"> <button> Aller à la page de vote</button></a>
 
 
     <img src="/Content/agedepierre.png" id="imgenbas" />

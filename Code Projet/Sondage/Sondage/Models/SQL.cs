@@ -278,7 +278,7 @@ namespace Sondage.Models
 
             bool typeChoix = (bool)getTypeChoix.ExecuteScalar(); //récupère un boolean pour savoir si le sondage est à choix unique ou multiple
 
-            nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix, typeChoix);
+            nbVotesQuestionChoix nbVotesQuestionEtChoix = new nbVotesQuestionChoix(question, lChoix, nbVotesQuestion, lNbVotesChoix, typeChoix, id);
 
             connexion.Close();
 

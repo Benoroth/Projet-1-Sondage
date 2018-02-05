@@ -136,3 +136,7 @@ th {
             margin-top: 5%;  
     
 }
+
+input[type="text"] {
+    width: 300px;
+}

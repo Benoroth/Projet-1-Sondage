@@ -11,27 +11,28 @@
     <title> Sond-ageDePierre </title>
     <link rel="stylesheet" href="/Content/style.css" />
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        
-        var data = google.visualization.arrayToDataTable([
-          ['Choix', 'Pourcentage'],
-          ['@Model.ListeChoix[0]',@Model.NbVotesChoix[0]],
-          ['@Model.ListeChoix[1]',@Model.NbVotesChoix[1]],
-          ['@Model.ListeChoix[2]',@Model.NbVotesChoix[2]],
-          ['@Model.ListeChoix[3]',@Model.NbVotesChoix[3]]
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Choix', 'Pourcentage'],
+              @{ 
+                  for (int i = 0; i < Model.ListeChoix.Count; i++)
+                  {
+                    @Html.Raw(string.Format(@"['{0}',{1}],", Model.ListeChoix[i], Model.NbVotesChoix[i]))
+                  }
+              }
               ]);
-          var options = {
-              backgroundColor: 'darkslategrey',
+            var options = {
+                backgroundColor: 'darkslategrey',
 
 
-        };
-              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-              chart.draw(data, options);
-      }
+            };
+                  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                  chart.draw(data, options);
+        }
     </script>
 </head>
 
@@ -39,17 +40,17 @@
     <!--Corps de la page -->
     <ul>
         <li><a href="Home">Accueil</a></li>
-        <li><a href="Creation">Créer un sondage</a></li>        
-        <li><a href="SondagesPopulaires">Sondage populaires</a></li> 
-        <li><a href="SondagesRecents">Sondage récents</a></li>       
+        <li><a href="Creation">Créer un sondage</a></li>
+        <li><a href="SondagesPopulaires">Sondage populaires</a></li>
+        <li><a href="SondagesRecents">Sondage récents</a></li>
         <li style="float:right"><a href="Contact">Contact</a></li>
     </ul>
-   
+
     <div id="conteneur">
         <div id="texte">
             <h2>@Model.Question (@Model.NbVotesQuestion votes)</h2>
             <br />
-            <br />            
+            <br />
             <table>
                 <tr>
                     <th>Choix</th>
@@ -87,7 +88,7 @@
         </div>
         <div id="piechart" style="width: 900px; height: 500px;"></div>
     </div>
-   
+
 
     <img src="/Content/agedepierre.png" id="imgenbas" />
 </body>

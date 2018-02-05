@@ -143,3 +143,7 @@ label
     width: 150px;
     float:left;
 }
+
+input[type="text"] {
+    width: 300px;
+}

@@ -14,7 +14,7 @@ namespace Sondage.Controllers
     {
         public ActionResult Home() //return vers la page de création de sondage (home)
         {
-            return View();
+            return View("Home");
         }
 
         public ActionResult Creation()

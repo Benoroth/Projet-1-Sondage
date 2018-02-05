@@ -97,7 +97,7 @@ namespace Sondage.Controllers
         //Envoie en BDD les informations rentrées dans le formulaire de contact
         public ActionResult Contacter(string nomBDD, string prenomBDD, string emailBDD, string messageBDD)
         {
-            Contact nouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD); //création d'un nouveau contact
+            Contact nouveauContact = new Models.Contact(nomBDD, prenomBDD, emailBDD, messageBDD);
             SQL.InsererDonneesContact(nouveauContact); //insertion BDD
 
             return View("Contact", nouveauContact); //Envoi vers la vue correspondante

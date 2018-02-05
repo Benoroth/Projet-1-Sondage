@@ -48,7 +48,7 @@ namespace Sondage.Controllers
             }
 
             Random rnd = new Random();
-            int nombreRandom = rnd.Next(0, 64000); // génération d'un nombre aléatoire pour la clé de suppression
+            int nombreRandom = rnd.Next(0, 99000000); // génération d'un nombre aléatoire pour la clé de suppression
             Convert.ToString(nombreRandom); // convertion du nombre aléatoire en chaine de caractères        
 
             Convert.ToString(idDernierSondage); //convertir id du dernier sondage créé en string pour concaténer avec les liens 
